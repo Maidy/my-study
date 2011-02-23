@@ -1,0 +1,47 @@
+var myArray = new Array();
+
+if (myArray[0] == 0) {
+
+}
+
+
+myArray\[[0-9]\]
+
+myArray\[\d\]
+
+
+====
+
+\home\ben\sales
+
+\\
+
+====
+
+"101","Ben","Forta"
+"102","Jim","James"
+
+"103","Roberta","Robertson"
+"104","Bob","Bobson"
+
+\n\n - linux, max
+\r\n\r\n - windows
+
+
+====
+
+11213
+A1C2E3
+48075
+48237
+M1B4F2
+90046
+H1H2H2
+
+\w\d\w\d\w\d
+
+=====
+
+<BODY BGCOLOR="#336633" TEXT="#FFFFFF"
+      MARGINWIDT="0" MARGINHEIGHT="0" TOPMARGIN="0"
+      LEFTMARGIN="0">

@@ -1,0 +1,40 @@
+sales.xls
+sales1.xls
+orders3.xls
+sales2.xls
+sales3.xls
+apac1.xls
+europe2.xls
+na1.xls
+na2.xls
+sa1.xls
+ca1.xls
+
+====
+
+The phrase "regular expression" is often
+abbreviated as RegEx or regex.
+
+====
+
+sales.xls
+sales1.xls
+orders3.xls
+sales2.xls
+sales3.xls
+apac1.xls
+europe2.xls
+sam.xls
+na1.xls
+na2.xls
+sa1.xls
+ca1.xls
+
+[ns]a[^0-9]\.xls
+
+====
+
+<BODY BGCOLOR="#336633" TEXT="#FFFFFF"
+      MARGINWIDT="0" MARGINHEIGHT="0" TOPMARGIN="0"
+      LEFTMARGIN="0">
+
