@@ -1,0 +1,51 @@
+<body>
+<h1>Welcome to my homepage</h1>
+Content is divided into two sections: <br>
+<h2>ColdFusion</h2>
+Information about Macromedia ColdFusion.
+<h2>Wireless</h2>
+Information about Bluetooth, 802.11, and more.
+</body>
+
+<[Hh][1-6]>.*?<\/[Hh][1-6]>
+
+====
+
+<body>
+<h1>Welcome to my homepage</h1>
+Content is divided into two sections: <br>
+<h2>ColdFusion</h2>
+Information about Macromedia ColdFusion.
+<h2>Wireless</h2>
+Information about Bluetooth, 802.11, and more.
+<h2>This is not valid HTML.</h3>
+</body>
+
+<[Hh]([1-6])>.*?<\/[Hh]\1>
+
+====
+
+This is a block of of text,
+several words here are are
+repeated, and and they
+should not be.
+
+[ ]+(\w+)[ ]+\1
+
+====
+
+Hello, ben@forta.com is my email address.
+
+regexp : (\w+[\w\.]*@[\w\.]+\.\w+)
+replace: <a href="mailto:$1">$1</a>
+
+====
+
+313-555-1234
+248-555-9999
+810-555-9000
+
+regexp : (\d{3})-(\d{3})-(\d{4})
+replace: ($1) $2-$3
+
+====

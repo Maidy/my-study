@@ -1,0 +1,72 @@
+The cat scattered his food all over the room.
+
+\bcat\b
+
+====
+
+The caption wore this cap and cape proudly as
+he sat listening to the recap of how his
+crew saved the man from a capsized vessel.
+
+\bcap\b
+
+====
+
+Please enter the nine-digit id as it
+appears on your color - coded pass-key.
+
+\B-\B
+
+====
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions targetNamespace="http://tips.cf"
+xmlns:impl="http://tips.cf" xmlns:intf="http://tips.cf"
+xmlns:apachesoap="http://xml.apache.org/xml-soap"
+
+<\?xml.*\?>
+
+====
+
+This is bad, real bad!
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions targetNamespace="http://tips.cf"
+xmlns:impl="http://tips.cf" xmlns:intf="http://tips.cf"
+xmlns:apachesoap="http://xml.apache.org/xml-soap"
+
+^\s*<\?xml.*\?>
+
+multiline mode가 꺼져 있을때만 동작
+
+====
+
+<p>
+</html>
+asdfadsfasdf
+
+<\/[Hh][Tt][Mm][Ll]>\s*$
+
+multiline mode가 꺼져 있을때만 동작
+
+====
+
+<script>
+function doSpell(form, field) {
+    // Make sure not empty
+    if (field.value == '') {
+        return false;
+    }
+    // Init
+    var windowName = 'spellWindow';
+    var spellCheckURL = 'spell.cfm?formname=comment&fieldname='+field.name;
+    
+    // Done
+    return false;
+}
+</script>
+
+^\s*\/\/.*$
+
+JavaScript에서는 (m?)를 쓰지 않는다.
+
+====
