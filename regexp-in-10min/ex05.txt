@@ -1,0 +1,77 @@
+Send personal email to ben@forta.com. For questions
+about a book use support@forta.com. Fell free to send
+unsolicited email to spam@forta.com (wouldn't it be
+nice if it were that simple, huh?).
+
+\w+@\w+\.\w+
+
+====
+
+Send personal email to ben@forta.com or
+ben.forta@forta.com. For questions about a
+book use support@forta.com. If your message
+is urgent try ben@urgent.forta.com. Fell
+free to send unsolicited email to
+spam@forta.com (wouldn't it be nice if
+it were that simple, huh?).
+
+[\w.]+@[\w.]+\.\w+
+
+====
+
+Hello .ben@forta.com is my email address.
+
+\w+[\w.]*@[\w.]+\.\w+
+
+====
+
+The URL is http://www.forta.com/, to connect
+securely use https://www.forta.com/ instead.
+
+https?:\/\/[\w.\/]+
+
+====
+
+"101","Ben","Forta"
+"102","Jim","James"
+
+"103","Roberta","Robertson"
+"104","Bob","Bobson"
+
+[\r]?\n[\r]?\n
+
+====
+
+<BODY BGCOLOR="#336633" TEXT="#FFFFFF"
+      MARGINWIDT="0" MARGINHEIGHT="0" TOPMARGIN="0"
+      LEFTMARGIN="0">
+
+#[0-9a-fA-F]{6}
+
+====
+
+4/8/03
+10-6-2004
+2/2/2
+01-01-01
+
+\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4}
+
+====
+
+1001: $496.80
+1002: $1290.69
+1003: $26.43
+1004: $613.42
+1005: $7.61
+1006: $414.90
+1007: $25.00
+
+\d+: \$\d{3,}\.\d{2}
+
+====
+
+This offer is not available to customers
+living in <B>AK</B> and <B>HI</B>.
+
+<[Bb]>.*?<\/[Bb]>
