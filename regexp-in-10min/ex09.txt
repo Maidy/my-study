@@ -1,1 +1,24 @@
-http://daum.net
+<HEAD>
+<TITLE>Ben Forta's Homepage</TITLE>
+</HEAD>
+
+<[Tt][Ii][Tt][Ll][Ee]>.*<\/[Tt][Ii][Tt][Ll][Ee]>
+
+====
+
+http://www.forta.com/
+https://mail.forta.com/
+ftp://ftp.forta.com/
+
+.+(?=:\/\/)
+
+====
+
+ABC01: $23.45
+HGG42: $5.31
+CFMX1: $899.00
+XTC99: $69.96
+Total items found: 4
+
+(?<=\$)[0-9.]+
+JavaScript에서는 후방 탐색 지원하지 않는다.
