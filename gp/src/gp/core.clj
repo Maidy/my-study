@@ -21,16 +21,16 @@
 		       (if (> max-depth 0)
 			 (cond (< rn 50) (random-form operators (- max-depth 1))
 			       (< rn 75) (random 10.0)
-			       true '=input=)
+			       true '=INPUT=)
 			 (cond (< rn 50) (random 10.0)
-			       true '=input=))))
+			       true '=INPUT=))))
 	       (- x 1))))))
 ;; 이건 grow method. full method로 만드는건 숙제!!!
 
 ;; 정말 이상하다.
 (defn run-form [form input]
   (try
-    ((eval (cons 'fn (cons '[=input=] (list form)))) input)
+    ((eval (cons 'fn (cons '[=INPUT=] (list form)))) input)
     (catch ArithmeticException _ nil)))
 
 (defn create-initial-population [operators & [size]]
@@ -44,7 +44,6 @@
 ;; fitness-fn : 정확한 값을 반환하는 function
 ;; test-input : 입력값, sequence
 (defn fitness [form fitness-fn test-inputs]
-  
   (let [items (loop [inputs (seq test-inputs)
 		     results []]
 		(if (nil? inputs)
@@ -59,3 +58,7 @@
     (if-not (nil? items) (reduce * items))))
 ;; 이것도 코드가 구리다... 쩝. 이게 최선인가?
 ;; fitness는 차이를 0~1 값 사이로 바꾸는 일인듯.
+
+;; circle area
+(defn area [r] (* (. Math PI) r r))
+
