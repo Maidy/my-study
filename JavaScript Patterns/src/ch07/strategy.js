@@ -1,6 +1,7 @@
 /*
  * Form 유효성 검사 객체
  * JavaScript로 구현한 strategy 패턴에 대한 예제
+ *
  */
 var validator = {
     checkers : {},
