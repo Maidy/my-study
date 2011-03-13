@@ -1,6 +1,7 @@
 *~
 *#
 *.swp
+*.class
 /.metadata
 /.DS_Store
 /HeadFirstDesignPatterns/workspace/.metadata
