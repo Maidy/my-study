@@ -1,0 +1,41 @@
+<html>
+<body>
+<script>
+/*
+var Beverage = function() {
+    this.description = 'untitled';
+    this.cost = function(){};
+};
+*/
+
+var DarkRoast = function() {
+    this.description = 'Dark Roast';
+    this.cost = function() {
+		return 10;
+    };
+};
+
+var Mocha = function(beverage) {
+    this.description = beverage.description + ', Mocha';
+    this.cost = function() {
+		return 0.5 + beverage.cost();
+    };
+};
+
+var Soy = function(beverage) {
+    this.description = beverage.description + ', Soy';
+    this.cost = function() {
+		return 1.5 + beverage.cost();
+    };
+};
+
+(function(){
+     var b = new DarkRoast();
+     b = new Mocha(b);
+     b = new Mocha(b);
+     b = new Soy(b);
+     console.log(b.description + ', $' + b.cost());
+})();
+</script>
+</body>
+</html>
