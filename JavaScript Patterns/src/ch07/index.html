@@ -10,7 +10,26 @@
   <p>Hello World!</p>
   <p>retry</p>
 </div>
-<!-- observer -->
+<!-- observer
 <script src="observer2.js"></script>
+-->
+<script>
+
+// constructor function이 return 이 있을 경우 어떻게 동작하는지 테스트
+var Rectangle = function(w, h) {
+    this.w = w;
+    this.h = w;
+};
+
+var Rectangle2 = function(w, h) {
+    this.w = w;
+    this.h = w;
+    return w * h;
+};
+
+var rect = new Rectangle(10, 20);
+var rect2 = new Rectangle2(10, 20);
+
+</script>
 </body>
 </html>

@@ -1,19 +1,19 @@
 package ch04;
 
 public class PizzaStore {
-	
+
 	public static void main(String[] args) {
 		SimplePizzaFactory factory = new SimplePizzaFactory();
 		PizzaStore store = new PizzaStore(factory);
 		store.orderPizza("veggie");
 	}
-	
+
 	private SimplePizzaFactory factory;
-	
+
 	public PizzaStore(SimplePizzaFactory factory) {
 		this.factory = factory;
 	}
-	
+
 	public Pizza orderPizza(String type) {
 		Pizza pizza = factory.createPizza(type);
 		
@@ -104,7 +104,7 @@ class PepperoniPizza extends Pizza {
 class SimplePizzaFactory {
 	public Pizza createPizza(String type) {
 		Pizza pizza = null;
-
+		
 		if (type.equals("cheese")) {
 			pizza = new CheesePizza();
 		} else if (type.equals("pepperoni")) {
