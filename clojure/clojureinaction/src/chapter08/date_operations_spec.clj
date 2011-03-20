@@ -16,3 +16,21 @@
 	d2 (date "2011-03-15")]
     (is (= (as-string d1) "2009-01-22"))
     (is (= (as-string d2) "2011-03-15"))))
+
+(deftest test-incrementing
+  (let [d (date "2011-03-15")
+	n-day (increment-day d)
+	n-month (increment-month d)
+	n-year (increment-year d)]
+    (is (= (as-string n-day) "2011-03-16"))
+    (is (= (as-string n-month) "2011-04-15"))
+    (is (= (as-string n-year) "2012-03-15"))))
+
+(deftest test-decrementing
+  (let [d (date "2011-03-15")
+	n-day (decrement-day d)
+	n-month (decrement-month d)
+	n-year (decrement-year d)]
+    (is (= (as-string n-day) "2011-03-14"))
+    (is (= (as-string n-month) "2011-02-15"))
+    (is (= (as-string n-year) "2010-03-15"))))
