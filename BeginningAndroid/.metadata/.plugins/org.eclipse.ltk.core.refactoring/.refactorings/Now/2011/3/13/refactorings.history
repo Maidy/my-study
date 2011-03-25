@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.commonsware.android&apos; to &apos;com.commonsware.android.skeleton&apos;&#x0A;- Original project: &apos;Now&apos;&#x0A;- Original element: &apos;Now/src/com.commonsware.android&apos;&#x0A;- Renamed element: &apos;Now/src/com.commonsware.android.skeleton&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;com.commonsware.android&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;com.commonsware.android" name="com.commonsware.android.skeleton" qualified="false" references="true" stamp="1301043657683" textual="false" version="1.0"/>
+</session>

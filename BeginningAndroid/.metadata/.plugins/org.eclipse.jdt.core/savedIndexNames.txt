@@ -1,0 +1,3 @@
+INDEX VERSION 1.126+/Users/suguni/work/my-study/BeginningAndroid/.metadata/.plugins/org.eclipse.jdt.core
+2400539465.index
+3790341293.index
