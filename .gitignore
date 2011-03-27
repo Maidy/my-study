@@ -5,6 +5,6 @@
 .metadata
 .DS_Store
 bin
-/HeadFirstDesignPatterns/workspace/.metadata
-/HeadFirstDesignPatterns/workspace/Head First Design Patterns/bin
+.settings
+gen
 /HeadFirstDesignPatterns/workspace/Head First Design Patterns/.settings
