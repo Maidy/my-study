@@ -2,8 +2,8 @@
 *#
 *.swp
 *.class
-/.metadata
-/.DS_Store
+.metadata
+.DS_Store
 /HeadFirstDesignPatterns/workspace/.metadata
 /HeadFirstDesignPatterns/workspace/Head First Design Patterns/bin
 /HeadFirstDesignPatterns/workspace/Head First Design Patterns/.settings
