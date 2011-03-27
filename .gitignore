@@ -4,6 +4,7 @@
 *.class
 .metadata
 .DS_Store
+bin
 /HeadFirstDesignPatterns/workspace/.metadata
 /HeadFirstDesignPatterns/workspace/Head First Design Patterns/bin
 /HeadFirstDesignPatterns/workspace/Head First Design Patterns/.settings
