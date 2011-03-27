@@ -26,6 +26,6 @@ public class Now extends Activity implements View.OnClickListener {
 	}
 
 	private void updateTime() {
-		btn.setText(new Date().toString() + "\nHello World!");
+		btn.setText(new Date().toString() + "\n¾È³ç ¼¼»ó!");
 	}
 }
