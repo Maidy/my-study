@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="hello">Hello World, FieldDemo!</string>
-    <string name="app_name">Beginning Android Chapter06</string>
-    <string name="app_name_field_demo">Beginning Android Chapter06 - Field Demo</string>
-    <string name="app_name_image_viewer">Beginning Android Chapter06 - ImageView Demo</string>
-    <string name="app_name_checkbox_demo">Beginning Android Chapter06 - CheckBox Demo</string>
-    <string name="app_name_radiobutton_demo">Beginning Android Chapter06 - RadioButton Demo</string>
-</resources>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="hello">Hello World, LinearLayoutDemo!</string>
-    <string name="app_name">Chapter07-Beginning Android</string>
-    <string name="app_name_linearlayoutdemo">LinearLayoutDemo-Chapter07-Beginning Android</string>
-    <string name="app_name_relativelayoutdemo">RelativeLayoutDemo-Chapter07-Beginning Android</string>
-    <string name="app_name_tablelayoutdemo">TableLayoutDemo-Chapter07-Beginning Android</string>
-    <string name="app_name_scrolldemo">ScrollDemo-Chapter07-Beginning Android</string>
-</resources>
