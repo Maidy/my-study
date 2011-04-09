@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World!</string>
+    <string name="app_name">Chapter07</string>
+    <string name="app_name_staticdemo">StaticDemo-Chapter07</string>
+    <string name="app_name_dynamicdemo">DynamicDemo-Chapter07</string>
+    <string name="app_name_recyclingdemo">RecyclingDemo-Chapter07</string>
+    <string name="app_name_viewwrapperdemo">ViewWrapperDemo-Chapter07</string>
+    <string name="app_name_ratelistdemo">RateListDemo-Chapter07</string>
+</resources>
