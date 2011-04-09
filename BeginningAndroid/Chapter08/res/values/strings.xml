@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="hello">Hello World, Chapter08!</string>
-    <string name="app_name">Chapter08</string>
-    <string name="app_name_listviewdemo">ListView Demo-Chapter08</string>
-    <string name="app_name_spinnerdemo">Spinner Demo-Chapter08</string>
-    <string name="app_name_griddemo">Grid Demo-Chapter08</string>
-    <string name="app_name_autocompletedemo">AudoComplete Demo-Chapter08</string>
-</resources>
