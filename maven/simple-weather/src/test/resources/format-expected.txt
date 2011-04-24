@@ -1,0 +1,9 @@
+********************************
+ Current Weather Condition for:
+  New York, NY, US
+  
+ Temperature: 63
+   Condition: Partly Cloudy
+    Humidity: 87
+  Wind Chill: 63
+********************************

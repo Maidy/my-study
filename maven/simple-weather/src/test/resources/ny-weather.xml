@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<rss version="2.0" xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
+<channel>
+
+<title>Yahoo! Weather - New York, NY</title>
+<link>http://us.rd.yahoo.com/dailynews/rss/weather/New_York__NY/*http://weather.yahoo.com/forecast/USNY0996_f.html</link>
+<description>Yahoo! Weather for New York, NY</description>
+<language>en-us</language>
+<lastBuildDate>Sun, 24 Apr 2011 7:50 am EDT</lastBuildDate>
+<ttl>60</ttl>
+
+<yweather:location city="New York" region="NY"   country="US"/>
+<yweather:units temperature="F" distance="mi" pressure="in" speed="mph"/>
+<yweather:wind chill="63"   direction="250"   speed="3" />
+<yweather:atmosphere humidity="87"  visibility="7"  pressure="30.03"  rising="1" />
+<yweather:astronomy sunrise="6:03 am"   sunset="7:42 pm"/>
+<image>
+<title>Yahoo! Weather</title>
+<width>142</width>
+<height>18</height>
+<link>http://weather.yahoo.com</link>
+<url>http://l.yimg.com/a/i/brand/purplelogo//uh/us/news-wea.gif</url>
+</image>
+
+<item>
+<title>Conditions for New York, NY at 7:50 am EDT</title>
+<geo:lat>40.67</geo:lat>
+<geo:long>-73.94</geo:long>
+<link>http://us.rd.yahoo.com/dailynews/rss/weather/New_York__NY/*http://weather.yahoo.com/forecast/USNY0996_f.html</link>
+<pubDate>Sun, 24 Apr 2011 7:50 am EDT</pubDate>
+<yweather:condition  text="Partly Cloudy"  code="30"  temp="63"  date="Sun, 24 Apr 2011 7:50 am EDT" />
+<description><![CDATA[
+<img src="http://l.yimg.com/a/i/us/we/52/30.gif"/><br />
+<b>Current Conditions:</b><br />
+Partly Cloudy, 63 F<BR />
+<BR /><b>Forecast:</b><BR />
+Sun - Showers. High: 72 Low: 57<br />
+Mon - Scattered Thunderstorms. High: 68 Low: 56<br />
+<br />
+<a href="http://us.rd.yahoo.com/dailynews/rss/weather/New_York__NY/*http://weather.yahoo.com/forecast/USNY0996_f.html">Full Forecast at Yahoo! Weather</a><BR/><BR/>
+(provided by <a href="http://www.weather.com" >The Weather Channel</a>)<br/>
+]]></description>
+<yweather:forecast day="Sun" date="24 Apr 2011" low="57" high="72" text="Showers" code="11" />
+<yweather:forecast day="Mon" date="25 Apr 2011" low="56" high="68" text="Scattered Thunderstorms" code="38" />
+<guid isPermaLink="false">USNY0996_2011_04_24_7_50_EDT</guid>
+
+</item>
+</channel>
+</rss>
+<!-- api2.weather.kr3.yahoo.com compressed/chunked Sun Apr 24 05:44:27 PDT 2011 -->
