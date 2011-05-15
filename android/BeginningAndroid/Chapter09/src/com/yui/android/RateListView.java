@@ -24,11 +24,11 @@ public class RateListView extends ListView {
 	
 }
 
-class AdapterWrapper implements ListAdapter {
+class AdapterWrapper1 implements ListAdapter {
 
 	ListAdapter delegate = null;
 	
-	public AdapterWrapper(ListAdapter delegate) {
+	public AdapterWrapper1(ListAdapter delegate) {
 		this.delegate = delegate;
 	}
 	
