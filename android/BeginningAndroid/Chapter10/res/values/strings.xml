@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, Chrono!</string>
+	<string name="app_name">Beginning Android Chapter10</string>
+	<string name="app_name_clock">Chapter10-Clock</string>
+	<string name="app_name_tab">Chapter10-Tab</string>
+	<string name="app_name_dynamictab">Chapter10-DynamicTab</string>
+	<string name="app_name_filpperdemo">Chapter10-FlipperDemo</string>
+	<string name="app_name_filpperdemo2">Chapter10-FlipperDemo2</string>
+</resources>

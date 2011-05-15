@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	
+	<Button android:id="@+id/flip_me"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="페이지 넘김" />
+		
+	<ViewFlipper android:id="@+id/details"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"
+			android:textColor="#ff00ff00"
+			android:text="첫번째 페이지" />
+			
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"
+			android:textColor="#ffff0000"
+			android:text="두번째 페이지" />
+			
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"
+			android:textColor="#ffffff00"
+			android:text="세번째 페이지" />
+		
+	</ViewFlipper>
+</LinearLayout>
