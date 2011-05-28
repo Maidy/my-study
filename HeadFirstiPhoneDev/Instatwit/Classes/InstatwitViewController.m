@@ -11,24 +11,30 @@
 @implementation InstatwitViewController
 
 @synthesize tweetPicker;
+@synthesize notesField;
+
+- (IBAction) textFieldDoneEditing:(id)sender {
+	[sender resignFirstResponder];
+}
 
 - (IBAction) sendButtonTapped:(id)sender {
-	NSString* themessage = [NSString stringWithFormat:@"I'm %@ and feeling %@ about it.",
-					 [activities objectAtIndex:[tweetPicker selectedRowInComponent:0]],
-					 [feelings objectAtIndex:[tweetPicker selectedRowInComponent:1]]];
+	NSString* themessage = [NSString stringWithFormat:@"%@. I'm %@ and feeling %@ about it.",
+							notesField.text ? notesField.text : @"",
+							[activities objectAtIndex:[tweetPicker selectedRowInComponent:0]],
+							[feelings objectAtIndex:[tweetPicker selectedRowInComponent:1]]];
 //	NSLog(@"Tweet It! button tapped.");
-//	NSLog(themessage);
+	NSLog(themessage);
 	
-	NSMutableURLRequest *theRequest = [NSMutableURLRequest
-									   requestWithURL:[NSURL URLWithString:@"http:suguni:kdjtx337@twitter.com/statuses/update.xml"]
-									   cachePolicy:NSURLRequestUseProtocolCachePolicy
-									   timeoutInterval:60.0];
-	[theRequest setHTTPMethod:@"POST"];
-	[theRequest setHTTPBody:[[NSString stringWithFormat:@"status=%@", themessage] dataUsingEncoding:NSASCIIStringEncoding]];
-	NSURLResponse* response;
-	NSError* error;
-	NSData* result = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:&error];
-	NSLog(@"%@", [[[NSString alloc] initWithData:result encoding:NSASCIIStringEncoding] autorelease]);
+//	NSMutableURLRequest *theRequest = [NSMutableURLRequest
+//									   requestWithURL:[NSURL URLWithString:@"http:suguni:kdjtx337@twitter.com/statuses/update.xml"]
+//									   cachePolicy:NSURLRequestUseProtocolCachePolicy
+//									   timeoutInterval:60.0];
+//	[theRequest setHTTPMethod:@"POST"];
+//	[theRequest setHTTPBody:[[NSString stringWithFormat:@"status=%@", themessage] dataUsingEncoding:NSASCIIStringEncoding]];
+//	NSURLResponse* response;
+//	NSError* error;
+//	NSData* result = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:&error];
+//	NSLog(@"%@", [[[NSString alloc] initWithData:result encoding:NSASCIIStringEncoding] autorelease]);
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {

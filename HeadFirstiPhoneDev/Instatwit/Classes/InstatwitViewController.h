@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InstatwitViewController : UIViewController
-<UIPickerViewDataSource, UIPickerViewDelegate> {
+@interface InstatwitViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate> {
+		
 	IBOutlet UIPickerView* tweetPicker;
+	IBOutlet UITextField* notesField;
+	
 	NSArray* activities;
 	NSArray* feelings;
 	
 }
+
 @property (nonatomic, retain) UIPickerView* tweetPicker;
-- (IBAction) sendButtonTapped:(id)sender;
+@property (nonatomic, retain) UITextField* notesField;
+
+- (IBAction) sendButtonTapped: (id)sender;
+- (IBAction) textFieldDoneEditing: (id)sender;
 
 @end
-
