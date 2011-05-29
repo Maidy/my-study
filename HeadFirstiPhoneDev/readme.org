@@ -1,0 +1,10 @@
+* 3장. 아이폰 앱 개발을 위한 Objective-C
+
+** Memory 관리
+   GC가 없으므로(iOS에서는) new/release 잘 해야 한다.
+   규칙이 있는데 잘 와닫지 않는다.
+
+** Message 정의
+   (return-type) method-name:(1st-arg-type)1st-arg-var 2nd-arg-name:(2nd-arg-type)2nd-arg-var
+   ex)
+     (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
