@@ -1,19 +1,30 @@
 //
-//  DrinkDetailViewController.m
+//  AddDrinkViewController.m
 //  DrinkMixer
 //
-//  Created by suguni on 11. 5. 29..
+//  Created by suguni on 11. 6. 4..
 //  Copyright 2011 다음 커뮤니케이션. All rights reserved.
 //
 
-#import "DrinkDetailViewController.h"
+#import "AddDrinkViewController.h"
 #import "DrinkConstants.h"
 
+@implementation AddDrinkViewController
 
-@implementation DrinkDetailViewController
+- (IBAction)save:(id)sender {
+	NSLog(@"save");
+	[self dismissModalViewControllerAnimated:YES];
+}
 
-@synthesize nameTextField, ingredientsTextView, directionsTextView;
-@synthesize drink;
+- (IBAction)cancel:(id)sender {
+	NSLog(@"cancel");
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+}
+
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -26,18 +37,27 @@
 }
 */
 
+/*
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)loadView {
+}
+*/
+
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc]
+											  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+											  target:self action:@selector(cancel:)]
+											 autorelease];
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
+											   initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+											   target:self action:@selector(save:)]
+											  autorelease];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-
-	[nameTextField setText:[drink objectForKey:NAME_KEY]];
-	[ingredientsTextView setText:[drink objectForKey:INGREDIENTS_KEY]];
-	[directionsTextView setText:[drink objectForKey:DIRECTIONS_KEY]];
-}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -62,10 +82,6 @@
 
 
 - (void)dealloc {
-	[nameTextField release];
-	[ingredientsTextView release];
-	[directionsTextView release];
-	[drink release];
     [super dealloc];
 }
 
