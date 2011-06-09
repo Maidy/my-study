@@ -8,26 +8,42 @@
 
 #import "RootViewController.h"
 #import "DrinkDetailViewController.h"
-
+#import "DrinkConstant.h"
+#import "AddDrinkViewController.h"
 
 @implementation RootViewController
 
-@synthesize drinks;
-
+@synthesize drinks, addButton;
 
 #pragma mark -
 #pragma mark View lifecycle
 
+- (IBAction)addButtonPressed:(id)sender {
+	NSLog(@"add button pressed");
+	
+	AddDrinkViewController *viewController = 
+		[[AddDrinkViewController alloc]
+		 initWithNibName:@"DrinkDetailViewController" bundle:nil];
+	UINavigationController *navController =
+		[[UINavigationController alloc]
+		 initWithRootViewController:viewController];
+	
+	[self presentModalViewController:navController animated:YES];
+	
+	[navController release];
+	[viewController release];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	NSString* path = [[NSBundle mainBundle] pathForResource:@"DrinksDirections" ofType:@"plist"];
-	// NSURL* url = [[NSURL alloc] initWithScheme:@"http" host:@"www.yuiworld.kr" path:@"/test/DrinkArray.plist"];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"DrinksDirections" ofType:@"plist"];
+	// NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:@"www.yuiworld.kr" path:@"/test/DrinkArray.plist"];
 	// drinks = [[NSArray alloc] initWithContentsOfURL:url];
 	drinks = [[NSArray alloc] initWithContentsOfFile:path];
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	self.navigationItem.rightBarButtonItem = self.addButton;
 }
 
 /*
@@ -76,18 +92,25 @@
 
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView
+		 cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView
+							 dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc]
+				 initWithStyle:UITableViewCellStyleDefault
+				 reuseIdentifier:CellIdentifier] autorelease];
     }
     
 	// Configure the cell.
-	// cell.textLabel.text = [drinks objectAtIndex:indexPath.row];
-	cell.textLabel.text = [[drinks objectAtIndex:indexPath.row] objectForKey:@"name"];
+	// cell.textLabel.text = [drinks objectAtIndex:indexPath.row]; // crash!!!
+	cell.textLabel.text = [[drinks objectAtIndex:indexPath.row] 
+						   objectForKey:NAME_KEY];
+	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
 }
@@ -138,9 +161,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	DrinkDetailViewController *detailViewController = [[DrinkDetailViewController alloc] initWithNibName:@"DrinkDetailViewController" bundle:nil];
+	DrinkDetailViewController *detailViewController =
+		[[DrinkDetailViewController alloc] initWithNibName:@"DrinkDetailViewController" bundle:nil];
+	
+	NSLog(@"alloc");
+	
+	detailViewController.drink = [drinks objectAtIndex:indexPath.row];
+
+	NSLog(@"set drink");
 	
 	[self.navigationController pushViewController:detailViewController animated:YES];
+	
+	NSLog(@"pushViewController");
+	
 	[detailViewController release];
 }
 
@@ -163,6 +196,7 @@
 
 - (void)dealloc {
 	[drinks release];
+	[addButton release];
     [super dealloc];
 }
 

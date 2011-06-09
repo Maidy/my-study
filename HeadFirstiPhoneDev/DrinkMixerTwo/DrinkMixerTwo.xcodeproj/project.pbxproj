@@ -15,6 +15,7 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
+		422EE5F213A0DDAB00A27525 /* AddDrinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422EE5F113A0DDAB00A27525 /* AddDrinkViewController.m */; };
 		424218DB1397A9F700694279 /* DrinksDirections.plist in Resources */ = {isa = PBXBuildFile; fileRef = 424218DA1397A9F700694279 /* DrinksDirections.plist */; };
 		42F5F6D11397A03F00D4351D /* DrinkArray.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42F5F6D01397A03F00D4351D /* DrinkArray.plist */; };
 		42F5F6D51397A13900D4351D /* DrinkDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F5F6D31397A13900D4351D /* DrinkDetailViewController.m */; };
@@ -34,6 +35,9 @@
 		28C286E00D94DF7D0034E888 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		422EE59913A0D3DC00A27525 /* DrinkConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrinkConstant.h; sourceTree = "<group>"; };
+		422EE5F013A0DDAB00A27525 /* AddDrinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddDrinkViewController.h; sourceTree = "<group>"; };
+		422EE5F113A0DDAB00A27525 /* AddDrinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddDrinkViewController.m; sourceTree = "<group>"; };
 		424218DA1397A9F700694279 /* DrinksDirections.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DrinksDirections.plist; sourceTree = "<group>"; };
 		42F5F6D01397A03F00D4351D /* DrinkArray.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DrinkArray.plist; sourceTree = "<group>"; };
 		42F5F6D21397A13900D4351D /* DrinkDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrinkDetailViewController.h; sourceTree = "<group>"; };
@@ -65,6 +69,9 @@
 				1D3623250D0F684500981E51 /* DrinkMixerTwoAppDelegate.m */,
 				42F5F6D21397A13900D4351D /* DrinkDetailViewController.h */,
 				42F5F6D31397A13900D4351D /* DrinkDetailViewController.m */,
+				422EE59913A0D3DC00A27525 /* DrinkConstant.h */,
+				422EE5F013A0DDAB00A27525 /* AddDrinkViewController.h */,
+				422EE5F113A0DDAB00A27525 /* AddDrinkViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -190,6 +197,7 @@
 				1D3623260D0F684500981E51 /* DrinkMixerTwoAppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				42F5F6D51397A13900D4351D /* DrinkDetailViewController.m in Sources */,
+				422EE5F213A0DDAB00A27525 /* AddDrinkViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
