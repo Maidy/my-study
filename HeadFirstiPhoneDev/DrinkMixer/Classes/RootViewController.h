@@ -11,11 +11,16 @@
 @interface RootViewController : UITableViewController {
 	NSMutableArray* drinks;
 	IBOutlet UIBarButtonItem* addButtonItem;
+//	IBOutlet UIBarButtonItem* editButtonItem;
 }
 
 @property (nonatomic, retain) NSMutableArray* drinks;
 @property (nonatomic, retain) UIBarButtonItem* addButtonItem;
+// @property (nonatomic, retain) UIBarButtonItem* editButtonItem;
 
 - (IBAction)addButtonItemPressed:(id)sender;
+// - (IBAction)editButtonItemPressed:(id)sender;
+
+- (void)applicationWillTerminate:(NSNotification*)notif;
 
 @end

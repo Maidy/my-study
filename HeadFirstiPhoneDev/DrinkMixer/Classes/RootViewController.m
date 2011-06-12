@@ -23,6 +23,7 @@
 	
 	AddDrinkViewController *controller = [[AddDrinkViewController alloc]
 													  initWithNibName:@"DrinkDetailViewController" bundle:nil];
+	[controller setDrinks:drinks];
 	UINavigationController *nav = [[UINavigationController alloc]
 								   initWithRootViewController:controller];
 	
@@ -32,23 +33,38 @@
 	[nav release];
 }
 
+- (IBAction)editButtonItemPressed:(id)sender {
+	
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
 	NSString* path = [[NSBundle mainBundle] pathForResource:@"DrinkDirections" ofType:@"plist"];
-	NSMutableArray* tmp = [[NSArray alloc] initWithContentsOfFile:path];
+	NSMutableArray* tmp = [[NSMutableArray alloc] initWithContentsOfFile:path];
 	self.drinks = tmp;
 	[tmp release];
+	
+	[[NSNotificationCenter defaultCenter]
+	 addObserver:self selector:@selector(applicationWillTerminate:)
+	 name:UIApplicationWillTerminateNotification object:nil];
 
 	self.navigationItem.rightBarButtonItem = self.addButtonItem;
+	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
+- (void)applicationWillTerminate:(NSNotification*)notif {
+	NSLog(@"Application Will Terminate Notofication fired");
+	NSString* path = [[NSBundle mainBundle] pathForResource:@"DrinkDirections" ofType:@"plist"];
+	[self.drinks writeToFile:path atomically:YES];
+}
 
-/*
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+	
+	[self.tableView reloadData];
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -108,29 +124,25 @@
 }
 
 
-/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-
-/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+		[self.drinks removeObjectAtIndex:indexPath.row];
+		
         // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }   
 }
-*/
-
 
 /*
 // Override to support rearranging the table view.
@@ -153,13 +165,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	DrinkDetailViewController *detailViewController = [[DrinkDetailViewController alloc]
-													   initWithNibName:@"DrinkDetailViewController" bundle:nil];
-	detailViewController.drink = [drinks objectAtIndex:indexPath.row];
+	NSMutableDictionary* drink = [drinks objectAtIndex:indexPath.row];
 	
-	// Pass the selected object to the new view controller.
-	[self.navigationController pushViewController:detailViewController animated:YES];
-	[detailViewController release];
+	if (self.editing) {
+		AddDrinkViewController *controller = [[AddDrinkViewController alloc]
+											  initWithNibName:@"DrinkDetailViewController" bundle:nil];
+		controller.drink = drink;
+		controller.drinks = drinks;
+		
+		UINavigationController *nav = [[UINavigationController alloc]
+									   initWithRootViewController:controller];
+		
+		[self presentModalViewController:nav animated:YES];
+		
+		[controller release];
+		[nav release];
+	} else {
+		
+		DrinkDetailViewController *detailViewController = [[DrinkDetailViewController alloc]
+														   initWithNibName:@"DrinkDetailViewController" bundle:nil];
+		detailViewController.drink = drink;
+		
+		// Pass the selected object to the new view controller.
+		[self.navigationController pushViewController:detailViewController animated:YES];
+		[detailViewController release];
+	}
 }
 
 
@@ -176,6 +206,7 @@
 - (void)viewDidUnload {
     // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
     // For example: self.myOutlet = nil;
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

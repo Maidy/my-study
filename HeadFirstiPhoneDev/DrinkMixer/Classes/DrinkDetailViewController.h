@@ -12,13 +12,17 @@
 	IBOutlet UITextField* nameTextField;
 	IBOutlet UITextView* ingredientsTextView;
 	IBOutlet UITextView* directionsTextView;
+	IBOutlet UIScrollView* scrollView;
 	
-	NSDictionary* drink;
+	NSMutableDictionary* drink;
 }
+
+- (IBAction)textFieldDoneEditing:(id)sender;
 
 @property (nonatomic, retain) UITextField* nameTextField;
 @property (nonatomic, retain) UITextView* ingredientsTextView;
 @property (nonatomic, retain) UITextView* directionsTextView;
+@property (nonatomic, retain) UIScrollView* scrollView;
 
 @property (nonatomic, retain) NSDictionary* drink;
 

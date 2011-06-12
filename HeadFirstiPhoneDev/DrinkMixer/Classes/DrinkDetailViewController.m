@@ -14,6 +14,7 @@
 
 @synthesize nameTextField, ingredientsTextView, directionsTextView;
 @synthesize drink;
+@synthesize scrollView;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -29,15 +30,27 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	scrollView.contentSize = self.view.frame.size;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-
+	
 	[nameTextField setText:[drink objectForKey:NAME_KEY]];
 	[ingredientsTextView setText:[drink objectForKey:INGREDIENTS_KEY]];
 	[directionsTextView setText:[drink objectForKey:DIRECTIONS_KEY]];
 }
+
+- (IBAction)textFieldDoneEditing:(id)sender {
+	[sender resignFirstResponder];
+}
+
+/*
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+}
+*/
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -66,6 +79,7 @@
 	[ingredientsTextView release];
 	[directionsTextView release];
 	[drink release];
+	[scrollView release];
     [super dealloc];
 }
 
