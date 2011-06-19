@@ -12,6 +12,7 @@
 @implementation FugitiveDetailViewController
 
 @synthesize fugitive, nameLabel, idLabel, descTextView, bountyLabel;
+@synthesize capturedDateLabel, capturedToggle;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -47,7 +48,21 @@
 		idLabel.text = [fugitive.fugitiveID stringValue];
 		descTextView.text = fugitive.desc;
 		bountyLabel.text = [fugitive.bounty stringValue];
+		capturedDateLabel.text = [fugitive.captdate description];
+		capturedToggle.selectedSegmentIndex = [fugitive.captured boolValue] ? 0 : 1;
 	}
+}
+
+- (IBAction)capturedToggleChanged:(id)sender {
+	if ([capturedToggle selectedSegmentIndex] == 0) {
+		NSDate *now = [NSDate date];
+		fugitive.captdate = now;
+		fugitive.captured = [NSNumber numberWithBool:YES];
+	} else {
+		fugitive.captdate = nil;
+		fugitive.captured = [NSNumber numberWithBool:NO];
+	}
+	capturedDateLabel.text = [fugitive.captdate description];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,9 +85,10 @@
 	[idLabel release];
 	[descTextView release];
 	[bountyLabel release];
+	[capturedDateLabel release];
+	[capturedToggle release];
 	
     [super dealloc];
 }
-
 
 @end

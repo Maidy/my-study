@@ -13,7 +13,7 @@
 
 @implementation FugitiveListViewController
 
-@synthesize items;
+@synthesize resultsController;
 
 #pragma mark -
 #pragma mark Initialization
@@ -29,6 +29,9 @@
 }
 */
 
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	[self.tableView reloadData];
+}
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -45,6 +48,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	
+	if (self.resultsController != nil) {
+		return;
+	}
+	
 	iBountyHunterAppDelegate *appDelegate = (iBountyHunterAppDelegate*)[[UIApplication sharedApplication] delegate];
 	NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
 	
@@ -60,23 +67,27 @@
 								initWithObjects:sortDescriptor, nil];
 	[request setSortDescriptors:sortDescriptors];
 	
+//	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"captured == NO"];
+//	[request setPredicate:predicate];
+	
 	[sortDescriptor release];
 	[sortDescriptors release];
 	
+	NSFetchedResultsController* fetchedResultsController = 
+		[[NSFetchedResultsController alloc] initWithFetchRequest:request
+											managedObjectContext:managedObjectContext
+											  sectionNameKeyPath:nil
+													   cacheName:@"fugitive_list.cache"];
+	
+	fetchedResultsController.delegate = self;
 	NSError *error;
-	NSMutableArray *mutableFetchResults = [[managedObjectContext
-											executeFetchRequest:request error:&error] 
-										   mutableCopy];
-	
-	if (mutableFetchResults == nil) {
-		NSLog(@"Can't load the Fugitive data!");
+	BOOL success = [fetchedResultsController performFetch:&error];
+	if (!success) {
+		// Handle error
 	}
-	
-	self.items = mutableFetchResults;
-	// [mutableFetchResults setArray:items];
-	
-	[mutableFetchResults release];
+	self.resultsController = fetchedResultsController;
 	[request release];
+	[self.tableView reloadData];
 }
 
 /*
@@ -108,13 +119,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 1;
+    return [[self.resultsController sections] count];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return [self.items count];
+    return [[[self.resultsController sections] objectAtIndex:section] numberOfObjects];
 }
 
 
@@ -129,7 +140,7 @@
     }
     
     // Configure the cell...
-	Fugitive* fugitive = [items objectAtIndex:indexPath.row];
+	Fugitive* fugitive = [self.resultsController objectAtIndexPath:indexPath];
 	cell.textLabel.text = fugitive.name;
     
     return cell;
@@ -186,11 +197,9 @@
      // ...
      // Pass the selected object to the new view controller.
 	
-	detailViewController.fugitive = [items objectAtIndex:indexPath.row];
-	
+	detailViewController.fugitive = [resultsController objectAtIndexPath:indexPath];
     [self.navigationController pushViewController:detailViewController animated:YES];
     [detailViewController release];
-
 }
 
 
@@ -211,7 +220,7 @@
 
 
 - (void)dealloc {
-	[items release];
+	[resultsController release];
     [super dealloc];
 }
 

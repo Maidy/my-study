@@ -18,10 +18,10 @@
 		4219F91A13A4C7C200D28DAD /* ibountyicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4219F91913A4C7C200D28DAD /* ibountyicon.png */; };
 		4219F92313A4C8D000D28DAD /* FugitiveListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4219F92213A4C8D000D28DAD /* FugitiveListViewController.m */; };
 		4219F92613A4C8DE00D28DAD /* CapturedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4219F92513A4C8DE00D28DAD /* CapturedListViewController.m */; };
-		4219F96D13A4F23000D28DAD /* Fugitive.m in Sources */ = {isa = PBXBuildFile; fileRef = 4219F96C13A4F23000D28DAD /* Fugitive.m */; };
 		4219F97013A4FA4A00D28DAD /* iBountyHunter.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4219F96F13A4FA4A00D28DAD /* iBountyHunter.sqlite */; };
 		4219FA9A13A50D7800D28DAD /* FugitiveDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4219FA9813A50D7800D28DAD /* FugitiveDetailViewController.m */; };
 		4219FA9B13A50D7800D28DAD /* FugitiveDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4219FA9913A50D7800D28DAD /* FugitiveDetailViewController.xib */; };
+		42A93E5B13ACD57C00CA2D78 /* Fugitive.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A93E5A13ACD57C00CA2D78 /* Fugitive.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,12 +41,13 @@
 		4219F92213A4C8D000D28DAD /* FugitiveListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FugitiveListViewController.m; sourceTree = "<group>"; };
 		4219F92413A4C8DE00D28DAD /* CapturedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CapturedListViewController.h; sourceTree = "<group>"; };
 		4219F92513A4C8DE00D28DAD /* CapturedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CapturedListViewController.m; sourceTree = "<group>"; };
-		4219F96B13A4F23000D28DAD /* Fugitive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fugitive.h; path = ../Fugitive.h; sourceTree = "<group>"; };
-		4219F96C13A4F23000D28DAD /* Fugitive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Fugitive.m; path = ../Fugitive.m; sourceTree = "<group>"; };
 		4219F96F13A4FA4A00D28DAD /* iBountyHunter.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = iBountyHunter.sqlite; sourceTree = "<group>"; };
 		4219FA9713A50D7800D28DAD /* FugitiveDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FugitiveDetailViewController.h; sourceTree = "<group>"; };
 		4219FA9813A50D7800D28DAD /* FugitiveDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FugitiveDetailViewController.m; sourceTree = "<group>"; };
 		4219FA9913A50D7800D28DAD /* FugitiveDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FugitiveDetailViewController.xib; path = Classes/FugitiveDetailViewController.xib; sourceTree = "<group>"; };
+		42A93E5913ACD57C00CA2D78 /* Fugitive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fugitive.h; path = ../Fugitive.h; sourceTree = "<group>"; };
+		42A93E5A13ACD57C00CA2D78 /* Fugitive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Fugitive.m; path = ../Fugitive.m; sourceTree = "<group>"; };
+		42A93E8213ACDA4000CA2D78 /* iBountyHunter 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "iBountyHunter 2.xcdatamodel"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* iBountyHunter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iBountyHunter-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,10 +69,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				42A93E5913ACD57C00CA2D78 /* Fugitive.h */,
+				42A93E5A13ACD57C00CA2D78 /* Fugitive.m */,
 				1D3623240D0F684500981E51 /* iBountyHunterAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iBountyHunterAppDelegate.m */,
-				4219F96B13A4F23000D28DAD /* Fugitive.h */,
-				4219F96C13A4F23000D28DAD /* Fugitive.m */,
 				4219F92113A4C8D000D28DAD /* FugitiveListViewController.h */,
 				4219F92213A4C8D000D28DAD /* FugitiveListViewController.m */,
 				4219F92413A4C8DE00D28DAD /* CapturedListViewController.h */,
@@ -203,8 +204,8 @@
 				28193060112F816700ECF9B4 /* iBountyHunter.xcdatamodeld in Sources */,
 				4219F92313A4C8D000D28DAD /* FugitiveListViewController.m in Sources */,
 				4219F92613A4C8DE00D28DAD /* CapturedListViewController.m in Sources */,
-				4219F96D13A4F23000D28DAD /* Fugitive.m in Sources */,
 				4219FA9A13A50D7800D28DAD /* FugitiveDetailViewController.m in Sources */,
+				42A93E5B13ACD57C00CA2D78 /* Fugitive.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,8 +294,9 @@
 			isa = XCVersionGroup;
 			children = (
 				28C3AD890F43EF2300507BA6 /* iBountyHunter.xcdatamodel */,
+				42A93E8213ACDA4000CA2D78 /* iBountyHunter 2.xcdatamodel */,
 			);
-			currentVersion = 28C3AD890F43EF2300507BA6 /* iBountyHunter.xcdatamodel */;
+			currentVersion = 42A93E8213ACDA4000CA2D78 /* iBountyHunter 2.xcdatamodel */;
 			path = iBountyHunter.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

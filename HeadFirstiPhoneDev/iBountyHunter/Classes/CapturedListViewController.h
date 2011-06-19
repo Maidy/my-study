@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 
 
-@interface CapturedListViewController : UITableViewController {
-
+@interface CapturedListViewController : UITableViewController <NSFetchedResultsControllerDelegate> {
+	NSFetchedResultsController* resultsController;
 }
+
+@property (nonatomic, retain) NSFetchedResultsController* resultsController;
 
 @end

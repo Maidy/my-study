@@ -7,10 +7,13 @@
 //
 
 #import "CapturedListViewController.h"
-
+#import "Fugitive.h"
+#import "iBountyHunterAppDelegate.h"
+#import "FugitiveDetailViewController.h"
 
 @implementation CapturedListViewController
 
+@synthesize resultsController;
 
 #pragma mark -
 #pragma mark Initialization
@@ -26,6 +29,10 @@
 }
 */
 
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	[self.tableView reloadData];
+}
+
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -39,11 +46,47 @@
 }
 */
 
-/*
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+	iBountyHunterAppDelegate *appDelegate = (iBountyHunterAppDelegate*)[[UIApplication sharedApplication] delegate];
+	NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
+	
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+	
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Fugitive"
+											  inManagedObjectContext:managedObjectContext];
+	[request setEntity:entity];
+	
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+										initWithKey:@"name" ascending:YES];
+	NSArray *sortDescriptors = [[NSArray alloc]
+								initWithObjects:sortDescriptor, nil];
+	[request setSortDescriptors:sortDescriptors];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"captured == YES"];
+	[request setPredicate:predicate];
+	
+	[sortDescriptor release];
+	[sortDescriptors release];
+	
+	NSFetchedResultsController* fetchedResultsController = 
+	[[NSFetchedResultsController alloc] initWithFetchRequest:request
+										managedObjectContext:managedObjectContext
+										  sectionNameKeyPath:nil
+												   cacheName:@"captured_list.cache"];
+	
+	fetchedResultsController.delegate = self;
+	NSError *error;
+	BOOL success = [fetchedResultsController performFetch:&error];
+	if (!success) {
+		// Handle error
+	}
+	self.resultsController = fetchedResultsController;
+	[request release];
+	[self.tableView reloadData];
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -73,13 +116,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 0;
+    return [[self.resultsController sections] count];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 0;
+    return [[[self.resultsController sections] objectAtIndex:section] numberOfObjects];
 }
 
 
@@ -94,6 +137,8 @@
     }
     
     // Configure the cell...
+	Fugitive* fugitive = [self.resultsController objectAtIndexPath:indexPath];
+	cell.textLabel.text = fugitive.name;
     
     return cell;
 }
@@ -144,13 +189,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
+    FugitiveDetailViewController *detailViewController = [[FugitiveDetailViewController alloc]
+														  initWithNibName:@"FugitiveDetailViewController" bundle:nil];
+	// ...
+	// Pass the selected object to the new view controller.
+	
+	
+	detailViewController.fugitive = [resultsController objectAtIndexPath:indexPath];
     [self.navigationController pushViewController:detailViewController animated:YES];
     [detailViewController release];
-    */
+	
 }
 
 
@@ -171,6 +219,7 @@
 
 
 - (void)dealloc {
+	[resultsController release];
     [super dealloc];
 }
 

@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 
 
-@interface FugitiveListViewController : UITableViewController {
-	NSMutableArray* items;
+@interface FugitiveListViewController : UITableViewController <NSFetchedResultsControllerDelegate> {
+	NSFetchedResultsController* resultsController;
 }
 
-@property (nonatomic, retain) NSMutableArray* items;
+@property (nonatomic, retain) NSFetchedResultsController* resultsController;
 
 @end
