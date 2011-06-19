@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, AtoFTodo!</string>
+    <string name="app_name">AtoF-ch2-widget</string>
+    <string name="addtodo_activityname">Add Task</string>
+    
+    <string name="listtitle">Tasks</string>
+    <string name="addtasktitle">작업 추가</string>
+    <string name="cancelbuttontitle">취소</string>
+    <string name="addtaskbuttontitle">작업 추가</string> 
+</resources>

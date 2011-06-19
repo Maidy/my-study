@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <TextView
+    	android:id="@+id/listtitle_text"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:text="@string/listtitle"
+    	/>
+    
+    <Button
+    	android:id="@+id/addtask_button"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:text="@string/addtaskbuttontitle"
+    	android:layout_alignParentBottom="true"
+    	/>
+    	
+    <TextView
+    	android:id="@+id/tasklist_text"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:layout_below="@id/listtitle_text"
+    	android:layout_above="@id/addtask_button"
+    	android:text="+hello\n+hello2"
+    	/>
+</RelativeLayout>
