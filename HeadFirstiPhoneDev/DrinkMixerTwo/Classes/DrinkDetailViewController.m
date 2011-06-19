@@ -13,6 +13,7 @@
 
 @synthesize nameTextField, ingredientTextView, directionTextView;
 @synthesize drink;
+@synthesize scrollView;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -66,6 +67,8 @@
 	[nameTextField release];
 	[ingredientTextView release];
 	[directionTextView release];
+	
+	[scrollView release];
 	
 	[drink release];
 	

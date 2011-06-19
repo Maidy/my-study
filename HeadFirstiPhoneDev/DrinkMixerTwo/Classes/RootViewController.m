@@ -13,7 +13,8 @@
 
 @implementation RootViewController
 
-@synthesize drinks, addButton;
+@synthesize drinks;
+@synthesize addButton;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -24,6 +25,8 @@
 	AddDrinkViewController *viewController = 
 		[[AddDrinkViewController alloc]
 		 initWithNibName:@"DrinkDetailViewController" bundle:nil];
+	viewController.drinkArray = self.drinks;
+	
 	UINavigationController *navController =
 		[[UINavigationController alloc]
 		 initWithRootViewController:viewController];
@@ -37,20 +40,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(applicationDidEnterBackground:)
+												 name:UIApplicationDidEnterBackgroundNotification
+											   object:nil];
+	
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"DrinksDirections" ofType:@"plist"];
 	// NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:@"www.yuiworld.kr" path:@"/test/DrinkArray.plist"];
 	// drinks = [[NSArray alloc] initWithContentsOfURL:url];
-	drinks = [[NSArray alloc] initWithContentsOfFile:path];
+	drinks = [[NSMutableArray alloc] initWithContentsOfFile:path];
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
 	self.navigationItem.rightBarButtonItem = self.addButton;
 }
 
-/*
+- (void)applicationDidEnterBackground:(NSNotification*)noti {
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"DrinksDirections" ofType:@"plist"];
+	[self.drinks writeToFile:path atomically:YES];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+	
+	[self.tableView reloadData];
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -191,6 +205,7 @@
 - (void)viewDidUnload {
     // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
     // For example: self.myOutlet = nil;
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

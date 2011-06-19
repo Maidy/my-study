@@ -15,12 +15,16 @@
 	IBOutlet UITextView* ingredientTextView;
 	IBOutlet UITextView* directionTextView;
 	
+	IBOutlet UIScrollView* scrollView;
+	
 	NSDictionary* drink;
 }
 
 @property (nonatomic, retain) UITextField* nameTextField;
 @property (nonatomic, retain) UITextView* ingredientTextView;
 @property (nonatomic, retain) UITextView* directionTextView;
+
+@property (nonatomic, retain) UIScrollView* scrollView;
 
 @property (nonatomic, retain) NSDictionary* drink;
 

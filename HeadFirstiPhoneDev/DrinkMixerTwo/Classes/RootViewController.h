@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @interface RootViewController : UITableViewController {
-	NSArray* drinks;
+	NSMutableArray* drinks;
 	IBOutlet UIBarButtonItem* addButton;
 }
 
-@property (nonatomic, retain) NSArray* drinks;
+@property (nonatomic, retain) NSMutableArray* drinks;
 @property (nonatomic, retain) UIBarButtonItem* addButton;
 
 - (IBAction)addButtonPressed:(id)sender;
-
+- (void)applicationDidEnterBackground:(NSNotification*)noti;
+	
 @end
