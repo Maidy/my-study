@@ -30,5 +30,6 @@
 @property (nonatomic, retain) IBOutlet UISegmentedControl* capturedToggle;
 
 - (IBAction)capturedToggleChanged:(id)sender;
+- (IBAction)infoTouchUp:(id)sender;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "FugitiveDetailViewController.h"
 #import "Fugitive.h"
+#import "CapturedPhotoViewController.h"
 
 @implementation FugitiveDetailViewController
 
@@ -63,6 +64,17 @@
 		fugitive.captured = [NSNumber numberWithBool:NO];
 	}
 	capturedDateLabel.text = [fugitive.captdate description];
+}
+
+- (IBAction)infoTouchUp:(id)sender {
+	CapturedPhotoViewController* controller = [[CapturedPhotoViewController alloc]
+											   initWithNibName:@"CapturedPhotoViewController"
+											   bundle:nil];
+
+	[controller setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+	[self presentModalViewController:controller animated:YES];
+	
+	[controller release];
 }
 
 - (void)didReceiveMemoryWarning {
