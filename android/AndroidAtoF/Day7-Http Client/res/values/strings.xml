@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="app_name">Day7-Http Client</string>
+    
+    <string name="main_getimgbtn_text">Get Image</string>
+    <string name="main_getmusicbtn_text">Get Music</string>
+</resources>
