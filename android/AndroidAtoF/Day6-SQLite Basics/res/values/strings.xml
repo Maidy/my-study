@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="app_name">Day6-SQLite Basics</string>
+    <string name="main_addbtn_text">추가</string>
+    
+    <string name="selectmap_searchbtn_text">검색</string>
+    <string name="selectmap_addbtn_text">추가</string>
+    
+    <string name="simplemap_back_text">뒤로</string>
+</resources>

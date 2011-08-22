@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="50dip"
+		>
+		
+		<EditText
+			android:id="@+id/selectmap_addresstext_id"
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:hint="address"
+			/>
+			
+		<Button 
+			android:id="@+id/selectmap_searchbtn_id"
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:text="@string/selectmap_searchbtn_text"
+			/>
+		
+		<Button 
+			android:id="@+id/selectmap_addbtn_id"
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:text="@string/selectmap_addbtn_text"
+			/>
+	</LinearLayout>
+  	
+	<kr.yui.android.sqlitebasics.SimpleMapView
+		android:id="@+id/selectmap_mapview_id"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+		android:enabled="true"
+		android:apiKey="0ZuO_e1piS_np54Kf-O6yu0hV-14fWGFjE4Wr2Q"
+		/>
+
+</LinearLayout>
