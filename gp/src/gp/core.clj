@@ -62,3 +62,9 @@
 ;; circle area
 (defn area [r] (* (. Math PI) r r))
 
+
+;; joyofclojure - Listing 8.1. An implementation of eval taking a local context
+(defn contextual-eval [ctx expr]
+  (eval
+   `(let [~@(mapcat (fn [[k v]] [k `'~v]) ctx)]
+      ~exprt)))
