@@ -7,3 +7,4 @@
 bin
 .settings
 /HeadFirstDesignPatterns/workspace/Head First Design Patterns/.settings
+*.pyc
