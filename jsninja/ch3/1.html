@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Listing 3.1</title>
+    <style>
+    body { font-size:90%; }
+    .fail { color:red; }
+    </style>
+    <script src="../assert.js"></script>
+  </head>
+  <body>
+    <ul id="results"></ul>
+
+<script>
+  function isNimble() { return true; }
+  var canFly = function() { return true; }
+  window.isDeadly = function() { return true; }
+
+  console.log(window.isNimble);
+  console.log(window.canFly);
+  console.log(window.isDeadly);
+
+/*
+함수는
+named function
+anonymous -> variable binding
+anonymous -> property
+3자기로 만들 수 있다.
+*/
+</script>
+
+
+<script>
+  var canFly2 = function() { return true; }
+  window.isDeadly2 = function() { return true; }
+
+  assert(isNimble2() && canFly2() && isDeadly2(), 'Works, even though isNimble is declared below.');
+
+  function isNimble2() { return true; }
+
+/*
+
+isNimble() 함수가 assert 이후에 선언되어 있는데도 정상 동작한다.
+named function 선언은 함수가 정의된 범위 내에서는 어디에 있든 참조 가능하다.
+anonymous 함수는 이런 특성 없음. 이 함수에 접근하려면 변수나 프러퍼티을 통해야 하는데, 
+이것들은 forward reference 불가능.
+
+*/
+
+</script>
+
+
+<script>
+
+  // assert(possible(), 'Works, even though isNimble is declared below.');
+  // window.possible = function possible() { return true; }
+
+/*
+
+위의 경우는? 이것도 안됨. 왜? possible은 함수 body에서만 참조 가능한 이름이다.
+function statement 가 아님.
+
+*/
+
+</script>
+
+
+<script>
+
+  function stealthCheck() {
+    assert(stealth(), 'We\'ll never get below the return, but that\'s OK!');    
+    
+    return true;
+    
+    function stealth() { return true; }
+  }
+  stealthCheck();
+
+/*
+  return true; 다음에 함수가 정의되어 있어도 named function이므로 접근 가능.
+*/  
+</script>
+
+<script>
+
+assert(typeof canFly4 === 'undefined', 'canFly can\'t be forward referenced.');
+assert(typeof isDeadly4 === 'undefined', 'Nor can isDeadly.');
+
+var canFly4 = function() { return true; };
+window.isDeadly4 = function() { return true; };
+
+/*
+  다시 한번... 변수나 property에 바인딩된 anonymous 함수는 forward reference 불가능.
+*/  
+
+</script>
+
+
+  </body>
+</html>

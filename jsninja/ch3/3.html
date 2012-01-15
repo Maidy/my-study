@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>3.3 Functions as objects</title>
+    <style>
+    body { font-size:90%; }
+    .fail { color:red; }
+    </style>
+    <script src="../assert.js"></script>
+  </head>
+  <body>
+    <ul id="results"></ul>
+
+<script>
+
+/*
+함수는 객체이고, callable 이다.
+*/
+
+</script>
+
+<script>
+
+var store = {
+  nextId: 1,
+  cache: {},
+  add: function(fn) {
+    // fn.id가 있으면 store 되었다고 가정
+    if (!fn.id) {
+      fn.id = store.nextId++;
+      // !!는 JavaScript expression을 boolean으로 변환
+      return !!(store.cache[fn.id] = fn);
+    }
+  }
+}
+
+function ninja() {}
+
+assert(store.add(ninja), 'Function was safely added.');
+assert(!store.add(ninja), 'But it was only added once.');
+
+/*
+함수도 property를 가질 수 있다.
+*/
+
+</script>
+
+
+<script>
+// Memoization
+
+/*
+function isPrime(value) {
+  if (isPrime.answers[value] != null) {
+    return isPrime.answers[value];
+  }
+
+  var prime = value != 1;
+  for (var i = 2; i < value; i++) {
+    if (value % i === 0) {
+      prime = false;
+      break;
+    }
+  }
+
+  return isPrime.answers[value] = prime;
+}
+
+isPrime.answers = {};
+
+assert(isPrime(5), '5 is prime!');
+assert(isPrime.answers[5], 'The answer was cached');
+*/
+
+function isPrime(value) {
+
+  if (!isPrime.answers) { isPrime.answers = {}; }
+  if (isPrime.answers[value] != null) {
+    return isPrime.answers[value];
+  }
+
+  var prime = value != 1;
+  for (var i = 2; i < value; i++) {
+    if (value % i === 0) {
+      prime = false;
+      break;
+    }
+  }
+
+  return isPrime.answers[value] = prime;
+}
+
+assert(isPrime(5), '5 is prime!');
+assert(isPrime.answers[5], 'The answer was cached');
+
+// 함수 안에다 cache 초기화하는 코드가 같이 있는게 좋다.
+
+</script>
+
+
+<script>
+
+function getElements(name) {
+  if (!getElements.cache) { getElements.cache = {}; }
+  return getElements.cache[name] =
+    getElements.cache[name] || document.getElementById(name);
+}
+
+</script>
+
+
+  </body>
+</html>

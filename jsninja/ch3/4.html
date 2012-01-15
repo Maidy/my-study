@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>3.4 Context - 중요!!!</title>
+    <style>
+    body { font-size:90%; }
+    .fail { color:red; }
+    </style>
+    <script src="../assert.js"></script>
+  </head>
+  <body>
+    <ul id="results"></ul>
+
+
+<script>
+
+/*
+
+function context가 무엇인가?
+함수가 실행되는 영역 객체 - 말처럼 쉽지 않다.
+함수의 정의가 있는 곳과 실행되는 곳이 틀려지는 경우가 비일비재.
+
+*/
+
+
+var katana = {
+  isSharp : true,
+  use : function() {
+    // katana 객체를 몰라도 isSharp property를 참조할 수 있다.
+    this.isSharp = !this.isSharp;
+  }
+};
+
+katana.use();
+
+assert(!katana.isSharp,
+  'The value of isSharp has been changed!');
+
+/*
+  함수가 객체의 method로 호출되는 경우, this는 method를 포함하는 객체이다.
+  use() 에서 katana.isSharp로 사용해도 되겠지만, katana 이름을 바꾸면? 그래서 this 쓰는게 좋다.
+*/
+</script>
+
+
+<script>
+
+function katana() {
+  this.isSharp = true;
+}
+
+katana();
+
+assert(isSharp === true,
+  'A global property now exists.');
+
+/*
+  함수가 독립적으로 호출되면 this 는 global 객체(브라우저에서는 window)가 된다.
+*/
+
+/*
+무슨 소리인지??? 
+
+[Note] In ECMAScript 3.1 strict mode, a slight change has taken place: when a function isn't defined as a property of an object no longer means that its context will be the global object. The change is that a function defined within another function will inherit the context of the outer function. What's interesting about this is that it ends up affecting very little code - having the context of inner functions default to the global object turned out to be quite useless in practice (hence the change).
+*/
+
+</script>
+
+
+<script>
+
+/*
+  함수의 context는 어떻게 선언되었는지가 아닌,
+  어떻게 호출되는지(invoked)에 따라 결정된다!!!
+  the context of a function is determined by how the function is invoked.
+  
+  즉, context를 변경할 수 있다. -> Function 객체의 call, apply method 사용
+
+*/
+
+function fn() { return this; }
+
+var ronin = {};
+
+assert(fn() === this, 'The context is the global object.');
+assert(fn.apply(ronin) === ronin, 'The context is changed to a specific object');
+
+</script>
+
+<script>
+
+function add(a, b) { return a + b; }
+
+assert(add.call(this, 1, 2) === 3, '.call() takes individual arguments.');
+assert(add.apply(this, [1, 2]) === 3, '.apply() takes an array of arguments.');
+
+/*
+  call는 개별 인자로, apply는 배열로 인자를 전달 할 수 있다.
+*/
+</script>
+
+
+
+
+  </body>
+</html>

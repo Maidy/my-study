@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Listing 3.1</title>
+    <style>
+    body { font-size:90%; }
+    .fail { color:red; }
+    </style>
+    <script src="../assert.js"></script>
+  </head>
+  <body>
+    <ul id="results"></ul>
+
+<script>
+
+var obj = {
+  someMethod : function() {
+    console.log('Hi!');
+  }
+};
+obj.someMethod();
+
+// setInterval(
+//   function() { console.log('Here!'); },
+//   1000);
+
+/*
+property로 binding된 anonymous function -> someMethod
+setInterval의 인자인 anonymous function
+*/
+</script>
+
+<script>
+function yell(n) {
+  return n > 0 ? yell(n - 1) + 'a' : 'hiy';
+}
+assert(yell(4) === 'hiyaaaa', 'Calling the named function comes naturally.');
+/*
+recursive function 예
+named function인 경우 어떻게 recursion해야 하는지 명확하다. 그런데 아래는???
+*/
+</script>
+
+<script>
+
+var ninja = {
+  yell : function(n) {
+    return n > 0 ? ninja.yell(n - 1) + 'a' : 'hiy';
+  }
+}
+assert(ninja.yell(4) === 'hiyaaaa', 'An object property isn\'t too bad, either.');
+
+</script>
+
+
+<script>
+
+var samurai = { yell : ninja.yell };
+ninja = {};
+
+assert(samurai.yell(0) === 'hiy', 'function은 존재한다.');
+try {
+  assert(samurai.yell(4) === 'hiyaaaa', 'Is this going to work?');
+} catch(e) {
+  console.log('Uh, this isn\'t good! Where\'d ninja.yell go?');
+}
+
+/*
+ninja객체를 재정의하고 나니 함수 내에서 ninja.yell 호출할 때 에러가 나버린다.
+자기 참조를 표현할 다른 방법이 필요.
+*/
+</script>
+
+
+<script>
+
+var ninja = {
+  yell : function shout(n) {
+    return n > 0 ? shout(n - 1) + 'a' : 'hiy';
+    // this.yell을 써도 되지만 이 또는 property 이름이 변경될 수 있으므로 좋지 않다.
+  }
+}
+assert(ninja.yell(4) === 'hiyaaaa',
+  'Works as we would expect it to!');
+
+var samurai = { yell : ninja.yell };
+ninja = {};
+
+assert(samurai.yell(4) === 'hiyaaaa',
+  'The method correctly calls itself.');
+
+/*
+anonymous 함수인데, 이름을 부여할 수 있다.
+
+named function과 anonymous function의 구분 보다는 
+function statement, function literal 이라고 구분하는게 좋은듯.
+
+*/
+</script>
+
+
+<script>
+
+var ninja = function myNinja() {
+  assert(ninja === myNinja,
+    'This function is named two things at once!');
+}
+
+ninja();
+
+assert(typeof myNinja === 'undefined',
+  'But myNinja isn\'t defined outside of the function.');
+
+/*
+function liternal에 부여한 함수 이름은 함수 내부에서만 사용가능.
+*/
+</script>
+
+<script>
+var ninja = {
+  yell : function(n) {
+    return n > 0 ? arguments.callee(n - 1) + 'a' : 'hiy';
+    // this.yell을 써도 되지만 이 또는 property 이름이 변경될 수 있으므로 좋지 않다.
+  }
+}
+assert(ninja.yell(4) === 'hiyaaaa',
+  'Works as we would expect it to!');
+
+/*
+arguments.callee로 자기를 참조할 수 도 있다. - 가능한 안쓰는게...
+5th ECMAScript에서는 strict 모드에서 arguments.callee 사용할 수 없다.
+https://developer.mozilla.org/en/JavaScript/Reference/Functions_and_function_scope/arguments/callee
+*/
+</scritp>
+
+  </body>
+</html>
+
+
