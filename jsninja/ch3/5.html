@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>3.5 Variable-length arguments</title>
+    <style>
+    body { font-size:90%; }
+    .fail { color:red; }
+    </style>
+    <script src="../assert.js"></script>
+  </head>
+  <body>
+    <ul id="results"></ul>
+
+
+<script>
+(function() {
+
+  Math.max(1, 2, 3, 4, 5);
+  // 이건 가능하지만
+  // max([1, 2, 3, 4, 5]);
+  // 배열을 인자로 받는 함수는 없다. 만들어보자.
+
+  function largest(array) {
+    return Math.max.apply(Math, array);
+  }
+  function smallest(array) {
+    return Math.min.apply(Math, array);
+  }
+
+  assert(smallest([0, 1, 2, 3]) === 0, 'Located the smallest value.');
+  assert(largest([0, 1, 2, 3]) === 3, 'Located the largest value.');
+  
+})();
+
+</script>
+
+
+<script>
+(function() {
+  
+  function merge(root) {
+    for (var i=1; i<arguments.length; i++) {
+      for (var key in arguments[i]) {
+        root[key] = arguments[i][key];
+      }
+    }
+    return root;
+  }
+
+  var merged = merge(
+    {name: "Batou"},
+    {city: "Niihama"});
+  
+  assert(merged.name === 'Batou', 'The original name is intact.');
+  assert(merged.city === 'Niihama', 'And the city has been copied over.');
+
+})();
+</script>
+
+<script>
+(function() {
+  
+  function multiMax(multi) {
+    return multi * Math.max.apply(Math, arguments.slice(1));
+  }
+
+  try {
+    assert(multiMax(3, 1, 2, 3) === 9, '3*3=9 (First arg, by largest)');  
+  } catch (e) {
+    
+  }
+
+  // arguments는 array가 아니므로 slice method가 없다.
+
+})();
+
+(function() {
+  
+  function multiMax(multi) {
+    return multi * Math.max.apply(Math, Array.prototype.slice.call(arguments, 1));
+    // slice 호출할 때 도 call 이용.
+  }
+
+  assert(multiMax(3, 1, 2, 3) === 9, '3*3=9 (First arg, by largest)');
+
+})();
+
+</script>
+
+
+<script>
+(function() {
+  
+  // arguments.length - 실제 인자 개수
+  // function_name.length - 선언된 인자 개수
+
+  function makeNinja(name) { };
+  function makeSamurai(name, rank) { };
+  assert(makeNinja.length === 1, 'Only expecting a single argument');
+  assert(makeSamurai.length === 2, 'Two arguments expected');
+
+  // argument 개수에 따라 overloading 가능
+
+
+})();
+</script>
+
+<script>
+(function() {
+  
+  // !!! 이해 !!!
+  function addMethod(object, name, fn) {
+    var old = object[name];
+    object[name] = function() {
+      if (fn.length === arguments.length) {
+        return fn.apply(this, arguments);
+      } else if (typeof old === 'function') {
+        return old.apply(this, arguments);
+      }
+    };
+  }
+
+  // old function은 모두 closure로 참조된다.
+  // 하나씩 add 될 때마다 생성되는 함수의 클로저에 이전 함수 참조가 있고,
+  // 인자개수가 틀리면 이전 클로저의 함수를 호출한다.
+
+  // type으로 overloading 안됨.
+  // 호출 자체에 overhead 있음.
+
+  var ninjas = {
+    values : ['Dean Edwards', 'Sam Stephenson', 'Alex Russell']
+  };
+
+  addMethod(ninjas, 'find', function() {
+    return this.values;
+  });
+
+  addMethod(ninjas, 'find', function(name) {
+    var ret = [];
+    for (var i=0;i<this.values.length;i++) {
+      if (this.values[i].indexOf(name) === 0) {
+        ret.push(this.values[i]);
+      }
+    }
+    return ret;
+  });
+
+  addMethod(ninjas, 'find', function(first, last) {
+    var ret = [];
+    for (var i=0;i<this.values.length;i++) {
+      if (this.values[i] === (first + ' ' + last)) {
+        ret.push(this.values[i]);
+      }
+    }
+    return ret;
+  });
+
+  assert(ninjas.find().length === 3, 'Found all ninjas');
+  assert(ninjas.find('Sam').length === 1, 'Found ninja by first name');
+  assert(ninjas.find('Dean', 'Edwards').length === 1, 'Found ninja by first and last name');
+  assert(ninjas.find('Alex', 'X', 'Russel') == null, 'Found nothing');
+  // typeof ninjas.find('Alex', 'X', 'Russel') => undefined 이다.
+  // ninjas.find('Alex', 'X', 'Russel') === null => false!
+
+
+})();
+</script>
+</body>
+</html>
+

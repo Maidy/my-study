@@ -1,0 +1,3 @@
+http://blogs.intel.com/research/atom.xml
+http://github.com/blog.atom
+http://newstice.tistory.com/rss

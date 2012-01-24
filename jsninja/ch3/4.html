@@ -22,19 +22,22 @@ function context가 무엇인가?
 
 */
 
+(function() {
 
-var katana = {
-  isSharp : true,
-  use : function() {
-    // katana 객체를 몰라도 isSharp property를 참조할 수 있다.
-    this.isSharp = !this.isSharp;
-  }
-};
+  var katana = {
+    isSharp : true,
+    use : function() {
+      // katana 객체를 몰라도 isSharp property를 참조할 수 있다.
+      this.isSharp = !this.isSharp;
+    }
+  };
 
-katana.use();
+  katana.use();
 
-assert(!katana.isSharp,
-  'The value of isSharp has been changed!');
+  assert(!katana.isSharp,
+    'The value of isSharp has been changed!');
+
+})();
 
 /*
   함수가 객체의 method로 호출되는 경우, this는 method를 포함하는 객체이다.
@@ -99,7 +102,65 @@ assert(add.apply(this, [1, 2]) === 3, '.apply() takes an array of arguments.');
 */
 </script>
 
+<script>
 
+function loop(array, fn) {
+  for (var i=0; i < array.length; i++) {
+    if (fn.call(array, array[i], i) === false) { break; }
+  }
+}
+
+var num = 0;
+var numbers = [4, 5, 6];
+
+loop(numbers, function(value, n) {
+  assert(this === numbers, 'Context is correct.');
+  assert(n === num++, 'Counter is as expected.');
+  assert(value = numbers[n], 'Value is as expected.');
+});
+
+/*
+  필요한 코드만 작성하면 된다. loop 코드 없음.
+  anonymous array인 경우에도 참조가 가능. 아래 코드
+*/
+
+loop([1, 2, 3], function(value, n) {
+  // this => [1, 2, 3]
+})
+
+</script>
+
+<div id="first"></div>
+<div id="second"></div>
+
+<script>
+
+(function() {
+  
+  var elems = {
+    length: 0,
+    add: function(elem) {
+      Array.prototype.push.call(this, elem);
+    },
+    find: function(id) {
+      this.add(document.getElementById(id));
+    }
+  };
+
+  elems.find('first');
+  assert(elems.length === 1 && elems[0].nodeType,
+    'Verify that we have an element in our stash.');
+
+  elems.find('second');
+  assert(elems.length === 2 && elems[1].nodeType,
+    'Verify the other insertion');
+
+  var x = {};
+  Array.prototype.push.call(x, 10);
+  assert(x[0] === 10, '아무 객체도 배열처럼 만들 수 있나?');
+
+})();
+</script>
 
 
   </body>

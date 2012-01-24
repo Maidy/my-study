@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ch4.Closure-Secrets of the JavaScript Ninja</title>
+<script src="../assert.js"></script>
+<style>
+body { font-size:90%; }
+.fail { color:red; text-decoration:line-through; }
+#box-l46 {
+	position:absolute;
+	border:3px solid blue;
+	background-color:cyan;
+	width:100px;
+	height:100px;
+	display:none;
+}
+</style>
+</head>
+<body>
+
+<div>
+<h1>Closure</h1>
+<p>A closure is the scope created when a function is declared that allows
+the function to access and manipulate variables that are external to itself.
+Put another way, closures allow a function to access all the variables as well
+as other functions, that are declared in the same scope that the function
+itself is declared.
+</p>
+<p>
+Closure는 함수가 선언될(declared) 때 생성되는 scope로,
+함수는 이 범위 내의 변수에 접근하고 다루는 것이 허용된다.
+</p>
+
+<p>컴퓨터 프로그램의 구조와 해석 (p.127):<br />
+CS - 자유 변수(Free variable)를 가진 프로시저를 나타내는 기법<br />
+Math - The use of the word 'closure' here comes from abstract algebra,
+where a set of elements is said to be closed under an operation
+if applying the operation to elements in the set produces an element
+that is again an element of the set. </p>
+
+<p><a href="http://en.wikipedia.org/wiki/Closure_%28computer_science%29">
+Wikipedia - Closure (computer science)</a>:
+In computer science, a closure (also lexical closure, function closure,
+function value or functional value) is a function together with a referencing
+environment for the non-local variables of that function.</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Free_variables_and_bound_variables">
+Free Variable</a>:
+In computer programming, a free variable is a variable referred to in a function
+that is not a local variable or an argument of that function.
+An upvalue is a free variable that has been bound (closed over) with a closure.
+Note that variable "freeness" only applies in lexical scoping:
+there is no distinction, and hence no closures, when using dynamic scope.</p>
+
+
+<p><a href="http://en.wikipedia.org/wiki/Scope_%28computer_science%29#Dynamic_scoping">
+Lexical &amp; Dynamic Scoping</a></p>
+
+</div>
+
+<div>
+<h1>Tests</h1>
+<ul id="results"></ul>
+</div>
+
+<script>
+(function() {
+
+var outerValue = 'ninja';
+
+function outerFunction() {
+	assert(outerValue == 'ninja', 'I can see the ninja');
+}
+
+outerFunction();
+	
+})();
+</script>
+
+<script>
+(function(){
+var outerValue = 'ninja';
+var later;
+function outerFunction() {
+	var innerValue = 'samurai';
+	function innerFunction() {
+		assert(outerValue, 'I can see the ninja.');
+		assert(innerValue, 'I can see the samurai');
+	}
+
+	// later의 scope는 outerFunction -> innerValue를 참조할 수 있게된다.
+	later = innerFunction;
+}
+outerFunction();
+later();
+})();
+</script>
+
+<script>
+(function(){
+
+var outerValue = 'ninja';
+var later;
+
+function outerFunction() {
+
+	var innerValue = 'samurai';
+
+	function innerFunction(paramValue) {
+		assert(outerValue, 'Inner can see the ninja.');
+		assert(innerValue, 'Inner can see the samurai');
+		assert(paramValue, 'Inner can see the wakizashi');
+		assert(tooLate, 'Inner can see the ronin');
+	}
+
+	later = innerFunction;
+}
+
+// 동일한 scope에서는 forward reference 불가
+assert(!tooLate, 'Outer can\'t see the ronin'); 
+
+var tooLate = 'ronin';
+
+outerFunction();
+
+// 이 시점에서는 tooLate 참조 가능
+later('wakizashi');
+
+})();
+</script>
+
+<script>
+(function(){
+
+function Ninja() {
+	var slices = 0;
+
+	this.getSlices = function() {
+		return slices;
+	};
+
+	// jquery style
+	this.slice = function() {
+		slices++;
+	};
+}
+
+var ninja = new Ninja();
+
+ninja.slice();
+
+assert(ninja.getSlices() === 1, 'We\'re able to access the interval slice data.');
+assert(ninja.slices === undefined, 'And the private data is inaccessible to us.');
+
+})();
+
+</script>
+
+
+<div id="l45"></div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+(function(){
+
+	return;
+
+var elem$ = jQuery('div#l45');
+elem$.html('Loading...');
+
+jQuery.ajax({
+	url: 'test.html',
+	dataType: 'text',
+	success: function(html) {
+		assert(elem$, 'We can see elem$, via the closure for this function.');
+		elem$.html(html);
+	}
+});
+
+})();
+</script>
+
+<div id="box-l46">Box!</div>
+<script>
+(function(){
+
+return;
+
+var elem = document.getElementById('box-l46');
+elem.style.display = 'block';
+var tick = 0;
+
+var timer = setInterval(function() {
+	if (tick < 100) {
+		elem.style.left = elem.style.top = tick + 'px';
+		tick++;
+	} else {
+		clearInterval(timer);
+		assert(tick === 100, 'Tick accessed via a closure');
+		assert(elem, 'elem also accessed via a closure');
+		assert(timer, 'timer reference also accessed via a closure');
+	}
+}, 10);
+
+})();
+</script>
+
+<button id="test-l47">Click Me!</button>
+<script>
+(function(){
+
+var button = {
+	clicked: false,
+	click: function() {
+		this.clicked = true;
+		assert(button.clicked, 'The button has been clicked');
+	}
+};
+
+// 한번은 this로 한번은 button 으로 참조. 보기용.
+// click이 호출될 때(이벤트 fire) this는 button이 아니다.
+// closure로 해결해 보자.
+
+var elem = document.getElementById('test-l47');
+elem.addEventListener('click', button.click, false);
+
+})();
+</script>
+
+<button id="test-l48">Click Me with bind!!</button>
+<script>
+(function(){
+
+function bind(context, attr) {
+	return function() {
+		context[attr].apply(context, arguments);
+	};
+}
+
+var button = {
+	clicked: false,
+	click: function() {
+		this.clicked = true;
+		assert(button.clicked, 'The button has been clicked with bind');
+	}
+};
+
+// 한번은 this로 한번은 button 으로 참조. 보기용.
+// click이 호출될 때(이벤트 fire) this는 button이 아니다.
+// closure로 해결해 보자.
+
+var elem = document.getElementById('test-l48');
+elem.addEventListener('click', bind(button, 'click'), false);
+
+})();
+</script>
+
+<script>
+(function(){
+
+// prototype version
+Function.prototype.bind = function() {
+	var fn = this,
+		// arguments를 배열 객체로 변환
+		args = Array.prototype.slice.call(arguments),
+		object = args.shift();
+	return function() {
+		// bind 할 때 인자와 이 함수의 인자 조합(concat)
+		var inner_args = args.concat(Array.prototype.slice.call(arguments));
+		return fn.apply(object, inner_args);
+	}
+}
+
+var myObject = {};
+function myFunction() {
+	return this == myObject;
+}
+
+assert(!myFunction(), 'Context is not set yet');
+
+var aFunction = myFunction.bind(myObject);
+assert(aFunction(), 'Context is set properly');
+
+})();
+</script>
+
+<script>
+(function(){
+
+// currying - 함수의 일부 인자를 채우는 기법 - haskell
+
+// regexp로 분리하는 방법.
+var elements = 'val1, val2, val3'.split(/,\s*/);
+
+Function.prototype.curry = function() {
+	var fn = this,
+		args = Array.prototype.slice.call(arguments);
+	return function() {
+		return fn.apply(this, args.concat(Array.prototype.slice.call(arguments)));
+	};
+};
+
+
+// currying을 써 보자.
+String.prototype.csv = String.prototype.split.curry(/,\s*/);
+
+var results = ('Mugan, Jin, Fuu').csv();
+assert(
+	results[0] === 'Mugan' &&
+	results[1] === 'Jin' &&
+	results[2] === 'Fuu',
+	'The text values were split properly');
+
+Function.prototype.partial = function() {
+	var fn = this,
+		args = Array.prototype.slice.call(arguments);
+	return function() {
+		var arg = 0;
+		for (var i=0; i<args.length && arg<arguments.length; i++) {
+
+			// partial 실행될 때 undefined 인 항목은, 이 함수가 실행될 때 받는 인자로 채워진다.
+			if (args[i] === undefined) {
+				args[i] = arguments[arg++];
+			}
+		}
+		return fn.apply(this, args);
+	}
+};
+
+return;
+
+// partial 예 1
+var delay = setTimeout.partial(undefined, 10);
+delay(function() {
+	assert(true, 'A call to this function will be delayed 10 ms');
+});
+// partial과 partial된 함수의 인자 순서에 주의해야 함.
+
+// partial 예 2
+// event handler를 나중에 받음.
+var bindClick = document.body.addEventListener.
+	partial('click', undefined, false);
+bindClick(function() {
+	assert(true, 'Click event bound via curried function.');
+});
+
+})();
+</script>
+
+<script>
+(function(){
+
+// 함수를 변경하지 않고도 원하는것을 할 수 있다.
+
+function isPrime(num) {
+	var prime = num != 1;
+	for (var i=2; i<num; i++) {
+		if (num % i === 0) {
+			prime = false;
+			break;
+		}
+	}
+	return prime;
+};
+
+// 소수인지 확인하는 함수가 있다. 이 함수를 변경하지 않고도 memoization을 구현해 보자.
+
+Function.prototype.memoized = function(key) {
+	this._value = this._value || {};
+	return this._value[key] !== undefined ?
+		this._value[key] :
+		this._value[key] = this.apply(this, arguments);
+};
+
+assert(isPrime.memoized(5), 'The function works; 5 is prime.');
+assert(isPrime.memoized(5), 'The answer has been cached.');
+
+// 위 코드는 호출하는 쪽에서 memoized를 직접 호출해야 한다. 별로!!! 개선해보자.
+
+})();
+</script>
+
+<script>
+(function(){
+
+Function.prototype.memoized = function(key) {
+	this._value = this._value || {};
+	return this._value[key] !== undefined ?
+		this._value[key] :
+		this._value[key] = this.apply(this, arguments);
+};
+
+Function.prototype.memoize = function() {
+	var fn = this;
+	return function() {
+		return fn.memoized.apply(fn, arguments);
+	};
+};
+
+var my_memoized = function(fn, key) {
+	fn._value = fn._value || {};
+	var args = Array.prototype.slice.call(arguments, 1);
+	return fn._value[key] !== undefined ?
+		fn._value[key]:
+		fn._value[key] = fn.apply(fn, args);
+};
+
+var my_memoize = function(fn) {
+	return function() {
+		return my_memoized(fn, arguments);
+	};
+};
+
+var isPrime = my_memoize(function(num) {
+	var prime = num != 1;
+	for (var i=2; i<num; i++) {
+		if (num % i === 0) {
+			prime = false;
+			break;
+		}
+	}
+	return prime;
+}); // .memoize();
+
+
+assert(isPrime(5), 'Better memoize! The function works; 5 is prime.');
+assert(isPrime(5), 'Better memoize! The answer has been cached.');
+
+var my_memoization = function(fn) {
+	var values = {};
+	return function(key) {
+		return values[key] !== undefined ?
+			values[key] + ' cached' :
+			values[key] = fn.apply(fn, arguments);
+	}
+};
+
+var isPrime2 = my_memoization(function(num) {
+	var prime = num != 1;
+	for (var i=2; i<num; i++) {
+		if (num % i === 0) {
+			prime = false;
+			break;
+		}
+	}
+	return prime;
+});
+
+assert(isPrime2(5) === true, 'Best memoize! The function works; 5 is prime.');
+assert(isPrime2(5) === 'true cached', 'Best memoize! The answer has been cached. >>' + isPrime2(5));
+assert(isPrime2(5) === 'true cached', 'Best memoize! The answer has been cached. >>' + isPrime2(5));
+
+})();
+</script>
+
+<script>
+(function(){
+
+// wrapping ???
+
+})();
+</script>
+
+<div id="my-div">Click #my-div</div>
+<script>
+(function(){
+
+	// Immediate function
+	(function(){})();
+	// ()는 함수 호출 연산자이다.
+	// (...)(); 에서 (...)가 함수이면, 이를 호출한다는 의미가 된다.
+
+	// 용도1
+	// 임시 scope와 private 변수를 만들기 위해
+	// clicked는 private variable 임.
+	(function(){
+		var clicked = 0;
+		document.getElementById('my-div').addEventListener('click', function() {
+			console.log(++clicked);
+		}, false);
+	})();
+
+})();
+</script>
+
+<table border="1"><tr><td>
+<div class="div1">Click .div1</div>
+<div class="div1">Click .div1</div>
+<div class="div1">Click .div1</div>
+</td><td>
+<div class="div2">Click .div2</div>
+<div class="div2">Click .div2</div>
+<div class="div2">Click .div2</div>
+</td></tr></table>
+
+<script>
+(function(){
+
+	// 용도2
+	// loop
+	
+	// ERROR!!!
+	var div1s = document.getElementsByClassName('div1');
+	for (var i=0;i<div1s.length;i++) {
+		div1s[i].addEventListener('click', function() {
+			console.log('div #' + i + ' was clicked.');
+		}, false);
+	}
+
+	// OK!!!
+	var div2s = document.getElementsByClassName('div2');
+	for (var i=0;i<div2s.length;i++) {
+		(function(i) {
+			div2s[i].addEventListener('click', function() {
+				console.log('div #' + i + ' was clicked.');
+			}, false);
+		})(i);
+	}
+
+	// 용도3
+	// JavaScript Library wrapping
+
+})();
+</script>
+
+</body>
+</html>
