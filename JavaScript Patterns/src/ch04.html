@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+</head>
+<body>
+<script>
+
+var x = 10;
+
+// hoisting demo
+(function() {
+
+	console.log(typeof x);          // undefined
+	console.log(x === undefined);   // true
+	console.log(x);                 // undefined
+	
+	console.log(typeof y);          // undefined
+	console.log(y === undefined);   // error
+	console.log(y);                 // error
+	
+	console.log(typeof mul);        // function
+	console.log(mul === undefined); // false
+	console.log(mul(1, 2));         // 2
+
+	console.log(typeof add);        // undefined
+	console.log(add === undefined); // true
+	console.log(add(1, 2));         // error
+
+	var x = 1;
+	// var y = 2;
+
+	function mul(a, b) {
+		return a * b;
+	};
+
+	var add = function(a, b) {
+		return a + b;
+	};
+	
+})();
+
+</script>
+</body>
+</html>
