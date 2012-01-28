@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ch5.Object-orientation with prototypes - Secrets of the JavaScript Ninja</title>
+<script src="../assert.js"></script>
+<style>
+body { font-size:90%; font-family:monospace; }
+.pass { color:green; }
+.fail { color:red; text-decoration:line-through; }
+</style>
+</head>
+<body>
+
+<div>
+<h1>Tests</h1>
+<ul id="results"></ul>
+</div>
+
+<div>
+javascript는 new 연산자를 이용해 새로운 객체를 instantiate한다. 
+근데, class 정의가 없고 function에 적용된다. 즉 function이 객체의 constructor 역할을 한다.
+함수가 constructor가 될 때 prototype은 일종의 blueprint가 된다.
+
+</div>
+
+<script>
+// function 선언 끝에 ;를 붙이면 expression인지 declaration 인지?
+// hoisting을 통해 확인 가능
+(function() {
+	assert(typeof fn === 'function', 'Function declaration');
+	function fn(){};
+})();
+</script>
+
+<script>
+(function(){
+
+	function Ninja(){};
+	
+	Ninja.prototype.swingSword = function() {
+		return true;
+	};
+
+	var ninja1 = Ninja();
+	assert(ninja1 === undefined, 'No instance of Ninja created.');
+
+	var ninja2 = new Ninja();
+	assert(ninja2 && ninja2.swingSword(),
+		'Instance exists and method is callable.');
+
+})();
+</script>
+
+<script>
+(function(){
+	function Ninja(){
+		this.swung = false;
+		this.swingSword = function() {
+			return !this.swung;
+		};
+	};
+
+	// constructor에서 선언한 함수와 동일한 이름.
+	Ninja.prototype.swingSword = function() {
+		return this.swung;
+	};
+
+	var ninja = new Ninja();
+	assert(ninja.swingSword(),
+		'Called the instance method, not the prototype method.');
+})();
+</script>
+
+<p>
+An important thing to realize about a function's prototype is that,
+unlike instance properties that are static,
+any updates to it are reflected in all objects created from that prototype.
+For example, let’s rearrange the code a bit and see what happens,
+as shown in Listing 5.3.
+protype을 업데이트하면 해당 prototype으로부터 생성된 모든 객체에 반영된다.
+</p>
+
+<script>
+(function(){
+
+	function Ninja(){
+		this.swung = true;
+	};
+
+	// 객체 생성
+	var ninja = new Ninja();
+
+	// prototype 변경
+	Ninja.prototype.swingSword = function() {
+		return this.swung;
+	};
+
+	// 객체(ninja)를 생성(instantiate)하고 prototype을 변경했을 때
+	// 생성되어 있던 객체에도 반영되는지 확인
+	assert(ninja.swingSword(), 'Method exists, even out of order.');
+
+})();
+</script>
+
+<script>
+(function(){
+
+	function Ninja(){
+		this.swung = false;
+		this.swingSword = function() {
+			return !this.swung;
+		}
+	};
+
+	// 객체 생성
+	var ninja = new Ninja();
+
+	// prototype 변경
+	Ninja.prototype.swingSword = function() {
+		return this.swung;
+	};
+
+	// instance의 property와 prototype의 property간의 우선순위
+	assert(ninja.swingSword(), 'Called the instance method, not the prototype method.');
+
+})();
+</script>
+
+<p>
+인스턴스의 constructor를 확인하는 방법은 instanceof 연산자와 constructor property를 이용하면 된다.
+constructor property를 이용하면 constructor function을 참조할 수 있으므로 다른데 쓸 수 있다.
+</p>
+
+<script>
+(function(){
+	var Ninja = function() { return 10; };
+
+	var ninja = new Ninja();
+
+	assert(typeof ninja === 'object',
+		'The type of the instance is object.');
+	assert(ninja instanceof Ninja,
+		'Instance of identifies the constructor.');
+	assert(ninja.constructor === Ninja,
+		'The ninja object was created by the Ninja function');
+
+	// constructor property는 생성자 함수를 참조하므로 그대로 호출할 수 있다.
+	assert((ninja.constructor)() === 10,
+		'constructor property를 함수처럼 호출 가능.');
+})();
+</script>
+
+<script>
+(function(){
+	var Ninja = function() {};
+	var ninja = new Ninja();
+	var ninja2 = new ninja.constructor();
+
+	// constructor를 통해 새로운 인스턴스를 만들 수 있다.
+	assert(ninja2 instanceof Ninja,
+		'It\'s a Ninja!');
+})();
+</script>
+
+<p>
+p.93) While the .constructor property of an object can be changed,
+it doesn't have any immediate or obvious, purpose as its reason for being
+is to inform as to where the object was constructed from. The original value
+will simply be overwritten and lost.<br />
+.constructor를 변경한다고 constructor function이 변경되는건 아니다.
+</p>
+
+<script>
+(function(){
+	var Ninja = function(){};
+	var Samurai = function(){};
+
+	var ninja = new Ninja();
+	ninja.constructor = Samurai;
+
+	assert(ninja.constructor === Samurai,
+		'ninja.constructor 속성을 Samurai로 변경했다.');
+	assert(ninja instanceof Ninja,
+		'constructor 속성을 변경해도 Ninja의 인스턴스다.');
+	
+})();
+</script>
+
+<p>
+prototype chain에 대해 알아보기.
+</p>
+
+<script>
+(function(){
+	function Person(){};
+	Person.prototype.dance = function(){};
+
+	function Ninja(){};
+	
+	// Ninja의 prototype에 Person의 prototype을 assign하면 Ninja의 인스턴스는 Person의 인스턴스이다.
+	Ninja.prototype = Person.prototype;
+	// 아래처럼 하면 당연히 Person이랑은 아무관련 없다.
+	Ninja.prototype = { dance: Person.prototype.dance };
+
+	// 책의 설명이 뭔가 이상하다??????????????????????
+
+	var ninja = new Ninja();
+	
+	assert(ninja instanceof Ninja,
+		'ninja receives functionality from the Ninja prototype');
+	assert(ninja instanceof Person,
+		'... and the Person prototype');
+	assert(ninja instanceof Object,
+		'... and the Object prototype');
+})();
+</script>
+
+<script>
+(function(){
+	function Person(){};
+	Person.prototype.dance = function(){};
+
+	function Ninja(){};	
+
+	// 이렇게 하지마라! p.96
+	// Ninja의 prototype을 변경하면 Person의 prototype이 변경된다. - 의도하지 않은 side-effect
+	// 즉 Person의 instance들에 영향이 간다.
+	// Ninja.prototype = new Person(); 으로 하면
+	// Person.prototype을 변경되지 않는다. Person 단일 인스턴스면 변경하는것이므로
+	// 다른 Person 인스턴스에 영향을 주지 않는다.
+	Ninja.prototype = Person.prototype;
+
+	var ninja = new Ninja();
+
+	assert(ninja instanceof Ninja &&
+		ninja instanceof Person &&
+		ninja instanceof Object,
+		'ninja는 Ninja의 instance이고, Person의 instance이고, Object의 instance인데...');	
+	assert(ninja.constructor !== Ninja &&
+		ninja.constructor === Person,
+		'ninja.constructor는 Ninja가 아니고, ninja.constructor는 Person이다.');
+})();
+</script>
+
+<script>
+(function(){
+
+	function Animal(){};
+	Animal.prototype = {}; // new Object();
+	Animal.prototype.sleep = function(){};
+
+	function Person(){};
+	Person.prototype = new Animal();
+	Person.prototype.dance = function(){};
+
+	function Ninja(){};	
+	Ninja.prototype = new Person();
+	Ninja.prototype.swing = function(){};
+
+	var ninja = new Ninja();
+	
+	assert(ninja instanceof Ninja,
+		'ninja receives functionality from the Ninja prototype');
+	assert(ninja instanceof Person,
+		'... and the Person prototype');
+	assert(ninja instanceof Animal,
+		'... and the Animal prototype');
+	assert(ninja instanceof Object,
+		'... and the Object prototype');
+
+	assert(ninja.constructor === Ninja, 'ninja.constructor는 Ninja인가?');
+	assert(ninja.constructor === Person, 'ninja.constructor는 Person인가?');
+	assert(ninja.constructor === Animal, 'ninja.constructor는 Animal인가?');
+	assert(ninja.constructor === Object, 'ninja.constructor는 Object인가?');
+
+	// instanceof 연산자는 prototype chain 상에 있는 모든 function에 대해 true 이다.
+	// constructor는 prototype chain 상의 최상단 function이 된다.
+	// Object.prototype과 암시적 chaining이 된 경우에는 Object가 아니다.
+
+})();
+</script>
+
+<script>
+(function(){
+
+	var s = { dance:function(v){return 'dance with ' + v;} };
+	['a', 'b', 'c'].forEach(function(value, index, array) {
+		assert(this.dance(value) === 'dance with '+value, 'dance with blah blah~~~ OK');
+	}, s);
+
+	// native object를 변경할때는 항상 조심해라.
+})();
+</script>
+
+
+<div id="a">I'm going to be removed.</div>
+<div id="b">Me too!</div>
+<script>
+(function(){
+	HTMLElement.prototype.remove = function() {
+		if (this.parentNode) {
+			this.parentNode.removeChild(this);
+		}
+	};
+
+	var a = document.getElementById('a');
+	var b = document.getElementById('b');
+
+	a.parentNode.removeChild(a);
+	b.remove();
+	
+	assert(!document.getElementById('a'), '#a is gone');
+	assert(!document.getElementById('b'), '#b is gone too.');
+
+})();
+</script>
+
+
+<script>
+(function(){
+	Object.prototype.keys = function() {
+		var ks = [];
+		for (var i in this) {
+
+			// hasOwnProperty는 instance에 있는 속성인지 검사한다.
+			// prototype에 있는 속성은 false
+			if (this.hasOwnProperty(i)) {
+				ks.push(i);
+			}
+		}
+		return ks;
+	};
+
+	var o = { 'i1':1, 'i2':2, 'i3':3 };
+	assert(o.keys().length === 3, 'There are three properties in this object');
+})();
+
+</script>
+
+
+<script>
+(function(){
+
+	function MyArray() {};
+	MyArray.prototype.length = 0;
+
+	var methods = ['push', 'pop', 'shift' /* ... */];
+	
+	/*
+	for (var i=0;i<methods.length;i++) {
+		MyArray.prototype[methods[i]] = Array.prototype[methods[i]];
+	}
+	*/
+	
+
+	// 함수가 어떻게 구현되어 있는지 모를때는 apply 또는 call로 context를 넘겨주는게 좋다?
+	// 해당 context에 필요한게 없으면??? 마찬가지 아닌가?
+	for (var i=0;i<methods.length;i++) {
+		(function(name){
+			MyArray.prototype[name] = function() {
+				return Array.prototype[name].apply(this, arguments);
+			};
+		})(methods[i]);	
+	}
+	// 이거 질문!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	var ma = new MyArray();
+
+	ma[0] = 1;
+	assert(ma[0] === 1, 'array value?');
+
+	// array가 아니므로 [] 연산자로 넣는다고 length가 update 되지 않는다.
+	assert(ma.length === 1, 'array length???');
+
+	ma.push(1,2,3);
+	assert(ma.length === 3, 'All th items are on our sub-classed array');
+	assert(!(ma instanceof Array), 'We aren\'t subclassing Array, though');
+
+})();
+</script>
+
+
+<p>
+함수는 그냥 function으로 또는 constructor로 사용될 수 있다.
+코드만 보고는 명확하지 않을 수 있다.
+</p>
+
+<script>
+(function(){
+	function User(first, last) {
+		this.name = first + ' ' + last;
+	};
+
+	var user = User('Steve', 'Yu');
+
+	assert(user, 'User instatiated');
+
+	// eRRRRRor
+	// assert(user.name === 'Steve Yu', 'User name correctly assigned');
+})();
+</script>
+
+<p>
+function이 constructor일때는 대문자로 시작<br />
+function은 verb, constructor는 noun
+</p>
+
+<p>constructor를 function으로 사용하면 side-effect가 있을 수 있다.</p>
+
+<script>
+// (function(){
+// side-effect를 보여주기 위해 immediate function 사용 안함.
+
+	function User(first, last) {
+		// constructor를 function으로 사용하면 this는 global(window)이 된다.
+		this.name = first + ' ' + last;
+	};
+
+	var name = 'Rukia';
+
+	var user = User('Steve', 'Yu');
+
+	assert(name === 'Rukia', 'Name was set to Rukia. I wish!!!');
+
+// })();
+</script>
+
+
+<script>
+// (function(){
+
+	function User(first, last) {
+		// solution: 근데 이렇게 꼭 해야 할까?
+		if (!(this instanceof arguments.callee)) {
+			return new User(first, last);
+		}
+		this.name = first + ' ' + last;
+	}
+
+	var name = 'Rukia';
+	var user = User('Steve', 'Yu');
+
+	assert(name === 'Rukia', 'Name was set to Rukia.');
+	assert(user instanceof User, 'User instatiated');
+	assert(user.name === 'Steve Yu', 'User name correctly assigned');
+
+// })();
+</script>
+
+<script>
+(function() {
+	
+	var initializing = false,
+		fnTest = /xyz/.test(function() { xyz; }) ? /\b_super\b/ : /.*/;
+	
+	Object.subClass = function(prop) {
+		var _super = this.prototype;
+
+		
+	}
+})();
+
+
+(function(){
+	
+	var Person = Object.subClass({
+		init: function(isDancing) {
+			this.dancing = isDancing;
+		},
+		dance: function() {
+			return this.dancing;
+		}
+	});
+
+	var Ninja = Person.subClass({
+		init: function() {
+			this._super(false);
+		},
+		dance: function() {
+			// Ninja-specific stuff here
+			return this._super();
+		},
+		swingSword: function() {
+			return true;
+		}
+	});
+
+	var person = new Person(true);
+	assert(person.dance(), 'The person is dancing');
+
+	var ninja = new Ninja();
+	assert(ninja.swingSword(), 'The sword is swinging');
+	assert(ninja.dance(), 'The ninja is not dancing');
+
+	assert(person instanceof Person, 'person is a Person');
+	assert(ninja instanceof Ninja && ninja instanceof Person,
+		'ninja is a Ninja and a Person');
+	
+
+})();
+</script>
+
+</body>
+</html>
