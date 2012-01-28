@@ -56,7 +56,7 @@ function upload(req, res) {
 	}
 
 	var form = new formidable.IncomingForm;
-/*
+
 	form.on('field', function(field, value) {
 		console.log('onfield', field, value);
 	});
@@ -68,11 +68,18 @@ function upload(req, res) {
 	form.on('end', function() {
 		res.end('upload complete!');
 	});
-*/
+
+	form.on('progress', function(received, expected) {
+		var p = Math.floor(received / expected * 100);
+		console.log(p);
+	});
+
 	form.parse(req, function(err, fields, files) {
+		/*
 		console.log(fields);
 		console.log(files);
 		res.end('upload complete!');
+		*/
 	});
 };
 
