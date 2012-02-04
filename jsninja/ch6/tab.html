@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>6. Tangling with Timers - Secrets of the JavaScript Ninja</title>
+</head>
+<body>
+
+<div>
+<button id="c1">create all-in-one</button>
+<button id="c2">create using timer</button>
+</div>
+
+<table border="1"><tr><td valign="top">
+
+<div id="l1"></div>
+<table id="t1">
+<tbody></tbody>
+</table>
+
+</td><td valign="top">
+
+<div id="l2"></div>
+<table id="t2">
+<tbody></tbody>
+</table>
+
+</td></tr></table>
+
+<script>
+
+(function() {
+
+document.getElementById('c1').onclick=function() {
+
+  var cnt=0;
+  var id=setInterval(function() {
+    if (cnt > 100) {
+      clearInterval(id);
+      return;
+    }
+    document.getElementById('l1').innerHTML += '-';
+    cnt++;
+  }, 0);
+
+  var table = document.getElementById('t1').getElementsByTagName('tbody')[0];
+  var tr, td;
+  for (var i=0;i<20000;i++) {
+    tr = document.createElement('tr');
+    for (var t=0; t<6; t++) {
+      td = document.createElement('td');
+      td.appendChild(document.createTextNode(''+t));
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+  document.getElementById('l1').innerHTML += '*';
+};
+
+document.getElementById('c2').onclick=function() {
+
+  var cnt=0;
+  var id=setInterval(function() {
+    if (cnt > 3000) {
+      clearInterval(id);
+      return;
+    }
+    document.getElementById('l2').innerHTML += '-';
+    cnt++
+  }, 0);
+
+
+  var rc=20000, divideInto=2000, iter=0;
+  
+  var table = document.getElementById('t2').getElementsByTagName('tbody')[0];
+  var tr, td;
+  var d = rc / divideInto, base=0;
+    
+  setTimeout(function tick() {
+    base=iter*d;
+    for (var i=0;i<d;i++) {
+      tr = document.createElement('tr');
+      for (var t=0; t<6; t++) {
+        td = document.createElement('td');
+        td.appendChild(document.createTextNode((base+i) + '-' + t + '-' + iter));
+        tr.appendChild(td);
+      }
+      table.appendChild(tr);
+    }
+
+    iter++;
+    if (iter<divideInto) {
+      setTimeout(tick, 0);
+      return;
+    }
+    document.getElementById('l2').innerHTML += '*';
+  }, 0);
+
+
+};
+
+})();
+
+</script>
+
+</body>
+</html>

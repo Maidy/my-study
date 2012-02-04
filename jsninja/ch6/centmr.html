@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>6. Tangling with Timers - Secrets of the JavaScript Ninja</title>
+</head>
+<body>
+
+
+<script>
+
+var timers = {                   // #1
+  timerId: 0,
+  timers: [],                    // #2
+
+  add: function(fn) {            // #3
+    this.timers.push(fn);
+  },
+
+  start: function() {            // #4
+
+    // 실행중인게 있으면
+    if (this.timerId) { return; }
+
+    // add된 순서로 실행됨 보장.
+    (function() {
+      if (timers.timers.length > 0) {
+        for (var i=0; i<timers.timers.length; i++) {
+          if (timers.timers[i]() === false) {
+            timers.timers.splice(i, 1);
+            i--;
+          }
+        }
+        timers.timerId = setTimeout(arguments.callee, 0);
+      }
+    })();
+  },
+
+  stop: function() {             // #5
+    clearTimeout(this.timerId);
+    this.timerId = 0;
+  }
+
+};
+</script>
+
+<div id="box" style="border:1px solid black;background-color:cyan;position:absolute;width:50px;height:50px;">BOX!!!</div>
+
+<script>
+
+(function(){
+
+  var box=document.getElementById('box'), x=0, y=20;
+
+  timers.add(function() {
+    box.style.left = x+'px';
+    if (++x > 50) { return false; }
+  });
+
+  timers.add(function() {
+    box.style.top = y+'px';
+    y += 2;
+    if (y > 120) { return false; }
+  });
+
+  timers.start();
+
+})();
+
+</script>
+
+</body>
+</html>

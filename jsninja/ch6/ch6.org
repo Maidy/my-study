@@ -1,0 +1,90 @@
+* Tangling with Timers
+
+timer는 JS에서 사용할 수 있는 기능이다.
+JS 자체의 기능은 아니다.
+웹브라우저가 제공하는 기능이다.
+non-browser 환경에서는 다른 얘기가 된다.
+
+
+asynchronously delay the execution
+웹브라우저는 single-threaded, timer를 이용하여 이러한 제약을 벗어날 수 있다.
+
+타이머는 현재 실행중인 타이머를 interrupt 하지 않는다.
+
+** How Timers Work
+
+single thread에서 실행되기 때문에 직관적이지 않게 동작하는거처럼 보일수 있다.
+JS의 single thread 로 인한 영향에 대해 알아볼 것.
+
+*** Setting and clearing timers
+
+id = setTimeout(fn, delay);
+clearTimerout(id);
+
+id = setInterval(fn, delay);
+clearInterval(id);
+
+타이머를 제거할 때 꼭 쌍의 함수를 사용해야하는 것은 아니지만, 그러길 권장
+setTimout 으로 만들어서 clearInterval로 제거해도 된다는 의미?
+
+
+We’ll assume that the browser is going to use a FIFO technique (first in, first out) – but remember,
+the browser may choose a more complicated algorithm if it so chooses – 
+and so the waiting click handler (which we’ll assume takes 10 ms to execute) begins execution.
+이벤트 queuing은 브라우저별로 구현 방식이 틀릴 수 있다.
+
+setInterval handler는 한개 이상 queue up 하지 않는다.
+
+setTimeout은 10ms 후에 실행될거라 생각했지만, 사실 28ms 후에 실행된다.
+
+결론!!! timer handler가 정확히 원하는 시간에 실행될꺼라 확신할 수 없다.
+
+interval handler 또한 마찬가지
+
+*** Differences between timeouts and intervals
+
+setTimeout은 이전 callback의 실행 후 최소 10ms 이후 실행
+setInterval은 이전 callback이 실행되었는지 상관없이 10ms에 실행 시도
+
+recap!
+
+ * JavaScript engines execute only a single thread at a time, forcing asynchronous events to queue up, awaiting execution.
+ * If a timer is blocked from immediately executing, it will be delayed until the next available time of execution (which may be longer, but never shorter, than the specified delay).
+ * Intervals may end up executing back-to-back with no delay if they get backed up enough, and multiple instances of the same interval handler will never be queued up.
+ * setTimeout() and setInterval() are fundamentally different in how their firing frequency are determined.
+
+** Minimum timer delay and reliability
+
+가장 작은 timer delay는 얼마일까?
+운영체제의 timing restriction에 의해 제한된다.
+
+실험결과 1ms 해상도는 가지지 못한다.
+가장 작은 delay를 찾기 위해 0으로 실험하면? 근데 IE에서는 0으로 하면 setInterval도 한번만 실행된다.
+
+browsers do not guarantee the exact delay interval that we specify
+작아지면 작아질수록 정확한 delay를 보증할 수 없다.
+
+** Dealing with computationally-expensive processing
+
+JS 코드가 실행되고 있으면 브라우저가 hang 될 수 있다.
+수백ms 이상 실행되는 코드는 분리해야 한다. UI가 responsive 하게 하려면
+응답없음 dialog가 뜬다.
+iPhone safari는 5초 이상이면 kill 해버린다.
+
+** Central timer control
+
+타이머가 많아지면...
+동시에 많은 타이머를 사용하는건 문제가 있다.
+
+garbage collection!
+많은 수의 타이머가 동시에 발생하면 GC가 발생할 가능성이 높아진다.
+
+동시 타이머의 수를 줄이는 기법 - central timer control
+ * 한번에 페이지 당 하나의 타이머만 존재
+ * pause/resume 가능
+ * cb를 제거하는것이 쉽다.
+
+
+** Asynchronous testing
+
+??? 2장에서 나온 async test 확인해 보기.!!!

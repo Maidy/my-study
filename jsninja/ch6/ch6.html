@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>6. Tangling with Timers - Secrets of the JavaScript Ninja</title>
+</head>
+<body>
+
+<div><ul id=""></ul></div>
+
+
+<div>
+<button id="st1">start interval</button>
+<button id="st2">start timeout</button><br />
+<button id="rt1">clear interval</button>
+<button id="rt2">clear timeout</button>
+</div>
+
+<div id="log"></div>
+
+<script>
+(function(){
+
+var i=0;
+var id=0;
+
+document.getElementById('st1').onclick=start1;
+document.getElementById('st2').onclick=start2;
+document.getElementById('rt1').onclick=stop1;
+document.getElementById('rt2').onclick=stop2;
+
+function start1(){
+    stop1();
+    id=setInterval(function tick() {
+	document.getElementById('log').innerHTML += ' ' + i++;
+    }, 500);
+};
+
+function start2() {
+    stop2();
+    function st() {
+	document.getElementById('log').innerHTML += ' ' + i++;
+	id=setTimeout(st, 500);
+    };
+    id=setTimeout(st, 500);
+};
+
+function stop1() { clearInterval(id); };
+function stop2() { clearTimeout(id); };
+
+})();
+</script>
+
+
+</body>
+</html>
+
+
