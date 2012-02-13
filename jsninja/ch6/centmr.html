@@ -50,17 +50,17 @@ var timers = {                   // #1
 
 (function(){
 
-  var box=document.getElementById('box'), x=0, y=20;
+  var box=document.getElementById('box'), x=0, y=0;
 
   timers.add(function() {
     box.style.left = x+'px';
-    if (++x > 50) { return false; }
+    if (++x > 1000) { return false; }
   });
 
   timers.add(function() {
     box.style.top = y+'px';
-    y += 2;
-    if (y > 120) { return false; }
+    y += 1;
+    if (y > 500) { return false; }
   });
 
   timers.start();

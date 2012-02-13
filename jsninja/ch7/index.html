@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Regular Expressions-Secrets of the JavaScript Ninja</title>
+<script src="../assert.js"></script>
+<style>
+body { font-size:90%; font-family:monospace; }
+.pass { color:green; }
+.fail { color:red; text-decoration:line-through; }
+</style>
+</head>
+
+<body>
+
+<div>
+<h1>Tests</h1>
+<ul id="results"></ul>
+</div>
+
+<div>
+regexp - 2 phases : compilation & execution
+
+1. compilation : parsing & conversion
+
+</div>
+
+<div>
+<h3>7.1 Compiling</h3>
+<p>In the above example, both regular expressions are now in their compiled state. Note that they each have unique object representations: Every time that a regular expression is defined, and thus compiled, a new regular expression object is also created. This is unlike other primitive types (like string, number, etc.) since the result will always be unique.</p>
+<p>Of particular importance, though, is the new use new RegExp(...) to define a new regular expression. This technique allows you to build and compile an expression from a string. This can be immensely useful for constructing complex expressions that will be heavily re-used.</p>
+<p>뭔 소리여???</p>
+
+<p>논점 : pre-construction and compilation of regular expression is powerful tool!</p>
+
+</div>
+
+<script>
+(function(){
+
+var re = /test/i;
+var re2 = new RegExp('test', 'i');
+
+assert(re.toString() === '/test/i', 'Verify the contents of the expressions.');
+assert(re.test('TesT'), 'Make sure the expression work.');
+assert(re2.test('TesT'), 'Make sure the expression work.');
+assert(re.toString() === re2.toString(), 'The contents of the expressions are equal.');
+assert(re != re2, 'But they are different object.');
+
+})();
+</script>
+
+<div class="foo ninja"></div>
+<div class="ninja foo"></div>
+<div></div>
+<div class="foo ninja baz"></div>
+
+<script>
+(function(){
+
+function find(classname, type) {
+
+  var elems = document.getElementsByTagName(type || '*');
+  var results = [];
+
+  // pre-compiled regular expression
+  // \\s - double-escape
+  var re = new RegExp('(^|\\s)' + classname + '(\\s|$)');
+
+  for (var i=0,length=elems.length;i<length;i++) {
+    if (re.test(elems[i].className)) {
+      results.push(elems[i]);
+    }
+  }
+
+  return results;
+};
+
+assert(find('ninja', 'div').length === 3, 'Verify the right amount was found.');
+assert(find('ninja').length === 3, 'Verify the right amount was found.');
+
+})();
+</script>
+
+<script>
+(function(){
+
+function RegMerge() {
+  var expr = [];
+  for (var i=0;i<arguments.length;i++) {
+    // !!!! 이해하기 !!!!
+    expr.push(arguments[i].toString().replace(/^\/|\/\w*$/g, ''));
+  }
+  return new RegExp('(?:' + expr.join('|') + ')');
+};
+
+var re = RegMerge(/Ninj(a|itsu)/, /Sword/, /Katana/);
+assert(re.test('Ninjitsu'), 'Verify that the new expression works.');
+assert(re.test('Katana'), 'Verify that the new expression works.');
+
+})();
+</script>
+
+<h3>7.2 Capturing</h3>
+
+<div id="opacity" style="opacity:0.5;filter:alpha(opacity=50);"></div>
+<script>
+(function(){
+
+function getOpacity(elem) {
+  var filter = elem.style.filter;
+  return filter ?
+    filter.indexOf('opacity=') >= 0 ?
+      (parseFloat(filter.match( /opacity=([^)]*)/ )[1]) / 100) + '' :
+      '' :
+    elem.style.opacity;
+};
+
+window.onload=function() {
+  assert(getOpacity(document.getElementById('opacity')) === '0.5',
+    'Get the current opacity of the element.');
+};
+
+})();
+</script>
+
+<!-- page 137 -->
+
+</body>
+</html>

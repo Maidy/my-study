@@ -51,10 +51,17 @@
           
           test('Async test #1', function() {
               pause();
+              ajax('/hello', { success : function(data) {
+                  assert(data === 1, 'OK');
+                  resume();
+              });
+
+/*
               setTimeout(function() {
-		  assert(true, 'First test complete');
+		  assert(fn() == true, 'First test complete');
 		  resume();
               }, 1000);
+*/
           });
 
           test('Async test #2', function() {
