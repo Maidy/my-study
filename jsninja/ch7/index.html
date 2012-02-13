@@ -116,15 +116,63 @@ function getOpacity(elem) {
     elem.style.opacity;
 };
 
-window.onload=function() {
+//window.onload=function() {
   assert(getOpacity(document.getElementById('opacity')) === '0.5',
     'Get the current opacity of the element.');
-};
+//};
 
 })();
 </script>
 
 <!-- page 137 -->
+
+<script tyep="text/javascript">
+
+(function(){
+
+var html = '<div class="test"><b>Hello</b> <i>world!</i></div>';
+var result = html.match(/<(\/?)(\w+)([^>]*?)>/);
+
+assert(result[0] === '<div class="test">', 'The entire match.');
+assert(result[1] === '', 'The (missing) slash.');
+assert(result[2] === 'div', 'The tag name.');
+assert(result[3] === ' class="test"', 'The attributes.');
+
+var all = html.match(/<(\/?)(\w+)([^>]*?)>/g);
+
+assert(all[0] === '<div class="test">', 'Opening div tag.');
+assert(all[1] === '<b>', 'Opening b tag.');
+assert(all[2] === '</b>', 'Closing b tag.');
+assert(all[3] === '<i>', 'Opening i tag.');
+assert(all[4] === '</i>', 'Closing i tag.');
+assert(all[5] === '</div>', 'Closing div tag.');
+
+var tag = /<(\/?)(\w+)([^>]*?)>/g, m;
+var num = 0;
+
+while ((m = tag.exec(html)) !== null) {
+  assert(m.length === 4, 'Every match finds each tag and 3 captures.');
+  num++;
+}
+assert(num === 6, '3 opening and 3 closing tags found.');
+
+})();
+
+</script>
+
+<p>
+<strong>[TODO]</strong><br />
+Listing 7.3 : arguments[i].toString().replace(/^\/|\/\w*$/g, "") : 정규식 해석하기<br />
+
+Listing 7.5 <br />
+html.match(/<(\/?)(\w+)([^>]*?)>/) <br />
+html.match(/<(\/?)(\w+)([^>]*?)>/g) <br />
+global search 차이점은? <br />
+
+Listing 7.6 - exec()는 match 될때마다 계속 실행되는 것인가? 확인<br />
+
+</p>
+
 
 </body>
 </html>
