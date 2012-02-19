@@ -174,5 +174,146 @@ Listing 7.6 - exec()는 match 될때마다 계속 실행되는 것인가? 확인
 </p>
 
 
+<h4>7.2.1 References to Captures</h4>
+
+<p>
+<code>\1</code><code>\2</code> 처럼 <code>\n</code>로 그룹핑한 것들을 참조할 수 있다.
+그룹핑은 <code>()</code>로 할 수 있다.
+순서는 열리는 괄호를 기준으로 번호를 매기면 된다.
+</p>
+<script>
+(function(){
+  var html = '<b class="hello">Hello</b><i>world!</i>';
+  var tag = /<(\w+)([^>]+)>(.*?)<\/\1>/g;
+
+  var match = tag.exec(html);
+  assert(match[0] === '<b class="hello">Hello</b>', 'The entire tag, start to finish');
+  assert(match[1] === 'b', 'The tag name');
+  assert(match[2] === ' class="hello"', 'The tag attributes.');
+  assert(match[3] === 'Hello', 'The contents of the tag.');
+
+  // 이상하다. 동작 안함!!!
+  return;
+  match = tag.exec(html);
+  assert(match[0] === '<i>world!</i>', 'The entire tag, start to finish');
+  assert(match[1] === 'i', 'The tag name');
+  assert(match[2] === '', 'The tag attributes.');
+  assert(match[3] === 'world!', 'The contents of the tag.');
+
+})();
+</script>
+
+<h4>7.2.2 Non-capturing Groups</h4>
+<p>괄호를 쓰더라도 번호로 참조하고 싶지 않을때</p>
+<script>
+(function(){
+  var re = /((ninja-)+)sword/;
+  var ninjas = 'ninja-ninja-ninja-sword'.match(re);
+
+  assert(ninjas[0] === 'ninja-ninja-ninja-sword', 'Match all words');
+  assert(ninjas[1] === 'ninja-ninja-ninja-', 'Match both words, without extra capture.');
+  assert(ninjas[2] === 'ninja-', 'Match all words');
+  assert(ninjas.length === 3, 'match count is 3');
+
+  // (ninja-)는 포함되지 않는다.
+  var re2 = /((?:ninja-)+)sword/;
+  var ninjas2 = 'ninja-ninja-ninja-sword'.match(re2);
+
+  assert(ninjas2[1] === 'ninja-ninja-ninja-', 'Match both words, without extra capture.');
+  assert(ninjas2[0] === 'ninja-ninja-ninja-sword', 'Match all words');
+  assert(ninjas2.length === 2, 'match count is 2');
+})();
+</script>
+
+<h3>Replacing with functions</h3>
+
+<script>
+(function(){
+  assert('font-family border-width'.replace(/-(\w)/g, function(all, letter){
+    return letter.toUpperCase();
+  }) === 'fontFamily borderWidth', 'CamelCase a hyphenated string.');
+
+  assert('font-family'.replace(/(-)(\w)/g, function(all, h, l) {
+    return h + l.toUpperCase();
+  }) === 'font-Family', 'arguments test');
+})();
+</script>
+
+<p>
+<code>foo=1&amp;foo=2&amp;blah=a&amp;blah=b&amp;foo=3</code>를 <code>foo=1,2,3&amp;blah=a,b</code>로 바꾸기.
+<script>
+(function(){
+
+function compress(data) {
+  var q = {}, ret = [];
+  // replace를 search-and-replace가 아닌 traversing 용도로 사용!!!
+  data.replace(/([^=&]+)=([^&]*)/g, function(m, key, value) {
+    q[key] = (q[key] ? q[key] + ',' : '') + value;
+    return '';
+  });
+  for (var k in q) {
+    ret.push(k + '=' + q[k]);
+  }
+  return ret.join('&');
+};
+
+assert(compress('foo=1&foo=2&blah=a&blah=b&foo=3') === 'foo=1,2,3&blah=a,b', 'Verify the compress');
+
+})();
+</script>
+
+<script>
+(function(){
+  assert('a b c'.replace(/a/, function() { return ''; }) === ' b c', 'Returning an empty result removes a match.');
+})();
+</script>
+
+<h3>7.4 Common Problems</h3>
+
+<h4>7.4.1 Trimming a String</h4>
+<p>3가지 방식 비교, 그런데 크기가 작은 string과 큰 string과 비교했을때 속도 차이가 크다. 결론은 상황에 따라 맞는 방법을 사용해야 한다.</p>
+<script>
+(function(){
+
+function trim1(str) {
+  return str.replace(/^\s+|\s+$/g, '');
+};
+
+function trim2(str) {
+  return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+};
+
+function trim3(str) {
+  str = str.replace(/^\s\s*/, ''),
+        ws = /\s/, i=str.length;
+  while (ws.test(str.charAt(--i)));
+  return str.slice(0, i+1);
+};
+
+assert(trim1(" #id div.class ") === "#id div.class", "Trimming the extra whitespace from a selector string.");
+assert(trim2(" #id div.class ") === "#id div.class", "Trimming the extra whitespace from a selector string.");
+assert(trim3(" #id div.class ") === "#id div.class", "Trimming the extra whitespace from a selector string.");
+
+})();
+</script>
+
+<h4>7.4.2 Matching Endlines</h4>
+<p>endline 문자를 포함하는 . 을 사용하고 싶을때가 있다. .은 endline을 제외한 문자랑 match 된다.
+어떤 경우를 말하는 것일까???</p>
+
+<script>
+(function() {
+
+  var html = '<b>Hello</b>\n<i>world!</i>';
+  assert(/.*/.exec(html)[0] === '<b>Hello</b>',
+    'A normal capture doesn\'t handle endlines.');
+  assert(/[\S\s]*/.exec(html)[0] === '<b>Hello</b>\n<i>world!</i>',
+    'Matching everything with a character set.');
+  assert(/(?:.|\s)*/.exec(html)[0] === '<b>Hello</b>\n<i>world!</i>',
+    'Using a non-capturing group to match everything.');
+
+})();
+</script>
+
 </body>
 </html>
