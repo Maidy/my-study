@@ -56,7 +56,7 @@ var show = function(res) {
 	
 	res.write(html);
 	res.end();
-}
+};
 
 var add = function(req, res) {
 	var data = '';
