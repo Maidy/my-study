@@ -16,8 +16,15 @@
     if (self) {
         // Initialization code here.
     }
-    NSLog(@"Hello World! I'm a new NotifyingClass instance!");
+//    NSLog(@"Hello World! I'm a new NotifyingClass instance!");
     return self;
+}
+
+- (IBAction)displaySomeText:(id)sender
+{
+    [textView insertText:@"displaySomeText just got called!\n"];
+    [sender setTitle:@"Clicked"];
+    [sender setEnabled:NO];
 }
 
 @end
