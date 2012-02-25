@@ -22,9 +22,48 @@
 
 - (IBAction)displaySomeText:(id)sender
 {
-    [textView insertText:@"displaySomeText just got called!\n"];
-    [sender setTitle:@"Clicked"];
-    [sender setEnabled:NO];
+//    int ourVariable;
+//    ourVariable = 'a';
+//    ourVariable = 35;
+//    ourVariable = 49;
+//    ourVariable = 58;
+    
+//    int anotherIntegerVariable;
+//    anotherIntegerVariable = ourVariable + 10;
+    
+    int anInt = 15;
+    float aFloat = -35.2444;
+    
+    [textView insertText:
+     [NSString stringWithFormat:@"address of anInt: %p\n",
+      &anInt]];
+
+    [textView insertText:
+     [NSString stringWithFormat:@"size of anInt: %i bytes\n",
+      sizeof(anInt)]];
+
+    [textView insertText:
+     [NSString stringWithFormat:@"address of aFloat: %p\n",
+      &aFloat]];
+    
+    int *pointerToAnInt = &anInt;
+    
+    [textView insertText:
+     [NSString stringWithFormat:@"value of pointerToAnInt: %p\n", pointerToAnInt]];
+
+    [textView insertText:
+     [NSString stringWithFormat:@"value of pointerToAnInt address: %i\n", *pointerToAnInt]];
+
+    [textView insertText:
+     [NSString stringWithFormat:@"address of textView is: %p\n", textView]];
+
+//    [textView insertText:
+//     [NSString stringWithFormat:@"The value of the variable is: %i\n",
+//      ourVariable]];
+
+//    [textView insertText:@"displaySomeText just got called!\n"];
+//    [sender setTitle:@"Clicked"];
+//    [sender setEnabled:NO];
 }
 
 @end
