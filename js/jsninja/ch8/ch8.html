@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>8. Developing cross-browser strategies - Secrets of the JavaScript Ninja</title>
+<script src="../assert.js"></script>
+<style>
+body { font-size:90%; font-family:monospace; }
+.pass { color:green; }
+.fail { color:red; text-decoration:line-through; }
+</style>
+</head>
+<body>
+
+<div>
+<h1>Tests</h1>
+<ul id="results"></ul>
+</div>
+
+<div>
+  <h1>Choosing which browsers to support</h1>
+  <p>리소스는 부족. 어디까지(어떤 브라우저) 지원(주 타겟)할 것인지 선택해야 한다.<br />
+    어떤 브라우저를 지원할 것인지 도와주겠다.<br />
+    <strong>Quality should never be sacrificed for coverage.</strong>
+  </p>
+</div>
+
+<div>
+
+  <h1>The five major development concerns</h1>
+  <p>재활용 가능한 JavaScript 코드를 작성하기 위한 고려사항 5가지</p>
+  <ol>
+    <li>Browser bugs</li>
+    <li>Bug fixes</li>
+    <li>Missing features</li>
+    <li>External code</li>
+    <li>Browser regressions</li>
+  </ol>
+  <p>remember the past, consider the future, test the present.</p>
+  <p>지금 most-popular 브라우저에 가장 신경쓰고, 다음 버전들에서의 변경 사항에 대해 신경쓰고, 이전 버전들과의 호환성을 유지하라</p>
+
+  <h2>Browser bugs and differences</h2>
+  <p>지원하는 브라우저에서는 우리가 작성하는 코드가 이러한 버그를 모두 올바르게 수정해야 한다. - 테스트!!! 8.3에서 전략을 살펴볼 것임.</p>
+  <p>어려운점 - 현재 버전의 버그를 수정하는 것이, 버그가 고쳐진 다음 버전에서도 잘 동작하게 만들기</p>
+
+  <h2>Bug fixes</h2>
+  <p>현재 버전의 버그가 영원할 꺼라는 생각 - 잘못된거다. 버그를 해결하기 위해 hack을 사용하는 것은 다음 버전에서 문제가 있을수 있으므로 좋은 생각 아님.</p>
+  <p>버그가 있는데, 다음 버전에서 버그가 수정되면 웹사이트가 깨질거 같아서 버그를 수정하지 못하게 압력을 넣음. 좋은 생각 아님. Firefox의 <code>createElement</code> &amp;<code>appendChild</code> 버그</p>
+  <p>unspecified API의 경우는??? 언제 없어질지 모름. 주의해야 한다.</p>
+  <h2>Living with external code and markup</h2>
+  <p>외부 코드와 관련된 이슈들. 재활용 가능한 코드는 항상 내가 작성하지 않은 코드와 같이 사용되는 경우를 고려해야 한다. 거지같이 작성된 코드와도 잘 돌아가야 한다. 아래는 이러기 위한 전략들</p>
+  <h3>Encapulating our code</h3>
+  <p>encapsulation: a language mechanism for restricting access to some of the object's components</p>
+  <p>jQuery는 $와 jQuery 두가지만을 global에 노출한다. native object나 DOM 객체를 변경하는 것은 이런관점에서 좋지 않다.</p>
+  <h3>Dealing with less-than-exemplary code</h3>
+  <p>나는 잘 짰는데... 남의 코드가 이상(?)하다면? native object나 DOM 객체를 변경했다면? 다른 코드가 Array 객체를 바꿔놨다. 내 코드는 그렇지 않게 짜여 있고, 그렇지 않다고 가정하고 짠다. 이러면??? 딱히 방법이 있는건 아니다. 아래는 몇가지 방어적인 코드 작성 방법</p>
+
+  <h3>Avoiding implated properties</h3>
+  <p>이식된 속성 피하기? 객체의 속성 참조 시 prototype chaining 된다. 내가 만든 객체가 아닌 속성(<code>Object.prototype</code>에 속성으로 넣은것들)은 제외하려면 <code>hasOwnProperty()</code> 함수로 체크해라.</p>
+  
+  <script>
+    (function() {
+      Object.prototype.ronin = 'ronin';
+      var object = {ninja:'value'};
+      object.samurai = 'samurai';
+
+      assert(object.hasOwnProperty('ronin'), 'ronin is a property');
+      assert(object.hasOwnProperty('ninja'), 'ninja is a property');
+      assert(object.hasOwnProperty('samurai'), 'samurai is a property');
+    })();
+  </script>
+
+  <h3>Coping with greedy IDs</h3>
+  <p>탑욕적인 ID를 잘 처리하기</p>
+  <p>Greedy Id : Opera, IE에서 동작하는 방식. element의 id를 속성으로 하여 element를 참조할 수 있는 방법<br />
+예를 들어 <code>&lt;div id="hello"&gt;hello&lt;/div&gt;</code> 라는 element가 있으면 window.hello로 이 element를 참조할 수 있음. Opera11, IE9에서 발생. 이전버전도 그러할 것으로 판단됨. 특히 <code>submit</code>를 id나 name으로 사용하지 마라.</p>
+  
+  <h3>Order of stylesheets</h3>
+  <p>CSS rule이 아직 적용되어 있지 않은 상태에서 이를 가정한 코드를 작성하는 것. 딱히 css를 중간에 삽입하려고 하면 방법이 없음.</p>
+
+  
+  <h2>Missing Features</h2>
+
+  <p>key feature를 지원하지 않아 full support를 하지 않더라도 동작하게끔 만들어야 하는 상황 - graceful degradation<br />그런데 GD는 조심스럽게 접근해야 한다. 예를 들어 그림은 잘 그리는데 event 관련 코드가 동작하지 않으면? 메뉴 사용 못함. 의미 없어진다.</p>
+  <p>다른 방법은 backwards-compatible하게 작성하고, blacklist에 포함된 브라우저는 이걸 보여주는 방식.</p>
+  <p>A better strategy would be to design our code to be as backwards-compatible as possible and to actively direct known failing browsers to an alternate version of the page or site tailored to the capabilities of the lesser browser. </p>
+  <p>Yahoo는 blacklist에 있는 브라우저는 pure-HTML version을 제공한다.</p>
+  <p>두벌을 만들어야 한다. 내 생각에는 그다지 좋은 생각은 아닌듯.</p>
+
+  <h2>Regression</h2>
+  <p>browser 업글로 인한 regression</p>
+  <p>IE9부터 DOM Level 2 event 지원. 이건 나이스한 경우. 그렇지 못한 경우도 많은데...</p>
+  <p>방법은... 테스트 주기적으로 잘 해라. 브라우저 업글 모니터링 하라. <strong>Diligence</strong>가 중요!!!</p>
+    
+</div>
+
+<div>
+  <h1>Implementation strategies</h1>
+
+  <h2>Safe cross-browser fixed</h2>
+  <p>다른 브라우저에 negative/side effects를 주지 않는 방법. browser나 feature detection을 사용하지 않는 방법</p>
+  <p>feature detection이 최고인줄 알았는데, 이것 또한 문제가 있을 수 있음. 앞서 regression 문제때문</p>
+  <p>예1) width나 height 속성에 음수값을 넣으려고 할 때. 어떤 브라우저는 exception 발생. 코드로 undefined 넣어버림.</p>
+  <p>예2) DOM에 포함된 input element의 type을 변경하려고 할 때 - IE에서는 허용하지 않음. jQuery - 모든 브라우저에서 허용하지 않는것으로 함. exception이 발생할 수 있지만, 모든 브라우저에서 동일하게 동작시키는게 의미 있음.</p>
+  <p>jQuery의 경우 --- Certainly this particular approach could be considered quite controversial – it purposefully limits the features of the library in all browsers because of a bug that exists in only one. The jQuery team weighed this decision carefully, and decided that it was better to have a unified API that worked consistently than an API would break unexpectedly when developing cross- browser code. It's very possible that you'll come across situations like this when developing your own reusable code bases, and will carefully need to consider whether a limiting approach such as this is appropriate for your audience.</p>
+
+  <h2>Object detection</h2>
+  <p>event binding 관련 코드가 대표적. 가능하면 standard 방식을 기본 동작으로 함.</p>
+  <p>애플리케이션을 동작시키는데 필요한 기능이 모두 있는지 확인하고 없으면 fallback하는 방식으로도 사용 가능</p>
+  <p>object detection은 overhead가 없으므로 fallback 레벨을 찾는데 좋다. 그런데... 이것은 API가 정상적으로 동작(스펙?)한다는 과도한 낙관에 기반하고 있는것!!!</p>
+
+
+  <h2>Feature simulation</h2>
+  <p>regression을 확인하는데 효과적인 방법. 특정 기능이 정상적으로 동작하는지 확인한다.</p>
+  <p>IE의 getElementsByTagName('*')는 잘못된 결과 리턴. comment node까지 포함된다.</p>
+  <p>그런데 문제가 있다는 것을 확인하는 것과 해결하는 것은 다른 것</p>
+  <p>2단계로 진행. 1. simulation - 버그가 있는지를 찾는 것이 아니라 feature가 정상적으로 동작하는지를 검사해야 한다.2. 테스트 결과를 바탕으로 실행. 결과는 저장해 두어 다음에 다시 테스트하지 않도록 한다.</p>
+  <p>feature simulation은 overhead가 있다. modernizr !!!</p>
+  
+  <h2>Untestable browser issues</h2>
+  <p>테스트할 수 없는 이슈들 ???</p>
+  <h3>Event handler bindings</h3>
+  <p>브라우저는 함수가 element의 event listener로 바인딩 되어 있는지 알려주는 방법이 없다. 함수에 대한 reference를 가지고 있지 않는한 binding된 event를 제거할 수 없다. 무슨 상관이지?</p>
+  <h3>Event firing</h3>
+  <p>이벤트가 fire 될지 확인할 수 없다. load 이벤트가 발생했는지 여부. IE에서만 제공하는 mouseenter, mouseleave 이벤트. 이것들을 binding 해도 다른 브라우저에서는 발생 안한다.</p>
+
+  <h3>CSS property effects</h3>
+  <p>CSS color, opacity 등의 속성은 대상 element의 시각적인 변화만 있으므로, programmatically 올바르게 반영되었는지 확인하기 어렵다.</p>
+
+  <h3>Browser crashes</h3>
+  <p>브라우저 크래쉬를 발생시키는 경우는 해결하기 어렵다. feature simulation을 하면 브라우저가 죽어버리니.</p>
+
+  <h3>Incongrouous APIs</h3>
+  <p>일관성 없는 API들. 앞에서 본 input의 type 속성 변화.</p>
+
+  <p>아래는 테스트가 불가능하지는 않지만, 효과적이지 않은 것들</p>
+
+  <h3>API performance</h3>
+  <p>run-time에 성능 테스트할 수 없다.</p>
+
+  <h3>AJAX issues</h3>
+  <p>IE7에서 ajax로 local 파일 못가져오는것. 테스트 할 수는 있지만 추가적인 요청이 매번 발생. 올바른 방법 아님</p>
+  
+</div>
+
+<div>
+  <h1>Assuptions</h1>
+  <p>크로스 브라우징, reusable code 작성은 가정과의 전쟁이다. 하지만... 가정을 최소화할 수 있다. 브라우저 detection을 사용하는 것이 가장 일반적인 가정이다.</p>
+
+  <p>현실적으로 모든 가정을 버릴수는 없음. 적당한 수준에서 타협이 필요.</p>
+</div>
+
+</body>
+</html>
