@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <title>Hello Backbone</title>
+  <meta charset="utf-8" />
+  
+  <link href="css/bootstrap.css" rel="stylesheet" />
+  <style>body { padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */ }</style>
+  <link href="css/bootstrap-responsive.css" rel="stylesheet" />
+  <style>
+    #todo-list .todo-item td div { position:relative; }
+    #todo-list .todo-item-edit { display:none; }
+    #todo-list .todo-item-del { display:none; position:absolute; top:0; right:0; background-color:transparent; border:none; padding:0; }
+    #todo-list .todo-item:hover .todo-item-del { display:block; }
+    #todo-list .todo-item-del i { text-indent:-9999px; overflow:hidden; line-height:1px; font-size:1px; }
+  </style>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="js/underscore.js"></script>
+  <script src="js/backbone.js"></script>
+
+</head>
+
+<body>
+<!--
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="#">Project name</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#/about">About</a></li>
+            <li><a href="#/contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+-->
+
+  <div class="container">
+    <div class="row">
+      <div class="span6">
+        <h1>Todos</h1>
+        <p>Yui Todo App.</p>
+
+        <p><input type="text" id="todo-new" class="todo_edit_input" placeholder="New Todo!" /></p>
+        <table id="todo-list" class="table">
+        <!--
+        <tr><td class="todo-item"></td></tr>
+        -->
+        </table>
+        <!--<ul ><li class="todo_item"></li></ul> -->
+        <div id="todo-status"></div>
+      </div>
+    </div>
+    
+  </div> <!-- /container -->
+
+  <script type="text/template" id="t-todo-item">
+    <td><div>
+      <label class="todo-item-desc checkbox">
+        <input type="checkbox" class="todo-item-chk" <% if(done){ %>checked="checked"<% } %> />
+        <span><%= desc %></span>
+      </label>
+      <button class="todo-item-del btn-small"><i class="icon-remove">delete</i></button>
+      <input type="text" class="todo-item-edit" value="<%= desc %>" />
+    </div></td>
+  </script>
+
+  <script type="text/template" id="t-todo-stats">
+    <p><strong class="t_todo_stats_count"><%= remains %></strong> left.</p>
+    <% if (completeds > 0){ %>
+    <button class="t_todo_stats_clearall">Clear <%= completeds %> completed item<% if (completeds === 1){ %>s<% } %>.</button>
+    <% } %>
+  </script>
+
+  <script>
+  "use strict";
+  $(document).ready(function(){
+
+    var YuiTodo = {};
+
+    YuiTodo.Model = {};
+    YuiTodo.Model.Todo = Backbone.Model.extend({
+      defaults : {
+        desc : '',
+        done : false,
+        created : new Date(),
+        due : null
+      },
+      initialize : function() {
+        this.on('change', this.change);
+      },
+      change : function(todo) {
+        console.log('change', todo.attributes);
+      }
+    });
+
+    YuiTodo.Collection = {};
+    YuiTodo.Collection.Todos = Backbone.Collection.extend({
+      model : YuiTodo.Model.Todo,
+      initialize : function(models) {
+        // this.on('add', this.onadded);
+      },
+      onadded : function(model, collection, index) {
+        // console.log('added', model.attributes);
+      }
+    });
+
+    YuiTodo.View = {};
+    YuiTodo.View.TodoItem = Backbone.View.extend({
+      tagName : 'tr',
+      className : 'todo-item',
+      events : {
+        'click .todo-item-chk' : 'complete',
+        'dblclick .todo-item-desc' : 'edit',
+        'click .todo-item-del' : 'delete',
+        'keypress .todo-item-edit' : 'update'
+      },
+      render : function(){
+        $(this.el).html(_.template($('#t-todo-item').html(),
+          this.model.attributes));
+        return this;
+      },
+      complete : function() {
+        this.model.set({done:true});
+      },
+      edit : function() {
+
+      },
+      delete : function() {
+
+      },
+      update : function() {
+
+      }
+    });
+
+    YuiTodo.View.TodoList = Backbone.View.extend({
+      el : $('#todo-list'),
+      addTodo : function(todo) {
+        var t = new YuiTodo.View.TodoItem({model:todo});
+        $(this.el).append($(t.render().el));
+      },
+      render : function() {
+        $(this.el).html('');
+      }
+    });
+
+    YuiTodo.View.StatusBar = Backbone.View.extend({
+      el : $('#todo-status'),
+      render : function() {
+        if (Todos.length === 0) {
+          $(this.el).hide();
+        } else {
+          $(this.el).html(_.template($('#t-todo-stats').html(), {
+            remains : Todos.length,
+            completeds : Todos.filter(function(todo) {
+              return todo.get('done') === true;
+            }).length }));
+          $(this.el).show();
+        }
+        return this;
+      }
+    });
+
+    YuiTodo.View.Main = Backbone.View.extend({
+      el : $('body'),
+      events : {
+        'keypress #todo-new' : 'todoNewOnKeyPress',
+        'click .t_todo_stats_clearall' : 'clearCompleted'
+      },
+      initialize : function() {
+        this.input = this.$('#todo-new');
+        this.todoList = new YuiTodo.View.TodoList();
+        this.statusBar = new YuiTodo.View.StatusBar();
+
+        Todos.on('add', this.onAdded, this);
+        Todos.on('change', this.onChanged, this);
+      },
+      todoNewOnKeyPress : function(e) {
+        if (e.keyCode === 13) {
+          var m = new YuiTodo.Model.Todo({desc:this.input.val()});
+          console.log(this.input.val());
+          if (m) {
+            Todos.add(m)
+            this.input.val('');
+          }
+        }
+      },
+      clearCompleted : function() {
+
+      },
+      onAdded : function(model, collection, index) {
+        // update view
+        this.todoList.addTodo(model);
+        this.statusBar.render();
+      },
+      onChanged : function(model) {
+        this.statusBar.render();
+      }
+    });
+
+    YuiTodo.Router = {};
+    YuiTodo.Router.Main = Backbone.Router.extend({
+      routes : { '' : 'index' },
+      index : function() {
+        
+      }
+    });
+
+    var Todos = new YuiTodo.Collection.Todos();
+    var Main = new YuiTodo.View.Main;
+
+    // start
+    var router = new YuiTodo.Router.Main();
+    Backbone.history.start({pushState:true});
+  });
+  </script>
+
+</body>
+</html>
