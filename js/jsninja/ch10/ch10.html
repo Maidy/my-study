@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Regular Expressions-Secrets of the JavaScript Ninja</title>
+<script src="../assert.js"></script>
+<style>
+body { font-size:90%; font-family:monospace; }
+.pass { color:green; }
+.fail { color:red; text-decoration:line-through; }
+</style>
+</head>
+
+<body>
+
+<div>
+  <h1>Tests</h1>
+  <ul id="results"></ul>
+</div>
+
+<div>
+	<h1>DOM attribute and property annoyances</h1>
+	<div id="pav"></div>
+	<p>accessing attribute values</p>
+	<script>
+	(function(){
+
+		var div = document.getElementById('pav');
+
+		div.setAttribute('id', 'ninja-1');
+		assert(div.getAttribute('id') === 'ninja-1',
+			'Attribute successfully changed');
+
+		div.id = 'ninja-2';
+		assert(div.id === 'ninja-2',
+			'Property successfully changed');
+
+		div.id = 'ninja-3';
+		assert(div.id === 'ninja-3',
+			'Property successfully changed');
+		assert(div.getAttribute('id') === 'ninja-3',
+			'Attribute successfully changed via property');
+
+		div.setAttribute('id', 'ninja-4');
+		assert(div.id === 'ninja-4',
+			'Property successfully changed via attribute');
+		assert(div.getAttribute('id') === 'ninja-4',
+			'Attribute successfully changed');
+
+	})();
+	</script>
+	<p><strong>But don’t let this fool you into thinking that
+		the property and attribute are sharing the same value – they aren’t.</strong><br />
+		property와 attribute. 연결은 되어 있지만, 동일한건 아니다.!!!</p>
+	<p>관련해서 이슈 사항 - Cross-browser naming, Naming limitations,
+		HTML versus XML differences, Custom attribute behavior,
+		Performance</p>
+
+	<h3>Cross-browsing naming</h3>
+	<p>property 이름은 거의 모든 브라우저에서 동일, attribute는 property에 비해 틀린게 더 많다.</p>
+	<p><code>class</code> attribute - IE에서는 <code>className</code>.
+		property는 모두 <code>className</code></p>
+
+	<h3>Naming restrictions</h3>
+	<p>attribute는 이름 제한 없지만, property는 할당어를 사용하지 못하는 제약 있다.</p>
+	<p><code>label</code>의 <code>for</code> attribute는 <code>htmlFor</code> property<br />
+		<code>class</code> attribute는 <code>className</code> property<br />
+		<code>readonly</code> attribute는 multiple words라 <code>readOnly</code> property 임.</p>
+
+	<h3>XML differences from HTML</h3>
+	<p>property는 HTML DOM에만 attribute와 매핑된다.
+		XML attribute에 대응되는 property는 자동 생성 안된다.</p>
+	<p>XML element인지 검사하는 함수</p>
+	<script>
+	function isXML(elem) {
+		return (elem.ownerDocument || elem)
+			.documentElement.nodeName !== "HTML"; }
+	</script>
+
+	<h3>Behavior of custom attributes</h3>
+	<p>custom attribute는 매핑 안된다.</p>
+
+	<h3>Performance considerations</h3>
+	<p>attribute보다 property access가 더 빠르다. 특히 IE에서.</p>
+
+	<div id="testSubject"></div>
+	<script>
+	(function(){
+		var translation = {
+			'for' : 'htmlFor',
+			'class' : 'className',
+			'readonly' : 'readOnly',
+			'maxlength' : 'maxLength',
+			'cellspacing' : 'cellSpacing',
+			'rowspan' : 'rowSpan',
+			'colspan' : 'colSpan',
+			'tabindex' : 'tabIndex'
+		};
+
+		window.attr = function(element, name, value) {
+			var property = translation[name] | name,
+				propertyExists = typeof element[property] !== 'undefined';
+
+			if (typeof value !== 'undefined') {
+				if (propertyExists) {
+					element[property] = value;
+				} else {
+					element.setAttribute(name, value);
+				}
+			}
+
+			return propertyExists ? element[property] : element.getAttribute(name);
+		};
+
+		var subject = document.getElementById('testSubject');
+
+		assert(attr(subject, 'id') === 'testSubject',
+			'id value fetched.');
+		assert(attr(subject, 'id', 'other') === 'other',
+			'new id value set');
+		
+		assert(attr(subject, 'data-custom', 'whatever') === 'whatever',
+			'custom attribute set');
+		assert(attr(subject, 'data-custom') === 'whatever',
+			'custom attribute fetched');
+
+	})();
+	</script>
+
+</div>
+
+<script>
+(function(){
+
+})();
+</script>
+</body>
+</html>
