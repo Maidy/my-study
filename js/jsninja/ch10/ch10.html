@@ -2,12 +2,13 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>Regular Expressions-Secrets of the JavaScript Ninja</title>
+<title>Cutting through attributes, properties and CSS-Secrets of the JavaScript Ninja</title>
 <script src="../assert.js"></script>
 <style>
-body { font-size:90%; font-family:monospace; }
+body { font-size:90%; font-family:monospace; line-height:1.5; }
 .pass { color:green; }
 .fail { color:red; text-decoration:line-through; }
+code { background-color:#ddd; }
 </style>
 </head>
 
@@ -129,10 +130,113 @@ body { font-size:90%; font-family:monospace; }
 
 </div>
 
-<script>
-(function(){
+<div>
+	<h1>Cross-browser attribute issues</h1>
+	<p>form의 input element의 name과 id는 form의 property로 자동 매핑된다.</p>
 
-})();
-</script>
+	<form id="testForm" action="/">
+		<input type="text" id="id" />
+		<input type="text" name="action" />
+	</form>
+
+	<p>문제는... IE는 attribute도 replace 한다는 것.
+		해결방법은 <code>getAttributeNode</code> 메소드를 사용</p>
+
+	<script>
+	(function(){
+		var form = document.getElementById('testForm');
+
+		assert(form.id === 'testForm',
+			'the id property is untouched');
+		assert(form.action === '/',
+			'the action property is untouched');
+
+		assert(form.getAttribute('id') === 'testForm',
+			'the id attribute is untouched.');
+		assert(form.getAttribute('action') === '/',
+			'the action attribute is untouched.');
+
+		// console.log(form.getAttributeNode('action').nodeValue);
+	})();
+	</script>
+
+	<h2>URL normalization</h2>
+	<p>값이 URL 인 property(src, href, action)에 접근하면 모두
+		full canonical URL로 자동 변환한다. 근데 attribute로 접근하면 원래값이 나온다.
+		IE7&lt= 에서는 attribute도 자동 변환됨. IE에서는 해결책이 있음.
+		<code>getAttribute</code>의 두번째 인자로 <code>2</code>를 넘기면 된다.</p>
+	<a href="ch10.html" id="testSubject">Self</a>
+	<script>
+	(function(){
+		var link = document.getElementById('testSubject');
+		var linkHref = link.getAttributeNode('href').nodeValue;
+
+		assert(linkHref === 'ch10.html',
+			'link node value is ok');
+		assert(link.getAttribute('href') === 'ch10.html',
+			'link attribute values is ok');
+		// IE 7에서의 work-around - 그런데, 오래된 버전의 Opera에서는 crash 발생.
+		assert(link.getAttribute('href', 2) === 'ch10.html',
+			'link attribute values with magic parameter is ok');
+		assert(link.href === 'ch10.html',
+			'link property value is ok'); // FAIL
+		assert(link.getAttribute('href') === linkHref,
+			'link attribute not modified');
+	})();
+	</script>
+
+	<h2>The style attribute</h2>
+	<p><code>&lt;div style="color:red;"&gt;&lt;/div&gt;</code> 에서 style 속성을 가져오려면?
+		property로 가져오면 style 객체가 반환된다. 대부분 브라우저에서 getAttribute로 가져오면 원래 
+		string으로 반환하는데, IE(9까지 모두)는 아니다. IE에서는 <code>style.cssText</code> property를
+		제공하는데 이것도 정확히 문서에 작성된 형태와 동일하지는 않다.<br />
+		IE9: <code>"border: 1px currentColor; color: red;"</code> <br />
+		IE8&lt;=: <code>"BORDER-BOTTOM: 1px; BORDER-LEFT: 1px; COLOR: red; BORDER-TOP: 1px; BORDER-RIGHT: 1px"</code></p>
+	<div id="s10-2-3" style="color:red;border:1px;"></div>
+	<script>
+	(function(){
+		var elm = document.getElementById('s10-2-3');
+		// IE fail
+		assert(elm.getAttribute('style') === 'color:red;border:1px;',
+			'style attribute value is ok');
+
+		// only IE - 사실 fail
+		assert(elm.style.cssText === 'color:red;border:1px;',
+			'style.cssText property value is ok.');
+
+	})();
+	</script>
+
+	<h2>The type attribute</h2>
+	<p><code>&lt;input&gt;</code> element가 문서에 삽입되면 <code>&lt;type&gt;</code>
+		속성을 바꿀수 없다.??? 가능하다.<br /> 그런데!!! IE에서는 exception 발생. IE9에서는 해결됨.</p>
+
+	<form id="testForm2" action="/"></form>
+	<script>
+	(function(){
+		var input = document.createElement('input');
+
+		input.type = 'text';
+		assert(input.type === 'text',
+			'Input type is text');
+
+		document.getElementById('testForm2').appendChild(input);
+		try {
+			input.type = 'hidden';
+			assert(input.type === 'hidden',
+				'Input type changed to hidden');	// IE throw exception
+		} catch (e) {
+			assert(false, 'Input type cannot changed to hidden')
+		}
+
+	})();
+	</script>
+	<p>해결책 1: 새로 만들어라. 근데, 원래 있던 element의 속성을 유지(value, 이벤트 핸들러)하기가 어렵고,
+		해당 element에 대한 reference가 날라가므로 말처럼 쉬운건 아님.<br />
+		해결책 2: <code>type</code> 값을 변경하는 것을 지원하지 마라<br />
+		둘 다 만족스러운 해결책 아니다.</p>
+
+</div>
+
 </body>
 </html>
