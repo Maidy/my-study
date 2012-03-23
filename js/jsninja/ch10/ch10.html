@@ -236,7 +236,99 @@ code { background-color:#ddd; }
 		해결책 2: <code>type</code> 값을 변경하는 것을 지원하지 마라<br />
 		둘 다 만족스러운 해결책 아니다.</p>
 
+	<h2>The tab index problem</h2>
+	<p>명시적으로 tabindex 속성을 지정하지 않으면, <code>tabIndex</code> property는 0을
+		<code>tabindex</code> attribute는 null을 반환한다.</p>
+
+	<h2>Node names</h2>
+	<p>이건 attribute와 관련 없는 얘기. name의 case sensitivity. <code>nodeName</code> property 값 - html 문서는 대문자,
+		xml, xhtml 문서는 코드에 명시된 그대로. 따라서 소문자건 대문자로 변환해서 비교해야 한다.</p>
+
+	<script>
+	(function(){
+		var all = document.getElementsByTagName('*')[0]; // [0] 빠져야 할 듯.
+		for (var i=0;i<all.length;i++) {
+			var nodeName = all[i].nodeName.toLowerCase();
+			if (nodeName === 'div' || nodeName === 'ul') {
+				all[i].className = 'found';
+			}
+		}
+	})();
+	</script>
+
 </div>
 
+<div>
+	<h1>Styling attribute headaches</h1>
+
+	<h2>Where're my styles?</h2>
+	<style>#l10-7 { font-size:1.8em; }</style>
+	<div id="l10-7" style="color:#000;" title="Ninja power!">
+		忍者パワー
+	</div>
+	<script>
+	(function(){
+		var div = document.getElementById('l10-7');
+		assert(div.style.color === 'rgb(0, 0, 0)' || 
+			div.style.color === '#000',
+			'Color was recorded');
+		console.log(div.style.color);
+		assert(div.style.fontSize === '1.8em',
+			'Font size was recorded');
+
+		div.style.color = '#336699';
+		assert(div.style.color === 'rgb(51, 102, 153)' ||
+			div.style.color === '#336699',
+			'Color was replaced');
+
+	})();
+	</script>
+	<p><code>color</code> property는 RGB notation으로 normalize 된다. 보통은.
+		그런데 그렇지 않은 경우도 있다.</p>
+	<p>CSS stylesheet에 정의된 style 정보는 <code>style</code> property에 반영되지 않는다.
+		그래서 <code>fontSize</code> property test가 fail 임.</p>
+
+	<h2>Style property naming</h2>
+	<p>브라우저별로 CSS style name이 조금씩 다른게 있다. css sytle name property는 camelCase 이다.</p>
+
+	<div id="l10-8" style="color:red;font-size:10px;background-color:#eee;">
+		Hello Listing 10.8
+	</div>
+	<script>
+	(function(){
+		function style(element, name, value) {
+
+			var ie = {
+				'float': 'styleFloat'
+			};
+			var std = {
+				'float': 'cssFloat'
+			}
+
+			name = name.replace(/-([a-z])/ig,
+				function(all, letter) {
+					return letter.toUpperCase();
+				});
+			if (typeof value !== 'undefined') {
+				element.style[name] = value;
+			}
+			return element.style[name];
+		}
+
+		var div = document.getElementById('l10-8');
+		assert(true, style(div, 'color'));
+		assert(true, style(div, 'font-size'));
+		assert(true, style(div, 'background-color'));
+	})();
+	</script>
+
+	<h2>The float style property</h2>
+	<p><code>float</code>은 JavaScript 예약어이다.
+		보통은 <code>cssFloat</code>, IE에서는 <code>styleFloat</code> property 이다.
+		listing 10.8을 수정해봐라.</p>
+	
+
+
+</div>
 </body>
 </html>
