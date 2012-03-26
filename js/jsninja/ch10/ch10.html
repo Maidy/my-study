@@ -328,7 +328,111 @@ code { background-color:#ddd; }
 		listing 10.8을 수정해봐라.</p>
 	
 
+	<h2>Conversion of pixel values</h2>
+	<p><code>&lt;img&gt;</code> 태그의 <code>width</code>, <code>height</code>는
+		그냥 숫자. 그런데 style property의 <code>width</code>와 <code>height</code>는 단위를 사용해야 한다.
+		앞서 본 <code>style()</code> 함수에 숫자가 들어오면 <code>px</code>를 붙이면 될거 같지만
+		일부 property들은 단위를 붙이면 안되므로 각각 처리 필요.</p>
 
+	<h2>Measuring heights and widths</h2>
+	<p>element의 height, width style property는 값을 명시하지 않으면 사용할 수 없다.</p>
+	<p>offsetHeight, offsetWidth property를 사용해라. 단, width, height와 다르게 padding 값이 포함된다.
+		border는 포함안됨.</p>
+	<div id="whtest" style="width:10px;height:10px;padding:5px;border:2px;margin:3px;"></div>
+	<script>
+	(function() {
+		var elm = document.getElementById('whtest');
+		assert(elm.offsetHeight === 10+5+5, 'offsetHeight = height + padding-top + padding-bottom');
+	})();
+	</script>
+	<p>화면에 보이지 않는 경우 (<code>display:none;</code> 등)에는 <code>offsetHeight</code>,
+		<code>offsetWidth</code> 값 0이다. <code>visibility:hidden</code>은 정상적으로 나옴.</p>
+
+	<div id="whtest1" style="display:none;width:10px;height:10px;padding:5px;border:2px;margin:3px;"></div>
+	<div id="whtest2" style="visibility:hidden;width:10px;height:10px;padding:5px;border:2px;margin:3px;"></div>
+	<div id="whtest3" style="position:absolute:left:-9999px;top:-999px;width:10px;height:10px;padding:5px;border:2px;margin:3px;"></div>
+	<script>
+	(function() {
+		var elm1 = document.getElementById('whtest1');
+		var elm2 = document.getElementById('whtest2');
+		var elm3 = document.getElementById('whtest3');
+		assert(elm1.offsetHeight === 0, 'display:none - offsetHeight = 0');
+		assert(elm2.offsetHeight === 10+5+5, 'visibility:hidden - offsetHeight = 10+5+5 ???');
+		assert(elm3.offsetHeight === 10+5+5, 'out of screen - offsetHeight ok');
+	})();
+	</script>
+
+	<p>display:none 인 element의 offsetHeight, offsetWidth를 계산하는 방법</p>
+	<div>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+		congue facilisis dignissim. Fusce sodales, odio commodo accumsan
+		commodo, lacus odio aliquet purus,
+		<img src="http://i2.media.daumcdn.net/photo-media/201203/26/newsis/C_90x90_20120326110519337.jpg"
+			id="withPole">
+		<img src="http://i2.media.daumcdn.net/photo-media/201203/26/newsis/C_90x90_20120326120014611.jpg"
+			id="withShuriken" style="display:none">
+		vel rhoncus elit sem quis libero. Cum sociis natoque penatibus et
+		magnis dis parturient montes, nascetur ridiculus mus. In hac habitasse
+		platea dictumst. Donec adipiscing urna ut nibh vestibulum vitae mattis
+		leo rutrum. Etiam a lectus ut nunc mattis laoreet at placerat nulla.
+		Aenean tincidunt lorem eu dolor commodo ornare.
+	</div>
+	<script>
+	(function(){
+		(function(){
+			var PROPERTIES = {
+				position:'absolute',
+				visibility:'hidden',
+				display:'block'
+			};
+
+			window.getDimension = function(elem) {
+				var prev = {};
+				for (var key in PROPERTIES) {
+					prev[key] = elem.style[key];
+					elem.style[key] = PROPERTIES[key];
+				}
+
+				var result = {
+					width: elem.offsetWidth,
+					height: elem.offsetHeight
+				};
+
+				for (key in PROPERTIES) {
+					elem.style[key] = prev[key];
+				}
+				return result;
+			};
+		})();
+		
+		window.onload = function() {
+			setTimeout(function() {
+				var i1 = document.getElementById('withPole');
+				var i2 = document.getElementById('withShuriken');
+
+				assert(i1.offsetWidth === 90,
+					'i1 image width fetched: actual:' + i1.offsetWidth + ', expected:90');
+				assert(i1.offsetHeight === 90,
+					'i1 image height fetched: actual:' + i1.offsetHeight + ', expected:90');
+
+				assert(i2.offsetWidth === 90,
+					'i2 image width fetched: actual:' + i2.offsetWidth + ', expected:90');
+				assert(i2.offsetHeight === 90,
+					'i2 image height fetched: actual:' + i2.offsetHeight + ', expected:90');
+
+				var dims = getDimension(i2);
+				assert(dims.width === 90,
+					'i2 image width fetched: actual:' + dims.width + ', expected:90');
+				assert(dims.height === 90,
+					'i2 image height fetched: actual:' + dims.height + ', expected:90');				
+			}, 10);
+		}
+
+	})();
+	</script>
+	<p>offsetWidth, offsetHeight 가 0인지를 검사하면 element의 visibility를 확인할 수 있다.
+		offsetWidth, offsetHeight가 0이라고 항상 invisible 인것은 아니지 않나???</p>
+	
 </div>
 </body>
 </html>
