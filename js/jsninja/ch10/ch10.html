@@ -272,7 +272,7 @@ code { background-color:#ddd; }
 		assert(div.style.color === 'rgb(0, 0, 0)' || 
 			div.style.color === '#000',
 			'Color was recorded');
-		console.log(div.style.color);
+		// console.log(div.style.color);
 		assert(div.style.fontSize === '1.8em',
 			'Font size was recorded');
 
@@ -426,13 +426,103 @@ code { background-color:#ddd; }
 				assert(dims.height === 90,
 					'i2 image height fetched: actual:' + dims.height + ', expected:90');				
 			}, 10);
-		}
+		};
 
 	})();
 	</script>
 	<p>offsetWidth, offsetHeight 가 0인지를 검사하면 element의 visibility를 확인할 수 있다.
 		offsetWidth, offsetHeight가 0이라고 항상 invisible 인것은 아니지 않나???</p>
-	
+
+	<h3>Seeing through opacity</h3>
+	<p>IE9 이전과 대부분의 modern 브라우저는 opacity property 지원. IE9 이전은 alpha filter 사용</p>
+	<p>보통 사용하는 코드 : <code>opacity:0.5; filter:alpha(opacity=50);</code></p>
+	<p>문제1: filter가 alpha 외에도 다른게 있으므로 filter 있다고 무조건 opacity 설정은 아님.<br />
+		문제2: opacity property를 지원하지 않지만, style.opacity로 뭔가 설정하면 값이 나옴. 물론 이게 opacity는 아님.</p>
+	<p>아이디어: number property는 브라우저가 알아서 normalize 하므로,
+		지원하는 브라우저일 경우 .5를 넣으면 0.5로 변환해서 반환한다. 이를 이용해 지원여부 확인 가능</p>
+
+	<script>
+	(function(){
+		var div = document.createElement('div');
+		div.setAttribute('style', 'opacity:.5');
+		var OPACITY_SUPPORTED = div.style.opacity === '0.5';
+		assert(OPACITY_SUPPORTED, 'Opacity is supported');
+	})();
+	</script>
+
+	<h3>Riding the color wheel</h3>
+	<p>color를 표현하는 방법 : keword, #rgb, #rrggbb, rgb(r,g,b), rgba(r,g,b,a), hsl(h,s,l), hsla(h,s,l,a)<br />
+		다양하다. 그런데 nomalize 안된다. 테스트는 아래</p>
+
+	<div id="l10-11">
+		<div style="background-color:darkslateblue">&nbsp;</div>
+		<div style="background-color:#369">&nbsp;</div>
+		<div style="background-color:#123456">&nbsp;</div>
+		<div style="background-color:rgb(44,88,168)">&nbsp;</div>
+		<div style="background-color:rgba(44,88,166,0.5)">&nbsp;</div>
+		<div style="background-color:hsl(120,100%,25%)">&nbsp;</div>
+		<div style="background-color:hsla(120,100%,25%,0.5)">&nbsp;</div>
+	</div>
+	<script>
+	(function(){
+		var c = document.getElementById('l10-11');
+		var divs = c.getElementsByTagName('div');
+		for (var i=0;i<divs.length;i++) {
+			assert(true, divs[i].style.backgroundColor);
+		}
+	})();
+	</script>
+	<p>브라우저별로 다른 결과</p>
 </div>
+
+<div>
+	<h1>Fetcing computed style</h1>
+	<p>W3C standard API, morder browser -
+		<code>getComputedStyle(elem).getPropertyValue('property-name')</code><br />
+		IE9 이전버전은 <code>currentStyle</code> property</p>
+	<p><code>getComputedProperty()</code>라고 안했을까???</p>
+
+	<style>
+	#l10-12{ background-color:#ffc; display:inline; font-size:1.8em;
+		border:1px solid crimson; color:green; }
+	</style>
+	<div id="l10-12" style="color:crimson;" title="Ninja power!">
+		忍者パワー
+	</div>
+
+	<script>
+	(function(){
+		function fetchComputedStyle(element, property) {
+			if (window.getComputedStyle) {
+				var computedStyles = window.getComputedStyle(element);
+				if (computedStyles) {
+					property = property.replace(/([A-Z])/g, '-$1').toLowerCase();
+					return computedStyles.getPropertyValue(property);
+				}
+			} else if (element.currentStyle) {
+				property = property.replace(/-([a-z])/ig,
+					function(all, letter) { return letter.toUpperCase(); });
+				return element.currentStyle[property];
+			}
+		};
+
+		var div = document.getElementById('l10-12');
+		assert(true, 'background-color: ' +
+			fetchComputedStyle(div, 'background-color'));
+		assert(true, 'display: '+
+			fetchComputedStyle(div, 'display'));
+		assert(true, 'font-size: '+
+			fetchComputedStyle(div, 'fontSize'));
+		assert(true, 'color: '+
+			fetchComputedStyle(div, 'color'));
+		assert(true, 'float: '+
+			fetchComputedStyle(div, 'float'));
+		assert(true, 'cannot retrive background: '+
+			fetchComputedStyle(div, 'background'));
+
+	})();
+	</script>
+</div>
+
 </body>
 </html>
