@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>CSS selector engine-Secrets of the JavaScript Ninja</title>
+<script src="../assert.js"></script>
+
+<style type="text/css">
+  body { 
+	  font-size:90%;
+	  font-family:monospace;
+	  line-height:1.5;
+  }
+  .pass { color:green; }
+  .fail { color:red; text-decoration:line-through; }
+  code { background-color:#ddd; }
+  .test { background-color:#ddd; }
+</style>
+
+</head>
+
+<body>
+
+<div>
+  <h1>Tests</h1>
+  <ul id="results"></ul>
+</div>
+
+<div>
+<h1>Introduction</h1>
+<p>CSS 3 selector 엔진까지 구현해야 한다. 구현 방법은 3가지.
+1. W3C selectors API 사용. 새로운 브라우저에서만 가능.
+2. XPath 사용 - mordern 브라우저에서 가능.
+3. Pure DOM. 1, 2가 안되면 사용.</p>
+<div>
+
+
+<div>
+<h1>Selectors API</h1>
+<p>최신 브라우저에서 구현하고 있음.
+	<code>querySelector</code> : css selector string을 인자로 받아서 첫번째 일치하는 element를 반환
+	<code>querySelectorAll</code> : css selector string을 인자로 받아서 일치하는 모든 element(NodeList)를 반환</p>
+
+<div id="l11-1" class="test">
+	<div id="test">
+		<b>Hello</b>, I'm a ninja!
+	</div>
+	<div id="test2">
+		<p><b>First</b></p>
+		<div>
+			<p>
+				<b>hi</b>
+				<b>hello</b>
+				<b>world</b>
+			</p>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+(function(){
+   var divs = document.querySelectorAll('#l11-1 > div');
+   assert(divs.length === 2,
+          'Two divs found using a CSS selector.');
+
+   var b = document.getElementById('test')
+           .querySelector('b:only-child');
+   assert(b, 'The bold element was found relative to another element');
+
+   assert(document.getElementById('test').querySelector('div b'),
+          'Only the last part of the selector matters.');
+
+   assert(document.getElementById('test2')
+          .querySelectorAll('div > div > div > p b').length === 3,
+          'gocha "div > div > div > p b"');
+})();
+</script>
+<p>이상하다... element-rooted query인 경우 찾는 방법 : selector로 document 내 모든 element를 찾고,
+	root-element가 조상인 element만 필터링한다. 문제 있음.
+	selector가 root-element를 중간에 포함하고 있는 경우에도 해당될 수 있다.
+항상 root element를 강제화하는 변경 함수는 아래와 같음. try/catch로 싸여 있는건,
+query에 오류가 있는 경우 예외를 발생시키고, id를 원래데로 돌려놓아야 해서임.</p>
+
+<script>
+(function() {
+  var count = 1;
+  this.rootedQuerySelectorAll = function(elem, query) {
+  var oldId = elem.id;
+  elem.id = 'rooted' + (count++);
+    try {
+      return elem.querySelectorAll('#'+elem.id+' '+query);
+    } catch(e) {
+      throw e;
+    } finally {
+      elem.id = oldId;
+    }
+  }
+})();
+(function(){
+  var b = rootedQuerySelectorAll(
+    document.getElementById('test2'), 'div div div p b');
+  assert(b.length === 0, 'The selector is now rooted properly');
+
+  var b2 = rootedQuerySelectorAll(
+    document.getElementById('l11-1'), 'div div b');
+  assert(b2.length === 3, 'The selector is now rooted properly');
+})();
+</script>
+</div>
+
+
+<div>
+<h1>XPath</h1>
+<p>대부분의 modern 브라우저들은 HTML-based DOM 문서에 대해 XPath를 사용할 수 있다. IE6~8은 XML 문서에 대해서만 XPath를 사용할 수 있다.</p>
+<p>복잡한 selector는 XPath가 유리, 단순한(id, tag) selector는 pure DOM 코드가 유리.</p>
+</div>
+
+
+<div>
+  <h1>DOM</h1>
+  <p>getElementById, getElementBysTagName 이용해서 찾는 방법. 하위 호환성 유지, 속도때문에 필요하다.
+	Top down 방식과 bottom up 방식 2가지가 있다. Top down은 selector의 왼쪽에서 오른쪽으로 찾아가는 방식.
+	selector engine을 만들때는 2가지 고려해야 한다. 1. 문서에 있는 순서대로 반환, 2. 결과에 중복이 있으면 안됨</p>
+  <p>parsing -&gt; finding -&gt; filtering -&gt; recursing &amp; merging 순서로 구현된다.</p>
+
+  <script>
+	(function() {
+
+      // tag로만 검색가능한 selector engine
+	  function find(selector, root) {
+        root = root || document;
+        var parts = selector.split(' '),
+	        query = parts[0],
+	        rest = parts.slice(1).join(' '),
+            elems = root.getElementsByTagName(query),
+	        results = [];
+
+	    for (var i=0;i<elems.length;i++) {
+		  if (rest) {
+		    results = results.concat(find(rest, elems[i]));
+          } else {
+            results.push(elems[i]);
+          }
+        }
+
+        return results;
+      }
+      
+      var divs = find('div');
+      assert(divs.length > 0, 'find divs');
+
+    })();
+  </script>
+
+  <h3>Parsing the Selector</h3>
+  <p>위 find 함수는 너무 단순화 했음. CSS3 selector에서 공백으로 분리하면 여러가지 나오는데...</p>
+
+  <h3>Finding the Elements</h3>
+  <p>getElementById: id가 일치하는 첫번째 element 반환. IE의 경우 name이 일치하는 경우도 포함된다. 동일한 id가 여러개인 경우 이걸 다 찾으려면 document.all["id"]를 사용. 배열로 반환된다.</p>
+  <p>getElemtnsByTagName: getElementsByTagName('*') 할 경우 IE에서는 comments node도 포함된다. IE에서 comments node의 태그 이름은 "!" 이다.</p>
+  <p>getElementsByName: name으로 찾기. 배열 반환</p>
+  <p>getElementsByClassName: 상대적으로 최신 브라우저에서만...</p>
+
+  <h3>Recusing and Merging</h3>
+  <p>중복 제거는 딱히 특별한 해결 방법이 없다. 아래는 한가지 방법</p>
+  <script>
+	(function() {
+	  var run = 0;
+	  this.unique = function(array){
+	    var ret = [];
+	    run++;
+	    for (var i=0, l=array.length;i<l;i++) {
+		  var elem = array[i];
+          console.log(elem.uID, run);
+		  if (elem.uID !== run) {
+			elem.uID = run;
+            ret.push(array[i]);
+          }
+        }
+        return ret;
+      };
+	})();
+    (function() {
+//      var body = unique([document.body, document.body]);
+//      assert(body.length === 1, 'body duplicate removed');
+      var body2 = unique([document.body, document.body,
+        document.getElementById('test'), document.getElementById('test')]);
+      assert(body2.length === 2, 'body2 duplicate removed');
+    })();
+  </script>
+</div>
+
+</body>
+</html>
