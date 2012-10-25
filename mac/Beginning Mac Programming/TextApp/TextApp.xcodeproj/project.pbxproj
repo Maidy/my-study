@@ -133,6 +133,7 @@
 		42F094F514F3A78600FB5973 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "다음 커뮤니케이션";
 			};
 			buildConfigurationList = 42F094F814F3A78600FB5973 /* Build configuration list for PBXProject "TextApp" */;
@@ -254,6 +255,7 @@
 		42F0951D14F3A78600FB5973 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TextApp/TextApp-Prefix.pch";
 				INFOPLIST_FILE = "TextApp/TextApp-Info.plist";
@@ -265,6 +267,7 @@
 		42F0951E14F3A78600FB5973 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TextApp/TextApp-Prefix.pch";
 				INFOPLIST_FILE = "TextApp/TextApp-Info.plist";

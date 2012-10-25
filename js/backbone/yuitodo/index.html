@@ -2,7 +2,7 @@
 <html lang="ko">
 
 <head>
-  <title>Hello Backbone</title>
+  <title>Hello Backbone Todo App</title>
   <meta charset="utf-8" />
   
   <link href="css/bootstrap.css" rel="stylesheet" />
@@ -19,12 +19,6 @@
     .editing .todo-item-chk, .editing .todo-item-desc, .editing .todo-item-del { display:none; }
     .editing .todo-item-edit { display:block; }
   </style>
-
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script src="js/underscore.js"></script>
-  <script src="js/backbone.js"></script>
-  <script src="js/backbone.localStorage.js"></script>
-
 </head>
 
 <body>
@@ -41,230 +35,13 @@
     </div>
   </div>
 
-  <script type="text/template" id="t-todo-item">
-    <input type="checkbox" class="todo-item-chk" <% if(done){ %>checked="checked"<% } %> />
-    <label class="todo-item-desc"><%= desc %></label>
-    <button class="todo-item-del btn-small"><i class="icon-remove">delete</i></button>
-    <input type="text" class="todo-item-edit" value="<%= desc %>" />
-  </script>
-
-  <script type="text/template" id="t-todo-stats">
-    <% if (remain > 0){ %>
-    <p><strong class="t_todo_stats_count"><%= remain %></strong> item<% if (remain > 1){ %>s<% } %> left.</p>
-    <% } %>
-    <% if (completed > 0){ %>
-    <button class="t_todo_stats_clearall">Clear <%= completed %> completed item<% if (completed > 1){ %>s<% } %>.</button>
-    <% } %>
-  </script>
-
-  <script>
-  "use strict";
-  $(document).ready(function(){
-
-    var YuiTodo = {};
-
-    YuiTodo.Model = {};
-    YuiTodo.Model.Todo = Backbone.Model.extend({
-      defaults : {
-        desc : '',
-        done : false,
-        created : new Date(),
-        due : null
-      },
-      initialize : function() { }
-    });
-
-    YuiTodo.Collection = {};
-    YuiTodo.Collection.Todos = Backbone.Collection.extend({
-      model : YuiTodo.Model.Todo,
-      localStorage : new Backbone.LocalStorage('yuitodo'),
-      initialize : function(models) { }
-    });
-
-    YuiTodo.View = {};
-    YuiTodo.View.TodoItem = Backbone.View.extend({
-      tagName : 'li',
-      className : 'todo-item',
-      events : {
-        'click .todo-item-chk' : 'onCheckClick',
-        'dblclick .todo-item-desc' : 'onDescDblClick',
-        'click .todo-item-del' : 'onDelClick',
-        'keypress .todo-item-edit' : 'onEditKeypress',
-        'keydown .todo-item-edit' : 'onEditKeydown',
-        'blur .todo-item-edit' : 'onEditBlur'
-      },
-      initialize : function(options) {
-        this.model.on('change:done', this.onDoneChanged, this);
-        this.model.on('change:desc', this.onDescChanged, this);
-      },
-      render : function(){
-        this.$el.html(_.template($('#t-todo-item').html(),
-          this.model.attributes));
-        if (this.model.get('done')) { this.$el.addClass('done'); }
-        return this;
-      },
-      onCheckClick : function(e) {
-        this.model.set({'done' : $(e.target).prop('checked')});
-      },
-      onDescDblClick : function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.startEditing();
-      },
-      onDelClick : function(e) {
-        this.deleteThis();
-      },
-      onEditKeydown : function(e) {
-        if (e.which === 27) {
-          this.cancelEditing();
-          return;
-        }
-      },
-      onEditKeypress : function(e) {
-        var input = $(e.target);
-        if (e.keyCode === 13 && input.val() !== '') {
-          this.commitEditing();
-          return;
-        }
-      },
-      onEditBlur : function(e) {
-         this.cancelEditing();
-      },
-      onDoneChanged : function(model, value, option) {
-        model.save();
-        this.$el[value?'addClass':'removeClass']('done');
-        StatusBar.render();
-      },
-      onDescChanged : function(model, value, option) {
-        this.$el.find('.todo-item-desc').html(value);
-      },
-      isDone : function() {
-        return this.$el.find('.todo-item-chk').prop('checked');
-      },
-      deleteThis : function(options) {
-        // Todos.remove(this.model, options);
-        this.model.destroy();
-        this.remove();
-      },
-      startEditing : function() {
-        this.$el.addClass('editing');
-        this.$el.find('.todo-item-edit').focus().select();
-      },
-      commitEditing : function() {
-        this.model.set({'desc':this.$el.find('.todo-item-edit').val()});
-        this.$el.removeClass('editing');
-      },
-      cancelEditing : function() {
-        this.$el.find('.todo-item-edit').val(this.model.get('desc'));
-        this.$el.removeClass('editing');
-      }
-    });
-
-    YuiTodo.View.TodoList = Backbone.View.extend({
-      el : $('#todo-list'),
-      items : [],
-      render : function() {
-        $(this.el).html('');
-        return this;
-      },
-      addTodo : function(data) {
-        var todo = new YuiTodo.View.TodoItem({model : data});
-        $(this.el).prepend($(todo.render().el));
-        this.items.push(todo);
-      },
-      clearCompleted : function() {
-        // [CHECK] 삭제??? 이상한거 같기도 하고...
-        var selected = 0;
-        _.each(this.items, function(todo, i, list) {
-          if (!todo.isDone()) { return; }
-          selected++;
-          todo.deleteThis({silent:true});
-        });
-        if (selected > 0) { StatusBar.render(); }
-        this.items = _.filter(this.items, function(item) { return !item.isDone(); });
-      },
-      refresh : function() {
-        this.items = [];
-        this.$el.empty();
-        Todos.fetch();
-        Todos.each(this.addTodo, this);
-        StatusBar.render();
-      }
-    });
-
-    YuiTodo.View.StatusBar = Backbone.View.extend({
-      el : $('#todo-status'),
-      render : function() {
-        if (Todos.length === 0) {
-          $(this.el).hide();
-        } else {
-          var c = Todos.filter(function(todo){ return todo.get('done') === true; }).length;
-          var r = Todos.length - c;
-          $(this.el).html(_.template($('#t-todo-stats').html(), {
-            remain : r, completed : c }));
-          $(this.el).show();
-        }
-        return this;
-      }
-    });
-
-    YuiTodo.View.Main = Backbone.View.extend({
-      el : $('body'),
-      events : {
-        'keypress #todo-new' : 'todoNewOnKeyPress',
-        'click .t_todo_stats_clearall' : 'clearCompleted'
-      },
-      initialize : function() {
-        Todos.on('add', this.onTodoAdd, this);
-        // Todos.on('reset', this.onTodosReset, this);
-        Todos.on('remove', this.onTodoRemove, this);
-        TodoList.refresh();
-      },
-      todoNewOnKeyPress : function(e) {
-        var input = $(e.target);
-        if (e.keyCode === 13 && input.val() !== '') {
-          var m = new YuiTodo.Model.Todo({desc : input.val()});
-          if (m) {
-            Todos.add(m);
-            m.save();
-            input.val('');
-          }
-        }
-      },
-      clearCompleted : function() {
-        TodoList.clearCompleted();
-      },
-      onTodoAdd : function(model, collection, index) {
-        TodoList.addTodo(model);
-        StatusBar.render();
-      },
-      onTodosReset : function(collection) {
-        TodoList.refresh();
-        StatusBar.render();
-      },
-      onTodoRemove : function(model, collection) {
-        StatusBar.render();
-      }
-    });
-
-    YuiTodo.Router = {};
-    YuiTodo.Router.Main = Backbone.Router.extend({
-      routes : { '' : 'index' },
-      index : function() {        
-      }
-    });
-
-    window.Todos = new YuiTodo.Collection.Todos();
-    window.TodoList = new YuiTodo.View.TodoList();
-    var StatusBar = new YuiTodo.View.StatusBar();
-    var Main = new YuiTodo.View.Main();
-
-    // start
-    var router = new YuiTodo.Router.Main();
-    Backbone.history.start({pushState:true});
-  });
-  </script>
-
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="js/underscore.js"></script>
+  <script src="js/backbone.js"></script>
+  <script src="js/backbone.localStorage.js"></script>
+  <script src="js/model.js"></script>
+  <script src="js/view.js"></script>
+  <script src="js/main.js"></script>
 
 </body>
 </html>
