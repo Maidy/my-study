@@ -405,3 +405,113 @@
       (cons (car lat) (makeset 
                        (multirember (car lat)
                                     (cdr lat))))))))
+
+(define set1 '(5 chicken wings))
+(define set2 '(5 hamburgers 2 pieces fried chicken and light duckling wings))
+
+;; (subset? set1 set2) > #t
+
+(define subset?
+  (lambda (set1 set2)
+    (cond
+     ((null? set1) #t)
+     ((member? (car set1) set2) (subset? (cdr set1) set2))
+     (else #f))))
+
+(define subset?
+  (lambda (set1 set2)
+    (cond
+     ((null? set1) #t)
+     (else
+      (and (member? (car set1) set2)
+           (subset? (cdr set1) set2))))))
+
+(define set1 '(6 large chickens with wings))
+(define set2 '(6 chickens with large wings))
+;; (eqset? set1 set2) > #t
+
+(define eqset?
+  (lambda (set1 set2)
+    (cond
+     ((and (null? set1) (null? set2)) #t)
+     ((null? set1) #f)
+     ((null? set2) #f)
+     (else
+      (and (member? (car set1) set2)
+           (eqset? (cdr set1) (rember* (car set1) set2)))))))
+
+(define eqset?
+  (lambda (set1 set2)
+    (and (subset? set1 set2)
+         (subset? set2 set1))))
+
+(define set1 '(stewed tomatoes and macaroni))
+(define set2 '(macaroni and cheese))
+
+(define intersect?
+  (lambda (set1 set2)
+    (cond
+     ((null? set1) #f)
+     (else
+      (or (member? (car set1) set2)
+          (intersect? (cdr set1) set2))))))
+
+;; (intersect '(stewed tomatoes and macaroni) '(macaroni and cheese))
+;; > '(and macaroni)
+(define intersect
+  (lambda (set1 set2)
+    (cond
+     ((null? set1) '())
+     ((member? (car set1) set2)
+      (cons (car set1) (intersect (cdr set1) set2)))
+     (else
+      (intersect (cdr set1) set2)))))
+
+(define union
+  (lambda (set1 set2)
+    (cond
+     ((null? set1) set2)
+     ((member? (car set1) set2)
+      (union (cdr set1) set2))
+     (else
+      (cons (car set1)
+            (union (cdr set1) set2))))))
+
+(define difference
+  (lambda (set1 set2)
+    (cond
+     ((null? set1) '())
+     ((member? (car set1) set2)
+      (difference (cdr set1) set2))
+     (else
+      (cons (car set1)
+            (difference (cdr set1) set2))))))
+
+;; (difference '(stewed tomatoes and macaroni) '(macaroni and cheese))
+;; > '(stewed tomatoes)
+
+(define intersect-all
+  (lambda (l-set)
+    (cond
+     ((null? (cdr l-set)) (car l-set))
+     (else
+      (intersect-all (cons (intersect (car l-set) (car (cdr l-set)))
+                           (cdr (cdr l-set))))))))
+
+(define intersect-all
+  (lambda (l-set)
+    (cond
+     ((null? (cdr l-set)) (car l-set))
+     (else
+      (intersect (car l-set)
+                 (intersect-all (cdr l-set)))))))
+
+(intersect-all '((6 pears and)
+                 (3 peaches and 6 peppers)
+                 (8 pears and 6 plums)
+                 (and 6 prunes with some apples)))
+
+(intersect-all '((6 pears and)
+                 (3 peaches and 6 peppers)))
+
+(intersect-all '((6 pears and)))
