@@ -9,6 +9,14 @@
 ;; CHAPTER 3. Cons the Magnificent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(define firsts
+  (lambda (l)
+    (cond
+     ((null? l) '())
+     (else
+      (cons (car (car l))
+            (firsts (cdr l)))))))
+
 (define multirember
   (lambda (a lat)
     (cond
@@ -515,3 +523,81 @@
                  (3 peaches and 6 peppers)))
 
 (intersect-all '((6 pears and)))
+
+;; a-pair? 2개의 s-exp만 있는 list
+(define a-pair?
+  (lambda (x)
+    (cond
+     ((atom? x) #f)
+     ((null? x) #f)
+     ((null? (cdr x)) #f)
+     ((null? (cdr (cdr x))) #t)
+     (else #f))))
+
+(define first
+  (lambda (p)
+    (car p)))
+
+(define second
+  (lambda (p)
+    (car (cdr p))))
+
+(define build
+  (lambda (s1 s2)
+    (cons s1 (cons s2 '()))))
+
+(define third
+  (lambda (l)
+    (car (cdr (cdr l)))))
+
+;; relation??? - pair의 set
+
+;; fun? - firsts가 set인 리스트- finite function
+
+(define fun?
+  (lambda (rel)
+    (set? (firsts rel))))
+
+;; (revrel '((8 a) (pumpkin pie) (got sick)))
+;; > ((a 8) (pie pumpkin) (sick got))
+(define revrel
+  (lambda (rel)
+    (cond
+     ((null? rel) '())
+     (else
+      (cons (build (second (car rel)) (first (car rel)))
+            (revrel (cdr rel)))))))
+
+(revrel '((8 a) (pumpkin pie) (got sick)))
+
+(define revpair
+  (lambda (p)
+    (build (second p) (first p))))
+
+(define revrel
+  (lambda (rel)
+    (cond
+     ((null? rel) '())
+     (else
+      (cons (revpair (car rel))
+            (revrel (cdr rel)))))))
+
+(define seconds
+  (lambda (l)
+    (cond
+     ((null? l) '())
+     (else
+      (cons (car (cdr (car l)))
+            (seconds (cdr l)))))))
+
+(define fullfun?
+  (lambda (fun)
+    (set? (seconds fun))))
+
+(define one-to-one?
+  (lambda (fun)
+    (fun? (revrel fun))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; CHAPTER 8. Lambda the Ultimate
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
