@@ -9,6 +9,16 @@
 ;; CHAPTER 3. Cons the Magnificent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(define rember
+  (lambda (a lat)
+    (cond
+     ((null? lat) '())
+     ((eq? a (car lat)) (cdr lat))
+     (else (cons (car lat)
+                 (rember a (cdr lat)))))))
+
+(rember 1 '(1 2 3))
+
 (define firsts
   (lambda (l)
     (cond
@@ -255,6 +265,17 @@
      (else
       (and (equal? (car l1) (car l2))
            (equal? (cdr l1) (cdr l2)))))))
+
+(define rember
+  (lambda (s l)
+    (cond
+     ((null? l) '())
+     ((equal? s (car l)) (cdr l))
+     (else (cons (car l)
+                 (rember s (cdr l)))))))
+
+(rember '(1 2) '((a b (1 2)) (1 2) c (d (1 2))))
+;; > ((a b (1 2)) c (d (1 2)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; CHAPTER 6. Shadow
@@ -601,3 +622,39 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; CHAPTER 8. Lambda the Ultimate
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(define test? =)
+(define a 5)
+(define l '(6 2 5 3))
+
+;; (rember test? a l)
+;; > (6 2 3)
+
+(define rember-f
+  (lambda (test? a l)
+    (cond
+     ((null? l) '())
+     ((test? (car l) a) (cdr l))
+     (else (cons (car l)
+                 (rember test? a (cdr l)))))))
+(rember-f = 5 '(6 2 5 3))
+
+(define eq-c?
+  (lambda (a)
+    (lambda (x)
+      (eq? x a))))
+
+(define eq-salad? (eq-c? 'salad))
+
+(define rember-f
+  (lambda (test?)
+    (lambda (a l)
+      (cond
+       ((null? l) '())
+       ((test? (car l) a) (cdr l))
+       (else (cons (car l)
+                   (rember test? a (cdr l))))))))
+
+(define test? eq?)
+(define rember-eq? (rember-f eq?))
