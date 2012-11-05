@@ -27,6 +27,39 @@
       (cons (car (car l))
             (firsts (cdr l)))))))
 
+(define insertR
+  (lambda (new old lat)
+    (cond
+     ((null? lat) '())
+     ((eq? old (car lat))
+      (cons old (cons new (cdr lat))))
+     (else
+      (cons (car lat) (insertR new old (cdr lat)))))))
+
+(insertR 'e 'd '(a b c d f g)) ;; > '(a b c d e f g)
+
+(subst 'topping 'fudge '(ice cream with fudge for dessert))
+;; > '(ice cream with topping for dessert)
+(define subst
+  (lambda (new old lat)
+    (cond
+     ((null? lat) '())
+     ((eq? old (car lat))
+      (cons new (cdr lat)))
+     (else
+      (cons (car lat) (subst new old (cdr lat)))))))
+
+(define insertL
+  (lambda (new old lat)
+    (cond
+     ((null? lat) '())
+     ((eq? old (car lat))
+      (cons new lat))
+     (else
+      (cons (car lat) (insertL new old (cdr lat)))))))
+
+(insertL 'e 'd '(a b c d f g)) ;; > '(a b c d e f g)
+
 (define multirember
   (lambda (a lat)
     (cond
@@ -637,7 +670,7 @@
      ((null? l) '())
      ((test? (car l) a) (cdr l))
      (else (cons (car l)
-                 (rember test? a (cdr l)))))))
+                 (rember-f test? a (cdr l)))))))
 (rember-f = 5 '(6 2 5 3))
 
 (define eq-c?
@@ -647,14 +680,79 @@
 
 (define eq-salad? (eq-c? 'salad))
 
-(define rember-f
+(define rember-f2
   (lambda (test?)
     (lambda (a l)
       (cond
        ((null? l) '())
        ((test? (car l) a) (cdr l))
        (else (cons (car l)
-                   (rember test? a (cdr l))))))))
+                   ((rember-f2 test?) a (cdr l))))))))
 
 (define test? eq?)
-(define rember-eq? (rember-f eq?))
+(define rember-eq? (rember-f2 eq?))
+(rember-eq? 5 '(6 2 5 3))
+
+(define insertL-f
+  (lambda (test?)
+    (lambda (new old lat)
+      (cond
+       ((null? lat) '())
+       ((test? old (car lat))
+        (cons new lat))
+       (else
+        (cons (car lat) ((insertL-f test?) new old (cdr lat))))))))
+
+((insertL-f eq?) 'e 'd '(a b c d f g))
+
+(define insertR-f
+  (lambda (test?)
+    (lambda (new old lat)
+      (cond
+       ((null? lat) '())
+       ((test? old (car lat))
+        (cons (car lat) (cons new (cdr lat))))
+       (else
+        (cons (car lat) ((insertR-f test?) new old (cdr lat))))))))
+
+((insertR-f eq?) 'e 'd '(a b c d f g))
+
+(define seqL
+  (lambda (new old l)
+    (cons new (cons old l))))
+
+(define seqR
+  (lambda (new old l)
+    (cons old (cons new l))))
+
+;; seq가 seqL이면 insertL을, seq가 seqR이면 insertR을 반환하는 함수
+(define insert-g
+  (lambda (seq)
+    (lambda (new old l)
+      (cond
+       ((null? l) '())
+       ((eq? old (car l))
+        (seq new old (cdr l)))
+       (else
+        (cons (car l) ((insert-g seq) new old (cdr l))))))))
+
+((insert-g seqL) 'e 'd '(a b c d f g))
+((insert-g seqR) 'e 'd '(a b c d f g))
+
+(define insertL (insert-g seqL))
+(define insertR (insert-g seqR))
+
+(define insertL (insert-g
+                 (lambda (new old l)
+                   (cons new (cons old l)))))
+(define insertR (insert-g
+                   (lambda (new old l)
+                     (cons old (cons new l)))))
+
+(define seqS
+  (lambda (new old l)
+    (cons new l)))
+
+(define subst (insert-g seqS))
+(subst 'topping 'fudge '(ice cream with fudge for dessert))
+
