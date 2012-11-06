@@ -356,9 +356,12 @@
   (lambda (aexp)
     (cond
      ((atom? aexp) aexp)
-     ((eq? (car (cdr aexp)) (quote +)) (+ (value (car aexp)) (value (car (cdr (cdr aexp))))))
-     ((eq? (car (cdr aexp)) (quote *)) (* (value (car aexp)) (value (car (cdr (cdr aexp))))))
-     ((eq? (car (cdr aexp)) (quote ^)) (expt (value (car aexp)) (value (car (cdr (cdr aexp)))))))))
+     ((eq? (car (cdr aexp)) (quote +))
+      (+ (value (car aexp)) (value (car (cdr (cdr aexp))))))
+     ((eq? (car (cdr aexp)) (quote *))
+      (* (value (car aexp)) (value (car (cdr (cdr aexp))))))
+     ((eq? (car (cdr aexp)) (quote ^))
+      (expt (value (car aexp)) (value (car (cdr (cdr aexp)))))))))
 
 ;; 앞의 value는 (1 + 2) 형태의 arithmetic expression에서 사용 가능한
 ;; 함수
@@ -756,3 +759,30 @@
 (define subst (insert-g seqS))
 (subst 'topping 'fudge '(ice cream with fudge for dessert))
 
+(define atom-to-function
+  (lambda (x)
+    (cond
+     ((eq? x '+) +)
+     ((eq? x '*) *)
+     ((eq? x '^) expt))))
+
+;; (define operator
+;;   (lambda (aexp)
+;;     (car aexp)))
+;; (define 1st-sub-exp
+;;   (lambda (aexp)
+;;     (car (cdr aexp))))
+;; (define 2nd-sub-exp
+;;   (lambda (aexp)
+;;     (car (cdr (cdr aexp)))))
+
+(define value
+  (lambda (aexp)
+    (cond
+     ((atom? aexp) aexp)
+     (else
+      ((atom-to-function (operator aexp))
+       (value (1st-sub-exp aexp))
+       (value (2nd-sub-exp aexp)))))))
+
+(value '(+ 3 (* 2 4)))
