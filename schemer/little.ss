@@ -786,3 +786,52 @@
        (value (2nd-sub-exp aexp)))))))
 
 (value '(+ 3 (* 2 4)))
+
+(define multirember-f
+  (lambda (test?)
+    (lambda (a lat)
+      (cond
+       ((null? lat) '())
+       ((test? a (car lat))
+        ((multirember-f test?) a (cdr lat)))
+       (else
+        (cons (car lat) ((multirember-f test?) a (cdr lat))))))))
+
+(define multirember-eq? (multirember-f eq?))
+
+(define multirember-T
+  (lambda (test? lat)
+    (cond
+     ((null? lat) '())
+     ((test? (car lat))
+      (multirember-T test? (cdr lat)))
+     (else
+      (cons (car lat) (multirember-T test? (cdr lat)))))))
+
+(define multiremberEco
+  ;; col : collector or CONTINUATION
+  (lambda (a lat col)
+    (cond
+     ((null? lat)
+      (col '() '()))
+     ((eq? (car lat) a)
+      (multiremberEco a (cdr lat)
+                      (lambda (newlat seen)
+                        (col newlat
+                             (cons (car lat) seen)))))
+     (else
+      (multiremberEco a (cdr lat)
+                      (lambda (newlat seen)
+                        (col (cons (car lat) newlat)
+                             seen)))))))
+
+;; multiremberEco - lat에 a가 없으면 첫번째, 있으면 두번째로 해서
+;; col을 실행, (col '(있는거) '(없는거))
+
+(define a-friend
+  (lambda (x y)
+    (null? y)))
+
+(multiremberEco 'tuna '(strawberries tuna and swordfish) a-friend)
+(multiremberEco 'tuna '() a-friend)
+(multiremberEco 'tuna '(tuna) a-friend)
