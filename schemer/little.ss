@@ -69,6 +69,29 @@
      (else
       (cons (car lat) (multirember a (cdr lat)))))))
 
+
+(define multiinsertR
+  (lambda (new old lat)
+    (cond
+     ((null? lat) '())
+     ((eq? old (car lat))
+      (cons (car lat) (cons new (multiinsertR new old (cdr lat)))))
+     (else
+      (cons (car lat) (multiinsertR new old (cdr lat)))))))
+
+(multiinsertR 'a 'x '(x y z x y z))
+
+(define multiinsertL
+  (lambda (new old lat)
+    (cond
+     ((null? lat) '())
+     ((eq? old (car lat))
+      (cons new (cons (car lat) (multiinsertL new old (cdr lat)))))
+     (else
+      (cons (car lat) (multiinsertL new old (cdr lat)))))))
+
+(multiinsertL 'a 'x '(x y z x y z))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; CHAPTER 5.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -835,3 +858,41 @@
 (multiremberEco 'tuna '(strawberries tuna and swordfish) a-friend)
 (multiremberEco 'tuna '() a-friend)
 (multiremberEco 'tuna '(tuna) a-friend)
+
+(define multiinsertLR
+  (lambda (new oldL oldR lat)
+    (cond
+     ((null? lat) '())
+     ((eq? oldL (car lat))
+      (cons new (cons (car lat) (multiinsertLR new oldL oldR (cdr lat)))))
+     ((eq? oldR (car lat))
+      (cons (car lat) (cons new (multiinsertLR new oldL oldR (cdr lat)))))
+     (else
+      (cons (car lat) (multiinsertLR new oldL oldR (cdr lat)))))))
+(multiinsertLR 'a 'x 'y '(x y z x y z))
+
+(define multiinsertLREco
+  (lambda (new oldL oldR lat col)
+    (cond
+     ((null? lat)
+      (col '() 0 0))
+     ((eq? oldL (car lat))
+      (multiinsertLREco new oldL oldR (cdr lat)
+                        (lambda (newlat L R)
+                          (col (cons new (cons (car lat) newlat))
+                               (add1 L) R))))
+     ((eq? oldR (car lat))
+      (multiinsertRLEco new oldL oldR (cdr lat)
+                        (lambda (newlat L R)
+                          (col (cons (car lat) (cons new newlat))
+                               R (add1 R)))))
+     (else
+      (multiinsertLREco new oldL oldR (cdr lat)
+                        (lambda (newlat L R)
+                          (col (cons (car lat) newlat)
+                               R L)))))))
+
+;; (multiinsertLREco 'salty 'fish 'chips '(chips and fish or fish and
+;;  chip) col)
+;; > (col '(chips salty and salty fish or salty fish and chips salty) 2 2)
+
