@@ -896,3 +896,88 @@
 ;;  chip) col)
 ;; > (col '(chips salty and salty fish or salty fish and chips salty) 2 2)
 
+(define evens-only*
+  (lambda (l)
+    (cond
+     ((null? l) '())
+     ((atom? (car l))
+      (cond
+       ((even? (car l)) (cons (car l) (evens-only* (cdr l))))
+       (else (evens-only* (cdr l)))))
+     (else
+      (cons (evens-only* (car l))
+            (evens-only* (cdr l)))))))
+;; (evens-only* '((9 1 2 8) 3 10 ((9 9) 7 6) 2))
+;; => ((2 8) 10 (() 6) 2)
+
+;; l : nested list
+;; return 
+;;  l : nested of even numbers
+;;  m : multiplies the even numbers
+;;  s : sums up the odd numbers
+;;  (l m s)
+;; (define evens-only*Eco
+;;   (lambda (l col)
+;;     (cond
+;;      ((null? l) '(() 1 0))
+;;      ((atom? (car l))
+;;       (cond
+;;        ((even? (car l))
+;;         (evens-only*Eco (cdr l)
+;;                         (lambda (newl m s)
+;;                           (col (cons (car l) newl) (* m (car l)) s))))
+;;        (else
+;;         (evens-only*Eco (cdr l)
+;;                        (lambda (newl m s)
+;;                          (col (cons (car l) newl) m (+ s (car l))))))))
+;;      (else
+;;       (evens-only*Eco (car l) col)))))
+
+;; multiremberEco 부터 잘 모르겠다... 복잡복잡!!!
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; CHAPTER 9. ...and Again, and Again, and Again,...
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (looking 'caviar '(6 2 4 caviar 5 7 3))
+;; > #t, 6 > 7 > 3 > 4 > caviar
+;; (looking 'caviar '(6 2 grits caviar 5 7 3))
+;; > #f, 6 > 7 > 3 > grits
+
+(define looking
+  (lambda (a lat)
+    (keep-looking a (pick 1 lat) lat)))
+
+;; sorn = symbol or number
+(define keep-looking
+  (lambda (a sorn lat)
+    (cond
+     ((number? sorn)
+      (keep-looking a (pick sorn lat) lat))
+     (else
+      (eq? a sorn)))))
+
+;; (keep-looking 'caviar 3 '(6 2 4 caviar 5 7 3))
+;; > (keep-looing 'caviar 4 '(6 2 4 caviar 5 7 3))
+
+(define pick
+  (lambda (n lat)
+    (cond
+     ((eq? n 1) (car lat))
+     (else (pick (sub1 n) (cdr lat))))))
+
+;; (pick 7 '(6 2 4 caviar 5 7 3))
+;; > 3
+
+;; looking : partial funciton ???
+;; lat에 따라 무한루프 돌수 있다.
+
+(define shift
+  (lambda (x)
+    (build (first (first x))
+           (build (second (first x))
+                  (second x)))))
+;; (shift '((a b) c))
+;; > (a (b c))
+;; (shift '((a b) (c d)))
+;; > (a (b (c d)))
