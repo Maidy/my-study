@@ -1,0 +1,62 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+<script>
+
+(function() {
+  var OM = function() {
+    this.name = 'this name';
+    var that = {};
+    that.name = 'that name';
+    return that;
+  };
+
+  OM.prototype.say = function() {
+    console.log('hello');
+  };
+
+  var OL = function() {
+    this.name = 'OL';
+  };
+  OL.prototype.say = function() {
+    console.log('OL hello');
+  };
+
+  var om = new OM(),
+      ol = new OL();
+  
+  console.log(om.name);
+  console.log(om instanceof OM);
+  console.log(om.constructor === OM);
+
+  console.log(ol.name);
+  console.log(ol instanceof OL);
+  console.log(ol.constructor === OL);
+
+  function OT() {
+    if (!(this instanceof OT)) {
+      return new OT();
+    }
+    this.name = 'OT';
+  }
+
+  console.log((new OT()) instanceof OT);
+  console.log(OT() instanceof OT);
+
+  var OS = function() {
+    if (!(this instanceof OS)) {
+      return new OS();
+    }
+    this.name = 'OS';
+  }
+
+  console.log((new OS()) instanceof OS);
+  console.log(OS() instanceof OS);
+
+}());
+
+</script>
+</body>
+</html>
