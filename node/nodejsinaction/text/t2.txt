@@ -1,1 +1,0 @@
-Now that you've learned how serial and parallel control flow work under the hood, let's now learn how to leverage community-created tools that allow you to easily benefit from control flow, in your applications, without having to implement it yourself.

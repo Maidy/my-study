@@ -1,2 +1,0 @@
-Many community add-ons exist that provide convenient flow control tools. Popular add-ons are nimble, step, and seq. Although they're all worth checking out, we'll show another example using nimble as it's very straightforward and stands out by having the smallest codebase (a mere 837 bytes, minified and compressed).
-Following is an example of using nimble to sequence tasks in a script that downloads two files simultaneously, using parallel flow control, then archives them. We use serial control to make sure that the downloading is done before proceeding to archiving.
