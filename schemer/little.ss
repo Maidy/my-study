@@ -38,7 +38,6 @@
 
 (insertR 'e 'd '(a b c d f g)) ;; > '(a b c d e f g)
 
-(subst 'topping 'fudge '(ice cream with fudge for dessert))
 ;; > '(ice cream with topping for dessert)
 (define subst
   (lambda (new old lat)
@@ -48,6 +47,8 @@
       (cons new (cdr lat)))
      (else
       (cons (car lat) (subst new old (cdr lat)))))))
+
+(subst 'topping 'fudge '(ice cream with fudge for dessert))
 
 (define insertL
   (lambda (new old lat)
@@ -428,7 +429,7 @@
 ;; 숫자 넷은 (() () () ()) 로 표현할수도 있다.
 ;; 숫자 영은? () : null
 
-(define zero?
+(define nzero?
   (lambda (n)
     (null? n)))
 
@@ -446,7 +447,7 @@
 (define edd
   (lambda (n m)
     (cond
-     ((zero? m) n)
+     ((nzero? m) n)
      (else
       (edd1 (edd n (zub1 m))))))) ;; (edd (edd1 n) (zub1 m)) 도 가능
 
@@ -960,6 +961,15 @@
 ;; (keep-looking 'caviar 3 '(6 2 4 caviar 5 7 3))
 ;; > (keep-looing 'caviar 4 '(6 2 4 caviar 5 7 3))
 
+;; looking 같은 함수를 partial function이라고 한다.
+;; 어떤 의미? goal에 다가가지 않을수도 있는 함수?
+;; 특정 인자에 대해서만 결과를 얻을 수 있는 함수?
+
+;; most partial function
+(define eternity
+  (lambda (x)
+    (eternity x)))
+
 (define pick
   (lambda (n lat)
     (cond
@@ -972,6 +982,9 @@
 ;; looking : partial funciton ???
 ;; lat에 따라 무한루프 돌수 있다.
 
+;; shift
+;; pair를 인자로 받는데, 인자의 첫번째 값은 pair이다.
+;; x = (a b) 일 때 (shift x) => ((first a) ((second a) c))
 (define shift
   (lambda (x)
     (build (first (first x))
@@ -981,3 +994,221 @@
 ;; > (a (b c))
 ;; (shift '((a b) (c d)))
 ;; > (a (b (c d)))
+
+;; pora > pair or atom
+
+(define align
+  (lambda (pora)
+    (cond
+     ((atom? pora) pora)
+     ((a-pair? (first pora))
+      (align (shift pora)))
+     (else
+      (build (first pora)
+             (align (second pora)))))))
+
+;; keep-looking과 유사점?
+;; recursive 하면서 목표점? 에 도달하는걸 보장할 수 없다.
+;; align에서는 atom? 이 탈출조건인데, pora가 atom이 되도록 변경하는
+;; 코드가 없으므로
+
+(define length*
+  (lambda (pora)
+    (cond
+     ((atom? pora) 1)
+     (else
+      (+ (length* (first pora))
+         (length* (second pora)))))))
+
+(length* '((a b) c))
+
+(define weight*
+  (lambda (pora)
+    (cond
+     ((atom? pora) 1)
+     (else
+      (+ (* (weight* (first pora)) 2)
+         (weight* (second pora)))))))
+
+;; align은 partial function 이냐?
+;; 아니다. ???
+
+(define shuffle
+  (lambda (pora)
+    (cond
+     ((atom? pora) pora)
+     ((pair? (first pora))
+      (shuffle (revpair pora)))
+     (else
+      (build (first pora)
+             (shuffle (second pora)))))))
+
+;; 어떤 함수가 있을때 이게 partial인지 full인지 확인하기 쉽지 않다.
+
+(define zero?
+  (lambda (n)
+    (= n 0)))
+
+(define A
+  (lambda (n m)
+    (cond
+     ((zero? n) (add1 m))
+     ((zero? m) (A (sub1 n) 1))
+     (else
+      (A (sub1 n)
+         (A n (sub1 m)))))))
+
+;; (A 4 3) ; => infinite loop, partial이라는 의미?
+
+;; 함수가 partial인지 full 인지 검사하는 함수를 만들자.
+
+;; (define will-stop?
+;;   (lambda (f)
+;;     ))
+
+;; 먼저 ()에 대해서...
+
+;; will-stop? 은 partial인가? 아니다. 이것은 항상 #t 또는 #f를
+;; 반환한다.
+;; (will-stop? length) ;; => #t
+
+;; 그런데, will-stop? 이 검사할 함수가 will-stop?을 호출하는 경우는?
+;; 자기 참조 -> 결론적으로 will-stop?은 정의할 수 없다.!
+
+(define Y
+  (lambda (le)
+    ((lambda (f) (f f))
+     (lambda (f)
+       (le (lambda (x) ((f f) x)))))))
+
+;; Ch 10. What is the value of all of this?
+;; entry : pair of lists, first list is a set.
+
+(define lookup-in-entry
+  (lambda (name entry entry-f)
+    (lookup-in-entry-help name
+                          (first entry)
+                          (second entry)
+                          entry-f)))
+
+(define lookup-in-entry-help
+  (lambda (name names values entry-f)
+    (cond
+     ((null? names)
+      (entry-f name))
+     ((eq? name (car names))
+      (car values))
+     (else
+      (lookup-in-entry-help
+       name
+       (cdr names)
+       (cdr values)
+       entry-f)))))
+
+;; table : a list of entries
+
+;; (define extend-table
+;;   (lambda (entry table)
+;;     (cons entry table)))
+
+(define extend-table cons)
+
+(define lookup-in-table
+  (lambda (name table table-f)
+    (cond
+     ((null? table) (table-f name))
+     (else
+      (lookup-in-entry
+       name
+       (car table)
+       (lambda (name)
+         (lookup-in-table name (cdr table) table-f)))))))
+
+(define rep-car 'car)
+(define rep-quote 'quote)
+(define rep-a 'a)
+(define rep-b 'b)
+(define rep-c 'c)
+(cons rep-car
+      (cons (cons rep-quote
+                  (cons (cons rep-a
+                              (cons rep-b
+                                    (cons rep-c
+                                          (quote ()))))
+                        (quote ())))
+            (quote ())))
+
+;; type
+;; *const
+;; *quote
+;; *identifier
+;; *lambda
+;; *cond
+;; *application
+
+(define expression-to-action
+  (lambda (e)
+    (cond
+     ((atom? e)
+      (atom-to-action e))
+     (else
+      (list-to-action e)))))
+
+(define atom-to-expression
+  (lambda (e)
+    (cond
+     ((number? e) *const)
+     ((eq? e #t) *const)
+     ((eq? e #f) *const)
+     ((eq? e (quote cons)) *const)
+     ((eq? e (quote car)) *const)
+     ((eq? e (quote cdr)) *const)
+     ((eq? e (quote null?)) *const)
+     ((eq? e (quote eq?)) *const)
+     ((eq? e (quote atom?)) *const)
+     ((eq? e (quote zero?)) *const)
+     ((eq? e (quote add1)) *const)
+     ((eq? e (quote sub1)) *const)
+     ((eq? e (quote number?)) *const)
+     (else *identifier))))
+
+(define list-to-expression
+  (lambda (e)
+    (cond
+     ((atom? (car e))
+      (cond
+       ((eq? (car e) (quote quote)) *quote)
+       ((eq? (car e) (quote lambda)) *lambda)
+       ((eq? (car e) (quote cond)) *cond)
+       (else *application))))))
+
+(define value
+  (lambda (e)
+    (meaing e (quote ()))))
+
+(define meaning
+  (lambda (e table)
+    ((expression-to-action e) e table)))
+
+(define *const
+  (lambda (e table)
+    (cond
+     ((number? e) e)
+     ((eq? e #t) #t)
+     ((eq? e #f) #f)
+     (else
+      (build (quote primitive) e)))))
+
+(define *quote
+  (lambda (e table)
+    (text-of e)))
+
+(define text-of second)
+
+(define *identifier
+  (lambda (e table)
+    (lookup-in-table e table initial-table)))
+
+(define initial-table
+  (lambda (name)
+    (car (quote ()))))
