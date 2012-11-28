@@ -1212,3 +1212,64 @@
 (define initial-table
   (lambda (name)
     (car (quote ()))))
+
+;; e : (lambda (args) (body))
+(define *lambda
+  (lambda (e table)
+    (build (quote non-primitive)
+           (cons table (cdr e)))))
+;; > (non-primitive (table (args) (body)))
+
+(define table-of first)
+(define formals-of second)
+(define body-of third)
+
+
+(define question-of first)
+(define answer-of second)
+(define else?
+  (lambda (x)
+    (cond
+     ((atom? x) (eq? x (quote else)))
+     else #f)))
+
+;; (cond
+;;   (question answer) ;; line 1
+;;   (question answer) ;; line 2
+;;   (else answer))    ;; line n
+
+(define evcon
+  (lambda (lines table)
+    ((else? (question-of (car lines)))
+     (meaning (answer-of (car lines)) table))
+    ((meaning (question-of (car lines)) table)
+     (meaning (answer-of (car lines)) table))
+    (else
+     (evcon (cdr lines) table))))
+
+;; lines가 null인 경우 처리가 없다.
+;; question 중의 하나는 true 이어야 함.
+
+(define cond-lines-of cdr)
+
+(define *cond
+  (lambda (e table)
+    (evcon (cond-lines-of e) table)))
+
+(define evlis
+  (lambda (args table)
+    (cond
+     ((null? args) (quote ()))
+     (else
+      (cons (meaning (car args) table)
+            (evlis (cdr args) table))))))
+
+(define function-of car)
+(define arguments-of cdr)
+
+(define *application
+  (lambda (e table)
+    (apply
+     (meaning (function-of e) table)
+     (evlis (arguments-of e) table))))
+
