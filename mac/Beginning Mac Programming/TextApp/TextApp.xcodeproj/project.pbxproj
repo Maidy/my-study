@@ -13,6 +13,7 @@
 		42905E0D1668F5BD009D6BC9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 42905E0B1668F5BD009D6BC9 /* Credits.rtf */; };
 		42905E101668F5BD009D6BC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42905E0F1668F5BD009D6BC9 /* AppDelegate.m */; };
 		42905E131668F5BD009D6BC9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42905E111668F5BD009D6BC9 /* MainMenu.xib */; };
+		42905E1B1668FFFA009D6BC9 /* NotifyingClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 42905E1A1668FFFA009D6BC9 /* NotifyingClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		42905E0E1668F5BD009D6BC9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		42905E0F1668F5BD009D6BC9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		42905E121668F5BD009D6BC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		42905E191668FFF9009D6BC9 /* NotifyingClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyingClass.h; sourceTree = "<group>"; };
+		42905E1A1668FFFA009D6BC9 /* NotifyingClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyingClass.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +85,8 @@
 		42905E021668F5BD009D6BC9 /* TextApp */ = {
 			isa = PBXGroup;
 			children = (
+				42905E191668FFF9009D6BC9 /* NotifyingClass.h */,
+				42905E1A1668FFFA009D6BC9 /* NotifyingClass.m */,
 				42905E0E1668F5BD009D6BC9 /* AppDelegate.h */,
 				42905E0F1668F5BD009D6BC9 /* AppDelegate.m */,
 				42905E111668F5BD009D6BC9 /* MainMenu.xib */,
@@ -168,6 +173,7 @@
 			files = (
 				42905E091668F5BD009D6BC9 /* main.m in Sources */,
 				42905E101668F5BD009D6BC9 /* AppDelegate.m in Sources */,
+				42905E1B1668FFFA009D6BC9 /* NotifyingClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
