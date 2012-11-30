@@ -1,0 +1,12 @@
+= TODO =
+
+ Sum의 plus 구현
+ 
+ $5 + $5 = $10
+ 25000 USD + 60000 CHF = 65000 USD
+ 1 USD = 1.5 CHF
+
+= DONE =
+- 1000 *  25 USD = 25000 USD
+-  400 * 150 CHF = 60000 CHF
+- times 중복 제거
