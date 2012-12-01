@@ -14,6 +14,7 @@
 		42905E101668F5BD009D6BC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42905E0F1668F5BD009D6BC9 /* AppDelegate.m */; };
 		42905E131668F5BD009D6BC9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42905E111668F5BD009D6BC9 /* MainMenu.xib */; };
 		42905E1B1668FFFA009D6BC9 /* NotifyingClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 42905E1A1668FFFA009D6BC9 /* NotifyingClass.m */; };
+		4294F8761669EFAC00D73489 /* MathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4294F8751669EFAC00D73489 /* MathUtilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		42905E121668F5BD009D6BC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		42905E191668FFF9009D6BC9 /* NotifyingClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyingClass.h; sourceTree = "<group>"; };
 		42905E1A1668FFFA009D6BC9 /* NotifyingClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyingClass.m; sourceTree = "<group>"; };
+		4294F8741669EFAC00D73489 /* MathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtilities.h; sourceTree = "<group>"; };
+		4294F8751669EFAC00D73489 /* MathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathUtilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,8 @@
 		42905E021668F5BD009D6BC9 /* TextApp */ = {
 			isa = PBXGroup;
 			children = (
+				4294F8741669EFAC00D73489 /* MathUtilities.h */,
+				4294F8751669EFAC00D73489 /* MathUtilities.m */,
 				42905E191668FFF9009D6BC9 /* NotifyingClass.h */,
 				42905E1A1668FFFA009D6BC9 /* NotifyingClass.m */,
 				42905E0E1668F5BD009D6BC9 /* AppDelegate.h */,
@@ -174,6 +179,7 @@
 				42905E091668F5BD009D6BC9 /* main.m in Sources */,
 				42905E101668F5BD009D6BC9 /* AppDelegate.m in Sources */,
 				42905E1B1668FFFA009D6BC9 /* NotifyingClass.m in Sources */,
+				4294F8761669EFAC00D73489 /* MathUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +309,7 @@
 				42905E181668F5BD009D6BC9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
