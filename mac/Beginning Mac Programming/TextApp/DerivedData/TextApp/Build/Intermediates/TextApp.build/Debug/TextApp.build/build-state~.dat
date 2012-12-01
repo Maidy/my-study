@@ -1,215 +1,0 @@
-TTextApp
-v5
-r1
-cCheck dependencies
-cProcessInfoPlistFile "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Info.plist" TextApp/TextApp-Info.plist
-cProcessPCH "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch.pth" TextApp/TextApp-Prefix.pch normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/main.o "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/main.m" normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/AppDelegate.o "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/AppDelegate.m" normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cLd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/MacOS/TextApp" normal x86_64
-cCopyStringsFile "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/InfoPlist.strings" TextApp/en.lproj/InfoPlist.strings
-cCompileXIB "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/en.lproj/MainMenu.xib"
-cCpResource TextApp/en.lproj/Credits.rtf DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/Credits.rtf
-cTouch "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app"
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk
-c000000005095408100000000000000AA
-t1351958657
-s170
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework/Cocoa
-c00000000505A844A00000000000025C8
-t1348109386
-s9672
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h
-c00000000505A844A00000000000001E5
-t1348109386
-s485
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch.pth
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/AppDelegate.o
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/TextApp.LinkFileList
-c0000000050B8BE820000000000000153
-t1354284674
-s339
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/main.o
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Info.plist
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/MacOS/TextApp
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/PkgInfo
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/Credits.rtf
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/InfoPlist.strings
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/MainMenu.nib
-t2
-s0
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/AppDelegate.m
-c0000000050B8BE3D0000000000000144
-t1354284605
-s324
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/TextApp-Prefix.pch
-c0000000050B8BE3D0000000000000091
-t1354284605
-s145
-i<Cocoa/Cocoa.h>
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/en.lproj/Credits.rtf
-c0000000050B8BE3D00000000000001B4
-t1354284605
-s436
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/en.lproj/InfoPlist.strings
-c0000000050B8BE3D000000000000002D
-t1354284605
-s45
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/en.lproj/MainMenu.xib
-c0000000050B8BE3D0000000000033DF1
-t1354284605
-s212465
-
-N/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/main.m
-c0000000050B8BE3D00000000000000F7
-t1354284605
-s247
-
-NTextApp/TextApp-Info.plist
-c0000000050B8BE3D000000000000044C
-t1354284605
-s1100
-
-CBuild AST from "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/AppDelegate.m"
-r0
-
-CBuild AST from "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/main.m"
-r0
-
-CCheck dependencies
-r0
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependenciesf9dc7d02f668b641^8a1d9502f668b641^---0#1#0#--18"Check dependencies36"4D058249-E192-461E-849D-F14DDDEF2F1B-
-
-CCompileC DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/AppDelegate.o "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/AppDelegate.m" normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s375977475.630461
-e375977475.813638
-r1
-xCompileC
-xDerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/AppDelegate.o
-x/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/AppDelegate.m
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection92"Compile /Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/AppDelegate.m228aa103f668b641^844ad003f668b641^---0#0#0#-19%DVTDocumentLocation2@104"file://localhost/Users/suguni/work/study/mac/Beginning%20Mac%20Programming/TextApp/TextApp/AppDelegate.m0000000000000000^3831"CompileC DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/AppDelegate.o TextApp/AppDelegate.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp"    setenv LANG en_US.US-ASCII    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch x86_64 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wduplicate-method-match -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk -fasm-blocks -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.8 -g -Wno-sign-conversion "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -iquote "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-generated-files.hmap" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-own-target-headers.hmap" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-all-target-headers.hmap" -iquote "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-project-headers.hmap" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/include" -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/DerivedSources/x86_64" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/DerivedSources" "-F/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug" -include "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch" -MMD -MT dependencies -MF "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/AppDelegate.d" --serialize-diagnostics "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/AppDelegate.dia" -c "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/AppDelegate.m" -o "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/AppDelegate.o"36"7D8F0825-86B8-4044-A421-4F77A739C1AA-
-
-CCompileC DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/main.o "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/main.m" normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s375977475.630452
-e375977475.798501
-r1
-xCompileC
-xDerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/main.o
-x/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/main.m
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection85"Compile /Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/main.m3f8ba103f668b641^906acc03f668b641^---0#0#0#-19%DVTDocumentLocation2@97"file://localhost/Users/suguni/work/study/mac/Beginning%20Mac%20Programming/TextApp/TextApp/main.m0000000000000000^3789"CompileC DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/main.o TextApp/main.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp"    setenv LANG en_US.US-ASCII    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch x86_64 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wduplicate-method-match -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk -fasm-blocks -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.8 -g -Wno-sign-conversion "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -iquote "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-generated-files.hmap" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-own-target-headers.hmap" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-all-target-headers.hmap" -iquote "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-project-headers.hmap" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/include" -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/DerivedSources/x86_64" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/DerivedSources" "-F/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug" -include "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch" -MMD -MT dependencies -MF "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/main.d" --serialize-diagnostics "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/main.dia" -c "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/main.m" -o "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/main.o"36"6C575E38-CE1E-43BF-B62C-1E308F1A84A1-
-
-CCompileXIB "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/en.lproj/MainMenu.xib"
-s375977476.129316
-e375977476.219420
-r1
-xCompileXIB
-x/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/en.lproj/MainMenu.xib
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection102"Compiling /Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/en.lproj/MainMenu.xib7f2f2104f668b641^d42c3804f668b641^---0#0#0#-19%DVTDocumentLocation2@112"file://localhost/Users/suguni/work/study/mac/Beginning%20Mac%20Programming/TextApp/TextApp/en.lproj/MainMenu.xib0000000000000000^700"CompileXIB TextApp/en.lproj/MainMenu.xib    cd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp"    setenv XCODE_DEVELOPER_USR_PATH /Applications/Xcode.app/Contents/Developer/usr/bin/..    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/MainMenu.nib" "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/en.lproj/MainMenu.xib" --sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk36"5639A92E-288C-4C4D-8517-0B575DC49FFC-
-
-CCopyStringsFile "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/InfoPlist.strings" TextApp/en.lproj/InfoPlist.strings
-s375977476.129294
-e375977476.134299
-r1
-xCopyStringsFile
-x/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/InfoPlist.strings
-xTextApp/en.lproj/InfoPlist.strings
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection39"Copy TextApp/en.lproj/InfoPlist.stringsb5322104f668b641^07612204f668b641^---0#0#0#-19%DVTDocumentLocation2@117"file://localhost/Users/suguni/work/study/mac/Beginning%20Mac%20Programming/TextApp/TextApp/en.lproj/InfoPlist.strings0000000000000000^496"CopyStringsFile DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/InfoPlist.strings TextApp/en.lproj/InfoPlist.strings    cd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp"    builtin-copyStrings --validate --inputencoding utf-8 --outputencoding UTF-16 --outdir "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj" -- TextApp/en.lproj/InfoPlist.strings36"AC26BD63-BD30-4C6D-9E8F-260553127C8B-
-
-CCpResource TextApp/en.lproj/Credits.rtf DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/Credits.rtf
-s375977476.129322
-e375977476.133087
-r1
-xCpResource
-xTextApp/en.lproj/Credits.rtf
-xDerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/Credits.rtf
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection97"Copy DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/Credits.rtf83322104f668b641^ed112204f668b641^---0#0#0#-19%DVTDocumentLocation2@175"file://localhost/Users/suguni/work/study/mac/Beginning%20Mac%20Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/Credits.rtf000000000080d041^557"CpResource TextApp/en.lproj/Credits.rtf DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj/Credits.rtf    cd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp"    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/en.lproj/Credits.rtf" "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Resources/en.lproj"36"5156E159-F30A-4146-AE74-5B34165F6700-
-
-CLd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/MacOS/TextApp" normal x86_64
-s375977475.820531
-e375977476.121053
-r1
-xLd
-x/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/MacOS/TextApp
-xnormal
-xx86_64
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection143"Link /Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/MacOS/TextApp1e6dd403f668b641^a8fd1e04f668b641^---0#0#0#--1051"Ld DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/MacOS/TextApp normal x86_64    cd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp"    setenv MACOSX_DEPLOYMENT_TARGET 10.8    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk "-L/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug" "-F/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug" -filelist "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/Objects-normal/x86_64/TextApp.LinkFileList" -mmacosx-version-min=10.8 -fobjc-arc -fobjc-link-runtime -framework Cocoa -o "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/MacOS/TextApp"36"A2AE38AE-8BDE-4D23-8250-98555665F6F4-
-
-CProcessInfoPlistFile "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Info.plist" TextApp/TextApp-Info.plist
-s375977474.600929
-e375977474.604976
-r1
-xProcessInfoPlistFile
-x/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Info.plist
-xTextApp/TextApp-Info.plist
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection34"Process TextApp/TextApp-Info.plist9f049a02f668b641^2efe9a02f668b641^---0#0#0#-19%DVTDocumentLocation2@109"file://localhost/Users/suguni/work/study/mac/Beginning%20Mac%20Programming/TextApp/TextApp/TextApp-Info.plist0000000000000000^575"ProcessInfoPlistFile DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Info.plist TextApp/TextApp-Info.plist    cd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp"    builtin-infoPlistUtility TextApp/TextApp-Info.plist -genpkginfo "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/PkgInfo" -expandbuildsettings -platform macosx -o "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app/Contents/Info.plist"36"07839859-BA40-4D34-90D1-F2A93BAD3513-
-
-CProcessPCH "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch.pth" TextApp/TextApp-Prefix.pch normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s375977474.613403
-e375977475.623619
-r1
-xProcessPCH
-x/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch.pth
-xTextApp/TextApp-Prefix.pch
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection37"Precompile TextApp/TextApp-Prefix.pchff3c9d02f668b641^f8a49f03f668b641^---0#0#0#-19%DVTDocumentLocation2@109"file://localhost/Users/suguni/work/study/mac/Beginning%20Mac%20Programming/TextApp/TextApp/TextApp-Prefix.pch0000000000000000^3714"ProcessPCH DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch.pth TextApp/TextApp-Prefix.pch normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp"    setenv LANG en_US.US-ASCII    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c-header -arch x86_64 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wduplicate-method-match -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk -fasm-blocks -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.8 -g -Wno-sign-conversion "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -iquote "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-generated-files.hmap" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-own-target-headers.hmap" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-all-target-headers.hmap" -iquote "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/TextApp-project-headers.hmap" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/include" -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/DerivedSources/x86_64" "-I/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/TextApp.build/Debug/TextApp.build/DerivedSources" "-F/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug" --serialize-diagnostics "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch.dia" -c "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/TextApp/TextApp-Prefix.pch" -o "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch.pth" -MMD -MT dependencies -MF "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Intermediates/PrecompiledHeaders/TextApp-Prefix-cdncezvmzrvypaewyzxkzgkqjior/TextApp-Prefix.pch.d"36"3CC0B5C8-2232-415B-816C-4653DAFDE0BD-
-
-CProcessPCH "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Index/PrecompiledHeaders/TextApp-Prefix-cenynestrcevdlgxxenblkebdyae_ast/TextApp-Prefix.pch.pth" TextApp/TextApp-Prefix.pch normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.astbuilder
-r0
-
-CTouch "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app"
-s375977476.227114
-e375977476.236744
-r1
-xTouch
-x/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection121"Touch /Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app11383a04f668b641^81073e04f668b641^---0#0#0#--271"Touch DerivedData/TextApp/Build/Products/Debug/TextApp.app    cd "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp"    /usr/bin/touch -c "/Users/suguni/work/study/mac/Beginning Mac Programming/TextApp/DerivedData/TextApp/Build/Products/Debug/TextApp.app"36"F660D3E7-BCC5-413F-B044-DF2D8E8D2F53-
-
