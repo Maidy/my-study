@@ -1,0 +1,320 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4294F88B166A0B0400D73489 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4294F88A166A0B0400D73489 /* Cocoa.framework */; };
+		4294F895166A0B0400D73489 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4294F893166A0B0400D73489 /* InfoPlist.strings */; };
+		4294F897166A0B0400D73489 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4294F896166A0B0400D73489 /* main.m */; };
+		4294F89B166A0B0400D73489 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4294F899166A0B0400D73489 /* Credits.rtf */; };
+		4294F89E166A0B0400D73489 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4294F89D166A0B0400D73489 /* AppDelegate.m */; };
+		4294F8A1166A0B0500D73489 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4294F89F166A0B0500D73489 /* MainMenu.xib */; };
+		4294F8A9166A0B1A00D73489 /* WonderfulNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 4294F8A8166A0B1A00D73489 /* WonderfulNumber.m */; };
+		4294F8AC166A0B8200D73489 /* NotifyingClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4294F8AB166A0B8200D73489 /* NotifyingClass.m */; };
+		4294F8AF166A0F6100D73489 /* MathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4294F8AE166A0F6100D73489 /* MathUtilities.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4294F886166A0B0400D73489 /* TextApp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextApp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4294F88A166A0B0400D73489 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		4294F88D166A0B0400D73489 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		4294F88E166A0B0400D73489 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4294F88F166A0B0400D73489 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4294F892166A0B0400D73489 /* TextApp2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TextApp2-Info.plist"; sourceTree = "<group>"; };
+		4294F894166A0B0400D73489 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4294F896166A0B0400D73489 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4294F898166A0B0400D73489 /* TextApp2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TextApp2-Prefix.pch"; sourceTree = "<group>"; };
+		4294F89A166A0B0400D73489 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		4294F89C166A0B0400D73489 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4294F89D166A0B0400D73489 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4294F8A0166A0B0500D73489 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		4294F8A7166A0B1A00D73489 /* WonderfulNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WonderfulNumber.h; path = ../WonderfulNumber.h; sourceTree = "<group>"; };
+		4294F8A8166A0B1A00D73489 /* WonderfulNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WonderfulNumber.m; path = ../WonderfulNumber.m; sourceTree = "<group>"; };
+		4294F8AA166A0B8200D73489 /* NotifyingClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotifyingClass.h; path = ../NotifyingClass.h; sourceTree = "<group>"; };
+		4294F8AB166A0B8200D73489 /* NotifyingClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotifyingClass.m; path = ../NotifyingClass.m; sourceTree = "<group>"; };
+		4294F8AD166A0F6100D73489 /* MathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtilities.h; sourceTree = "<group>"; };
+		4294F8AE166A0F6100D73489 /* MathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathUtilities.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4294F883166A0B0400D73489 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4294F88B166A0B0400D73489 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4294F87B166A0B0400D73489 = {
+			isa = PBXGroup;
+			children = (
+				4294F890166A0B0400D73489 /* TextApp2 */,
+				4294F889166A0B0400D73489 /* Frameworks */,
+				4294F887166A0B0400D73489 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4294F887166A0B0400D73489 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4294F886166A0B0400D73489 /* TextApp2.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4294F889166A0B0400D73489 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4294F88A166A0B0400D73489 /* Cocoa.framework */,
+				4294F88C166A0B0400D73489 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4294F88C166A0B0400D73489 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4294F88D166A0B0400D73489 /* AppKit.framework */,
+				4294F88E166A0B0400D73489 /* CoreData.framework */,
+				4294F88F166A0B0400D73489 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		4294F890166A0B0400D73489 /* TextApp2 */ = {
+			isa = PBXGroup;
+			children = (
+				4294F8AD166A0F6100D73489 /* MathUtilities.h */,
+				4294F8AE166A0F6100D73489 /* MathUtilities.m */,
+				4294F8AA166A0B8200D73489 /* NotifyingClass.h */,
+				4294F8AB166A0B8200D73489 /* NotifyingClass.m */,
+				4294F8A7166A0B1A00D73489 /* WonderfulNumber.h */,
+				4294F8A8166A0B1A00D73489 /* WonderfulNumber.m */,
+				4294F89C166A0B0400D73489 /* AppDelegate.h */,
+				4294F89D166A0B0400D73489 /* AppDelegate.m */,
+				4294F89F166A0B0500D73489 /* MainMenu.xib */,
+				4294F891166A0B0400D73489 /* Supporting Files */,
+			);
+			path = TextApp2;
+			sourceTree = "<group>";
+		};
+		4294F891166A0B0400D73489 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4294F892166A0B0400D73489 /* TextApp2-Info.plist */,
+				4294F893166A0B0400D73489 /* InfoPlist.strings */,
+				4294F896166A0B0400D73489 /* main.m */,
+				4294F898166A0B0400D73489 /* TextApp2-Prefix.pch */,
+				4294F899166A0B0400D73489 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4294F885166A0B0400D73489 /* TextApp2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4294F8A4166A0B0500D73489 /* Build configuration list for PBXNativeTarget "TextApp2" */;
+			buildPhases = (
+				4294F882166A0B0400D73489 /* Sources */,
+				4294F883166A0B0400D73489 /* Frameworks */,
+				4294F884166A0B0400D73489 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TextApp2;
+			productName = TextApp2;
+			productReference = 4294F886166A0B0400D73489 /* TextApp2.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4294F87D166A0B0400D73489 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = YuiWorld;
+			};
+			buildConfigurationList = 4294F880166A0B0400D73489 /* Build configuration list for PBXProject "TextApp2" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4294F87B166A0B0400D73489;
+			productRefGroup = 4294F887166A0B0400D73489 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4294F885166A0B0400D73489 /* TextApp2 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4294F884166A0B0400D73489 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4294F895166A0B0400D73489 /* InfoPlist.strings in Resources */,
+				4294F89B166A0B0400D73489 /* Credits.rtf in Resources */,
+				4294F8A1166A0B0500D73489 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4294F882166A0B0400D73489 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4294F897166A0B0400D73489 /* main.m in Sources */,
+				4294F89E166A0B0400D73489 /* AppDelegate.m in Sources */,
+				4294F8A9166A0B1A00D73489 /* WonderfulNumber.m in Sources */,
+				4294F8AC166A0B8200D73489 /* NotifyingClass.m in Sources */,
+				4294F8AF166A0F6100D73489 /* MathUtilities.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4294F893166A0B0400D73489 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4294F894166A0B0400D73489 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4294F899166A0B0400D73489 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4294F89A166A0B0400D73489 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		4294F89F166A0B0500D73489 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4294F8A0166A0B0500D73489 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4294F8A2166A0B0500D73489 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		4294F8A3166A0B0500D73489 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		4294F8A5166A0B0500D73489 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TextApp2/TextApp2-Prefix.pch";
+				INFOPLIST_FILE = "TextApp2/TextApp2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		4294F8A6166A0B0500D73489 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TextApp2/TextApp2-Prefix.pch";
+				INFOPLIST_FILE = "TextApp2/TextApp2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4294F880166A0B0400D73489 /* Build configuration list for PBXProject "TextApp2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4294F8A2166A0B0500D73489 /* Debug */,
+				4294F8A3166A0B0500D73489 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4294F8A4166A0B0500D73489 /* Build configuration list for PBXNativeTarget "TextApp2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4294F8A5166A0B0500D73489 /* Debug */,
+				4294F8A6166A0B0500D73489 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4294F87D166A0B0400D73489 /* Project object */;
+}

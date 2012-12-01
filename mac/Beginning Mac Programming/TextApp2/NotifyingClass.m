@@ -1,15 +1,14 @@
 //
 //  NotifyingClass.m
-//  TextApp
+//  TextApp2
 //
-//  Created by suguni on 12. 11. 30..
+//  Created by suguni on 12. 12. 1..
 //  Copyright (c) 2012년 YuiWorld. All rights reserved.
 //
 
 #import "NotifyingClass.h"
-#import "MathUtilities.h"
 #import "WonderfulNumber.h"
-#include <math.h>
+#import "MathUtilities.h"
 
 @implementation NotifyingClass
 
@@ -20,14 +19,13 @@
 
 - (IBAction)displaySomeText:(id)sender
 {
-    WonderfulNumber *myWonderfulNumber = [[WonderfulNumber alloc] init];
+    WonderfulNumber *myWonderfulNumber = [WonderfulNumber wonderfulNumberWithFloat:M_PI];
     
-    [myWonderfulNumber setStoredNumber:M_PI];
+    NSString *stringToOutput = @"The value is ";
+    stringToOutput = [stringToOutput stringByAppendingString:[myWonderfulNumber storedNumberAsString]];
+    stringToOutput = [stringToOutput stringByAppendingString:@"\n"];
     
-    float wonderfulNumber = [myWonderfulNumber storedNumber];
-    
-    [textView insertText:[NSString
-                          stringWithFormat:@"My Wonderful value = %f\n", wonderfulNumber]];
+    [textView insertText:stringToOutput];
 }
 
 - (float)generateValue:(float *)originalValue
