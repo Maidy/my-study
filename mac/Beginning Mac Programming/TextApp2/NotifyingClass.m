@@ -19,13 +19,40 @@
 
 - (IBAction)displaySomeText:(id)sender
 {
-    WonderfulNumber *myWonderfulNumber = [WonderfulNumber wonderfulNumberWithFloat:M_PI];
+    NSString *firstObject = @"Milk";
+    NSString *secondObject = @"Eggs";
+    NSString *thirdObject = @"Butter";
     
-    NSString *stringToOutput = @"The value is ";
-    stringToOutput = [stringToOutput stringByAppendingString:[myWonderfulNumber storedNumberAsString]];
-    stringToOutput = [stringToOutput stringByAppendingString:@"\n"];
+    NSArray *shoppingListArray = [NSArray
+                                  arrayWithObjects:firstObject, secondObject, thirdObject, nil];
     
+    NSString *typedValue = [textField stringValue];
+    shoppingListArray = [shoppingListArray arrayByAddingObject:typedValue];
+    
+    NSString *stringToOutput = @"The shopping list is ";
+    stringToOutput = [stringToOutput
+                      stringByAppendingString:[shoppingListArray
+                                               componentsJoinedByString:@", "]];
+    stringToOutput = [stringToOutput stringByAppendingString:@"."];
     [textView insertText:stringToOutput];
+    
+    stringToOutput = @"\n\nThe first item in the list is: ";
+    stringToOutput = [stringToOutput
+                      stringByAppendingString:[shoppingListArray objectAtIndex:0]];
+    [textView insertText:stringToOutput];
+    
+    int indexOfObject = (int)[shoppingListArray indexOfObject:secondObject];
+    stringToOutput = [NSString stringWithFormat:@"\n\nIndex of the second object is: %i", indexOfObject];
+    [textView insertText:stringToOutput];
+    
+    int numberOfItems = (int)[shoppingListArray count];
+    stringToOutput = [NSString stringWithFormat:@"\n\nThere are %i items in the shopping list", numberOfItems];
+    [textView insertText:stringToOutput];
+    
+    NSMutableArray *changingArray = [NSMutableArray array];
+    [changingArray addObject:@"The first string"];
+    [changingArray addObject:@"The second string"];
+    [textView insertText:[NSString stringWithFormat:@"\n\n%@", changingArray]];
 }
 
 - (float)generateValue:(float *)originalValue
