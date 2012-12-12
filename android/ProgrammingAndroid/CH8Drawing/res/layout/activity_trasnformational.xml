@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TrasnformationalActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false">
+    
+    <Button 
+        android:id="@+id/transformational_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transformational_refresh_text"/>
+    
+    <LinearLayout
+    	android:id="@+id/transformational_container1"
+    	android:layout_weight="1"
+    	android:layout_width="0dp"
+    	android:layout_height="match_parent"
+    	android:orientation="vertical"
+    	android:background="@color/blue">
+	</LinearLayout>
+
+    <LinearLayout
+    	android:id="@+id/transformational_container2"
+    	android:layout_weight="1"
+    	android:layout_width="0dp"
+    	android:layout_height="match_parent"
+    	android:orientation="vertical"
+    	android:background="@color/red">
+	</LinearLayout>
+	
+</LinearLayout>
