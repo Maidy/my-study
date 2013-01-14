@@ -958,12 +958,17 @@
      (else
       (eq? a sorn)))))
 
+;; keep-looking은 unnatural recursion
+
 ;; (keep-looking 'caviar 3 '(6 2 4 caviar 5 7 3))
 ;; > (keep-looing 'caviar 4 '(6 2 4 caviar 5 7 3))
 
 ;; looking 같은 함수를 partial function이라고 한다.
 ;; 어떤 의미? goal에 다가가지 않을수도 있는 함수?
-;; 특정 인자에 대해서만 결과를 얻을 수 있는 함수?
+;; 특정 인자에 대해서만 결과를 얻을 수 있는 함수 !!! 이거.
+;; 인자에 따라 값을 얻을수도 있고 얻지 못할수도 있는 함수.
+
+;; 지금까지 본 함수들은 모두 total function
 
 ;; most partial function
 (define eternity
@@ -1281,8 +1286,7 @@
   (lambda (l)
     (eq? (first l) (quote non-primitive))))
 
-(define apply
-  (lambda (fun vals)
+(define apply  (lambda (fun vals)
     (cond
      ((primitive? fun)
       (apply-primitive
