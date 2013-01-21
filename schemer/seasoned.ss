@@ -171,12 +171,62 @@
         ((I (lambda (set)
               (cond
                ((null? set) '())
-               ((member? (car set) set2)
+               ((member? (car set) set2) 
                 (cons (car set)
-                      (intersect (cdr set) set2)))
+                      (I (cdr set))))
                (else
-                (intersect (cdr set) set2))))))
+                (I (cdr set)))))))
       (cond
        ((null? set2) '())
        (else
         (I set1))))))
+
+(define intersectall-5
+  (lambda (lset)
+    (call-with-current-continuation
+     (lambda (hop)
+       (letrec
+           ((A (lambda (lset)
+                 (cond
+                  ((null? (car lset)) (hop '()))
+                  ((null? (cdr lset)) (car lset))
+                  (else
+                   (I (car lset) (A (cdr lset)))))))
+            (I (lambda (s1 s2)
+                 (letrec
+                     ((J (lambda (s)
+                           (cond
+                            ((null? s) '())
+                            ((member? (car s) s2)
+                             (cons (car s) (J (cdr s))))
+                            (else (J (cdr s)))))))
+                   (cond
+                    ((null? s2) '())
+                    (else
+                     (J s1)))))))
+         (cond
+          ((null? lset) (hop '()))
+          (else (A lset))))))))
+
+(define rember
+  (lambda (a lat)
+    (letrec
+        ((R (lambda (lat)
+              (cond
+               ((null? lat) '())
+               ((eq? a (car lat))
+                (R (cdr lat)))
+               (else
+                (cons (car lat) (R (cdr lat))))))))
+      (R lat))))
+
+(define rember-beyond-first
+  (lambda (a lat)
+    (letrec
+        ((R (lambda (lat)
+              (cond
+               ((null? lat) '())
+               ((eq? a (car lat)) '())
+               (else
+                (cons (car lat) (R (cdr lat))))))))
+      (R lat))))
