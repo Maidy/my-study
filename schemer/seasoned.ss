@@ -1,3 +1,7 @@
+(define atom?
+  (lambda (x)
+    (and (not (pair? x)) (not (null? x)))))
+
 (define member?
   (lambda (a lat)
     (cond
@@ -230,3 +234,74 @@
                (else
                 (cons (car lat) (R (cdr lat))))))))
       (R lat))))
+
+(define rember-upto-last
+  (lambda (a lat)
+    (call-with-current-continuation
+     (lambda (skip)
+       (letrec
+           ((R (lambda (lat)
+                 (cond
+                  ((null? lat) '())
+                  ((eq? (car lat) a) (skip (R (cdr lat))))
+                  (else (cons (car lat)
+                              (R (cdr lat))))))))
+         (R lat))))))
+
+(rember-upto-last 'cookies
+                  '(cookies
+                    chocolate mints caramel delight ginger snaps
+                    desserts
+                    chocolate mousse
+                    vanilla ice cream
+                    German chocolate cake
+                    more cookies
+                    gingerbreadman chocolate chip brownies))
+
+(define leftmost
+  (lambda (l)
+    (cond
+     ((atom? (car l)) (car l))
+     (else
+      (leftmost (car l))))))
+
+(leftmost '((a b) c))
+(leftmost '(((a) b) (c d)))
+(leftmost '(((a) ()) () (e)))
+;; (leftmost '(((() a) ())))
+;; > error
+
+(define leftmost-2
+  (lambda (l)
+    (cond
+     ((null? l) '())
+     ((atom? (car l)) (car l))
+     (else
+      (cond
+       ((atom? (leftmost-2 (car l))) (leftmost-2 (car l)))
+       (else (leftmost-2 (cdr l))))))))
+
+(leftmost-2 '(((() a) ())))
+
+(define leftmost-3
+  (lambda (l)
+    (cond
+     ((null? l) '())
+     ((atom? (car l)) (car l))
+     (else
+      (let
+          ((a (leftmost-3 (car l))))
+        (cond
+         ((atom? a) a)
+         (else (leftmost-3 (cdr l)))))))))
+(leftmost-3 '(((() a) ())))
+;; let과 letcc의 차이점은?
+(let
+    ((x 10))
+  (let
+      ((x 20)
+       (y x))
+    (cons x (cons y '()))))
+;; > (20 10), y는 동일한 레벨의 let에서가
+;; 아닌 밖에 있는 let에서 가져온다.
+;; letrec는???
