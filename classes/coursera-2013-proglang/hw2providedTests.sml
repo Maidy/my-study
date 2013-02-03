@@ -37,3 +37,32 @@ fun provided_test2 () = (* correct behavior: return 3 *)
     in
  	officiate(cards,moves,42)
     end
+
+card_color(Hearts, 3);
+card_value(Clubs, Num(9));
+card_value(Clubs, Ace);
+
+val cs = [(Clubs, Num 9), (Clubs, Num 2), (Spades, Ace), (Hearts, King)];
+val c1 = (Spades, Ace);
+val c2 = (Diamonds, Num 3);
+remove_card(cs, c1, IllegalMove);
+remove_card(cs, c2, IllegalMove);
+
+all_same_color [(Clubs, Ace), (Clubs, King), (Spades, Queen), (Diamonds, Num 3)];
+sum_cards cs; (* 1 + 2 + 11+ 10 = 24 *)
+score(cs, 20); (* 4 *)
+score([(Clubs, King), (Clubs, Num 3), (Spades, Ace)], 20); (* 2 *)
+
+officiate ([(Clubs, Num 2), (Clubs, Num 3), (Clubs, King), (Clubs, Ace)],
+          [Draw, Draw],
+          50);
+
+careful_player([(Clubs, Num 2), (Clubs, Num 3), (Clubs, King), (Clubs, Ace), (Clubs 5)], 30);
+(*
+2 + 3 + 10 + 11
+26
+Draw, Draw, Draw
+*)
+
+careful_player([(Spades,Num 7),(Hearts,King),(Clubs,Ace),(Diamonds,Num 2)], 18);
+
