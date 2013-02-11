@@ -1,0 +1,1 @@
+gcc -framework GLUT -framework OpenGL -framework Cocoa $1 -o $2
