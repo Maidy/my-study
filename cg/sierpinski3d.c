@@ -7,7 +7,7 @@
 
 #define POINTS 10000
 
-typedef GLfloat point2[2];
+typedef GLfloat point[3];
 
 void render(void);
 void init(void);
@@ -27,20 +27,30 @@ int main(int argc, const char * argv[]) {
 void render(void) {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    point2 p = { 75.0, 50.0 };
-    point2 tri[3] = { {   0.0,   0.0 },
-                      { 250.0, 500.0 },
-                      { 500.0,   0.0 } };
+    point p = { 0.0, 10.0, 10.0 };
+
+    point tri[4] = { { 0.0, 250.0, 0.0 },
+                     { 100.0, 0.0, 0.0 },
+                     { -100.0, 0.0, 0.0 },
+                     { 0.0, 0.0, 250.0 } };
+    /*
+    point tri[4] = { {   0.0,   0.0,   0.0 },
+                     { 250.0, 500.0, 100.0 },
+                     { 500.0, 250.0, 250.0 },
+                     { 250.0, 100.0, 250.0 } };
+    */
     int i, n;
 
     for (i = 0; i < POINTS; i++) {
-      n = rand() % 3;
+      n = rand() % 4;
 
       p[0] = (p[0] + tri[n][0]) / 2.0;
       p[1] = (p[1] + tri[n][1]) / 2.0;
+      p[2] = (p[2] + tri[n][2]) / 2.0;
 
       glBegin(GL_POINTS);
-      glVertex2fv(p);
+      glColor3f(p[0] / 250.0, p[1] / 250.0, p[2] / 250.0);
+      glVertex3fv(p);
       glEnd();
     }
 
@@ -48,11 +58,11 @@ void render(void) {
 }
 
 void init(void) {
-	glClearColor (1.0, 1.0, 1.0, 0.0);
+	glClearColor(1.0, 1.0, 1.0, 0.0);
     glColor3f(1.0, 0.0, 0.0);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(0.0, 500.0, 0.0, 500.0);
+    glOrtho(-500.0, 500.0, -500.0, 500.0, 500.0, -500.0);
     glMatrixMode(GL_MODELVIEW);
 }
