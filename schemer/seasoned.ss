@@ -305,3 +305,67 @@
 ;; > (20 10), y는 동일한 레벨의 let에서가
 ;; 아닌 밖에 있는 let에서 가져온다.
 ;; letrec는???
+
+(define eqlist?
+  (lambda (l1 l2)
+    (cond
+     ((and (null? l1) (null? l2)) #t)
+     ((or (null? l1) (null? l2)) #f)
+     (else
+      (and (equal? (car l1) (car l2))
+           (equal? (cdr l1) (cdr l2)))))))
+
+(define rember1*
+  (lambda (a l)
+    (cond
+     ((null? l) '())
+     ((atom? (car l))
+      (cond
+       ((eq? a (car l)) (cdr l))
+       (else (cons (car l) (rember1* a (cdr l))))))
+     (else
+      (cond
+       ((eqlist? (rember1* a (car l)) (car l))
+        (cons (car l) (rember1* a (cdr l))))
+       (else (cons (rember1* a (car l)) (cdr l))))))))
+;; (rember1* 'salad '((Swedish rye) (French (mustard salad turkey))
+;; salad))
+
+(define rember1*2
+  (lambda (a l)
+    (letrec
+        ((R (lambda (l)
+              (cond
+               ((null? l) '())
+               ((atom? (car l))
+                (cond
+                 ((eq? a (car l)) (cdr l))
+                 (else (cons (car l) (R (cdr l))))))
+               (else
+                (cond
+                 ((eqlist? (R (car l)) (car l))
+                  (cons (car l) (R (cdr l))))
+                 (else (cons (R (car l)) (cdr l)))))))))
+      (R l))))
+;; (rember1*2 'salad '((Swedish rye) (French (mustard salad turkey))
+;; salad))
+
+;; (R (car l)) 반복 제거
+(define rember1*3
+  (lambda (a l)
+    (letrec
+        ((R (lambda (l)
+              (cond
+               ((null? l) '())
+               ((atom? (car l))
+                (cond
+                 ((eq? a (car l)) (cdr l))
+                 (else (cons (car l) (R (cdr l))))))
+               (else
+                (let
+                    ((av (R (car l))))
+                  (cond
+                   ((eqlist? av (car l))
+                    (cons (car l) (R (cdr l))))
+                   (else (cons av (cdr l))))))))))
+      (R l))))
