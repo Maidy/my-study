@@ -8,6 +8,7 @@ bin
 .settings
 /HeadFirstDesignPatterns/workspace/Head First Design Patterns/.settings
 *.pyc
+gen
 node_modules
 tdd/wsp/Bank Business/lib
 compiler/cool/src/PA2/handle_flags.cc
