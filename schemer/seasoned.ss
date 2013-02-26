@@ -369,3 +369,55 @@
                     (cons (car l) (R (cdr l))))
                    (else (cons av (cdr l))))))))))
       (R l))))
+
+(define addone
+  (lambda (n) (+ n 1)))
+
+(define depth*
+  (lambda (l)
+    (cond
+     ((null? l) 1)
+     ((atom? (car l)) (depth* (cdr l)))
+     (else
+      (cond
+       ((> (depth* (cdr l))
+           (addone (depth* (car l))))
+        (depth* (cdr l)))
+       (else
+        (addone (depth* (car l)))))))))
+
+(define depth2*
+  (lambda (l)
+    (cond
+     ((null? l) 1)
+     ((atom? (car l))
+      (depth2* (cdr l)))
+     (else
+      (let
+          ((a (addone (depth2* (car l))))
+           (d (depth2* (cdr l))))
+        (cond
+         ((> d a) d)
+         (else a)))))))
+
+(define depth3*
+  (lambda (l)
+    (cond
+     ((null? l) 1)
+     (else
+      (let ((d (depth3* (cdr l))))
+        (cond
+         ((atom? (car l)) d)
+         (else
+          (let ((a (addone (depth3* (car l)))))
+            (cond
+             ((> d a) d)
+             (else a))))))))))
+
+
+;; depth* 코드들 검토 - 계산 방법 관점에서...
+;; (car l)이 atom이면 (cdr l)의 depth를 계산하고 종료
+;; (car l)이 atom이 아니면 (car l)의 depth는 두 번 (cdr l)의 depth는
+;; 한 번 계산,  결국 let을 어떻게 쓰던 depth2*나 depth3*나 (car l)과
+;; (cdr l)의 depth의 계산횟수는 동일. 그러므로 보기 좋은 depth2*가 더
+;; 좋은 코드이다.
