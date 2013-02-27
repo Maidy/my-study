@@ -386,6 +386,7 @@
        (else
         (addone (depth* (car l)))))))))
 
+;; best code
 (define depth2*
   (lambda (l)
     (cond
@@ -421,3 +422,46 @@
 ;; 한 번 계산,  결국 let을 어떻게 쓰던 depth2*나 depth3*나 (car l)과
 ;; (cdr l)의 depth의 계산횟수는 동일. 그러므로 보기 좋은 depth2*가 더
 ;; 좋은 코드이다.
+
+;; depth2*와 동일, 마지막 cond를 >함수의 결과로 처리.
+(define depth4*
+  (lambda (l)
+    (cond
+     ((null? l) 1)
+     ((atom? (car l))
+      (depth4* (cdr l)))
+     (else
+      (let ((a (addone (depth4* (car l))))
+            (d (depth4* (cdr l))))
+        (if (> d a) d a))))))
+
+(define max (lambda (a b) (if (> a b) a b)))
+;; 두값을 비교해서 큰 값을 반환하는 함수가 있다면...
+;; 아래처럼 좀 더 간결하게... let이 필요 없어졌다.
+(define depth5*
+  (lambda (l)
+    (cond
+     ((null? l) 1)
+     ((atom? (car l)) (depth5* (cdr l)))
+     (else
+      (max (addone (depth5* (car l)))
+           (depth5* (cdr l)))))))
+
+(define pick
+  (lambda (n lat)
+    (cond
+     ((eq? n 1) (car lat))
+     (else (pick (sub1 n) (cdr lat))))))
+
+(define scramble
+  (lambda (tup)
+    (letrec
+        ((P (lambda (tup rp)
+              (cond
+               ((null? tup) (quote ()))
+               (else
+                (cons (pick (car tup)
+                            (cons (car tup) rp))
+                      (P (cdr tup)
+                         (cons (caar tup) rp))))))))
+      (P tup (quote ())))))
