@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="left">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_message" />
+
+    <TextView
+        android:id="@+id/main_celsius_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/field_margin"
+        android:textSize="@dimen/label_text_size"
+        android:text="@string/main_celsius_label" />
+    
+    <kr.yuiworld.temperatureconverter.EditNumber
+        android:id="@+id/main_celsius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/field_margin"
+        android:gravity="right|center_vertical" />
+    
+    <TextView
+        android:id="@+id/main_fahrenheit_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/field_margin"
+        android:textSize="@dimen/label_text_size"
+        android:text="@string/main_fahrenheit_label" />
+    
+    <kr.yuiworld.temperatureconverter.EditNumber
+        android:id="@+id/main_fahrenheit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/field_margin"
+        android:gravity="right|center_vertical" />
+
+</LinearLayout>

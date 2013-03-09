@@ -1,0 +1,9 @@
+- The application converts temperatures from Celsius to Fahrenheit and vice-versa.
+- The user interface presents two fields to enter the temperature, one for Celsius other for Fahrenheit.
+- When one temperature is entered in one field the other is automatically updated with the conversion.
+- If there are errors, they should be displayed to the user, possibly using the same fields.
+- Some space is the user interface should be reserved for the on screen keyboard to ease the application operation when several conversions entered.
+- Entry fields should start empty.
+- Values entered are decimal values with two digit after the point.
+- Digits are right aligned.
+- Last entered values should be retained even after the application is paused.
