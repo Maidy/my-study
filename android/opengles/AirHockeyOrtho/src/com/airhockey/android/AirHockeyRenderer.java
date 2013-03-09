@@ -12,6 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
+import android.opengl.Matrix;
 
 import com.airhockey.android.util.LoggerConfig;
 import com.airhockey.android.util.ShaderHelper;
@@ -24,23 +25,27 @@ public class AirHockeyRenderer implements Renderer {
 			// X, Y, R, G, B
 			
 			// table triangle fan
-			   0f,     0f,   1f,   1f,   1f,
-			-0.5f,  -0.5f, 0.7f, 0.7f, 0.7f,
-			 0.5f,  -0.5f, 0.7f, 0.7f, 0.7f,
-			 0.5f,   0.5f, 0.7f, 0.7f, 0.7f,
-			-0.5f,   0.5f, 0.7f, 0.7f, 0.7f,
-			-0.5f,  -0.5f, 0.7f, 0.7f, 0.7f,
+			   0f,    0f,   1f,   1f,   1f,
+			-0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+			 0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+			 0.5f,  0.8f, 0.7f, 0.7f, 0.7f,
+			-0.5f,  0.8f, 0.7f, 0.7f, 0.7f,
+			-0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
 			
 			// center line
-			-0.5f,     0f,   1f,   0f,   0f,
-			 0.5f,     0f,   1f,   0f,   0f,   
+			-0.5f,    0f,   1f,   0f,   0f,
+			 0.5f,    0f,   1f,   0f,   0f,   
 			
 			// mallet 1
-			   0f, -0.25f,  0f,   0f,   1f,
+			   0f, -0.4f,   0f,   0f,   1f,
 
 			// mallet 2
-			   0f,  0.25f,  1f,   0f,   0f
+			   0f,  0.4f,   1f,   0f,   0f
 	};
+	
+	private static final String U_MATRIX = "u_Matrix";
+	private final float[] projectionMatrix = new float[16];
+	private int uMatrixLocation;
 	
 	private static final String A_POSITION = "a_Position";
 	private static final String A_COLOR = "a_Color";
@@ -68,6 +73,7 @@ public class AirHockeyRenderer implements Renderer {
 	public AirHockeyRenderer(Context context) {
 		this.context = context;
 		
+		// OpenGL이 읽을 데이터
 		vertexData = ByteBuffer
 				.allocateDirect(tableVerticesWithTriangles.length * BYTES_PER_FLOAT)
 				.order(ByteOrder.nativeOrder())
@@ -82,6 +88,8 @@ public class AirHockeyRenderer implements Renderer {
 		
 		glClear(GL_COLOR_BUFFER_BIT);
 		
+		glUniformMatrix4fv(uMatrixLocation, 1, false, projectionMatrix, 0);
+		
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
 		glDrawArrays(GL_LINES, 6, 2);
 		glDrawArrays(GL_POINTS, 8, 1);
@@ -90,7 +98,12 @@ public class AirHockeyRenderer implements Renderer {
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		glViewport(0, 0, width, height);
+		final float aspectRatio = width > height ?
+				(float) width / height : (float) height / width;
+		if (width > height)
+			Matrix.orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1.0f, 1.0f, -1.0f, 1.0f);
+		else
+			Matrix.orthoM(projectionMatrix, 0, -1.0f, 1.0f, -aspectRatio, aspectRatio, -1.0f, 1.0f);
 	}
 
 	@Override
@@ -121,16 +134,17 @@ public class AirHockeyRenderer implements Renderer {
 		// use program
 		glUseProgram(program);
 		
+		// matrix
+		uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
+		
 		// 포인터가 첫번째 position attribute를 가리킨다.
 		vertexData.position(0);
-		
 		// 데이터와 shader의 a_Position을 연결한다.
 		glVertexAttribPointer(A_POSITION_LOCATION, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);
 		glEnableVertexAttribArray(A_POSITION_LOCATION);
 		
 		// 포인터가 첫번째 color attribute를 가리킨다.
 		vertexData.position(POSITION_COMPONENT_COUNT);
-		
 		// 데이터와 shader의 a_Color를 연결한다.
 		glVertexAttribPointer(A_COLOR_LOCATION, COLOR_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);
 		glEnableVertexAttribArray(A_COLOR_LOCATION);
