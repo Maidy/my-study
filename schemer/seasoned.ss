@@ -465,3 +465,34 @@
                       (P (cdr tup)
                          (cons (caar tup) rp))))))))
       (P tup (quote ())))))
+
+
+(define leftmost-4
+  (lambda (l)
+    (call-with-current-continuation
+     (lambda (skip)
+       (lm l skip)))))
+
+(define lm
+  (lambda (l out)
+    (cond
+     ((null? l) '())
+     ((atom? (car l)) (out (car l)))
+     (else
+      (let ()
+        (lm (car l) out)
+        (lm (cdr l) out))))))
+
+(define leftmost-5
+  (lambda (l)
+    (call-with-current-continuation
+     (lambda (skip)
+       (letrec ((lm (lambda (l)
+                      (cond
+                       ((null? l) '())
+                       ((atom? (car l)) (skip (car l)))
+                       (else
+                        (let ()
+                          (lm (car l))
+                          (lm (cdr l))))))))
+         (lm l))))))
