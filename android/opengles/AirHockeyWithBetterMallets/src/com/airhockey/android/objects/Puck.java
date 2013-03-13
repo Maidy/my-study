@@ -6,8 +6,8 @@ import com.airhockey.android.data.VertexArray;
 import com.airhockey.android.programs.ColorShaderProgram;
 import com.airhockey.android.util.Geometry;
 
-public class Mallet {
-
+public class Puck {
+	
 	private static final int POSITION_COMPONENT_COUNT = 3;
 	
 	public final float radius, height;
@@ -15,10 +15,11 @@ public class Mallet {
 	private final VertexArray vertexArray;
 	private final List<ObjectBuilder.DrawCommand> drawList;
 	
-	public Mallet(float radius, float height, int numPointsAroundMallet) {
+	public Puck(float radius, float height, int numPointsAroundPack) {
 		
-		ObjectBuilder.GeneratedData generatedData = ObjectBuilder.createMallet(
-				new Geometry.Point(0f, 0f, 0f), radius, height, numPointsAroundMallet);
+		ObjectBuilder.GeneratedData generatedData = ObjectBuilder.createPuck(
+				new Geometry.Cylinder(new Geometry.Point(0f, 0f, 0f), radius, height),
+				numPointsAroundPack);
 		
 		this.radius = radius;
 		this.height = height;
@@ -38,4 +39,5 @@ public class Mallet {
 		for (ObjectBuilder.DrawCommand command : drawList)
 			command.draw();
 	}
+	
 }
