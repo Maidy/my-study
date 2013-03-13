@@ -15,6 +15,7 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.Matrix;
 
 import com.airhockey.android.util.LoggerConfig;
+import com.airhockey.android.util.MatrixHelper;
 import com.airhockey.android.util.ShaderHelper;
 import com.airhockey.android.util.TextResourceReader;
 
@@ -42,10 +43,35 @@ public class AirHockeyRenderer implements Renderer {
 			// mallet 2
 			   0f,  0.4f,   1f,   0f,   0f
 	};
+
+//	float[] tableVerticesWithTriangles = {
+//			
+//			// X, Y, Z, W, R, G, B
+//			
+//			// table triangle fan
+//			   0f,    0f, 0f,  1.5f,   1f,   1f,   1f,
+//			-0.5f, -0.8f, 0f,    1f, 0.7f, 0.7f, 0.7f,
+//			 0.5f, -0.8f, 0f,    1f, 0.7f, 0.7f, 0.7f,
+//			 0.5f,  0.8f, 0f,    2f, 0.7f, 0.7f, 0.7f,
+//			-0.5f,  0.8f, 0f,    2f, 0.7f, 0.7f, 0.7f,
+//			-0.5f, -0.8f, 0f,    1f, 0.7f, 0.7f, 0.7f,
+//			
+//			// center line
+//			-0.5f,    0f, 0f,  1.5f,   1f,   0f,   0f,
+//			 0.5f,    0f, 0f,  1.5f,   1f,   0f,   0f,   
+//			
+//			// mallet 1
+//			   0f, -0.4f, 0f, 1.25f,   0f,   0f,   1f,
+//
+//			// mallet 2
+//			   0f,  0.4f, 0f, 1.75f,   1f,   0f,   0f
+//	};
 	
 	private static final String U_MATRIX = "u_Matrix";
 	private final float[] projectionMatrix = new float[16];
 	private int uMatrixLocation;
+	
+	private final float[] modelMatrix = new float[16];
 	
 	private static final String A_POSITION = "a_Position";
 	private static final String A_COLOR = "a_Color";
@@ -56,7 +82,7 @@ public class AirHockeyRenderer implements Renderer {
 	// float의 byte 크기
 	private static final int BYTES_PER_FLOAT = 4;
 	
-	// position을 구성하는 요소 개수, 2 : x, y
+	// position을 구성하는 요소 개수, 4 : x, y, z, w
 	private static final int POSITION_COMPONENT_COUNT = 2;
 	
 	// color를 구성하는 요소 개수, 3 : red, green, blue
@@ -98,12 +124,21 @@ public class AirHockeyRenderer implements Renderer {
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		final float aspectRatio = width > height ?
-				(float) width / height : (float) height / width;
-		if (width > height)
-			Matrix.orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1.0f, 1.0f, -1.0f, 1.0f);
-		else
-			Matrix.orthoM(projectionMatrix, 0, -1.0f, 1.0f, -aspectRatio, aspectRatio, -1.0f, 1.0f);
+		// surface의 width, height를 기반으로 perspective projection matrix를 생성 
+		MatrixHelper.perspectiveM(projectionMatrix, 45f, (float) width / (float) height, 1f, 10f);
+		
+		Matrix.setIdentityM(modelMatrix, 0);
+		
+		// frustum이 1 ~ 10 사이에 있으므로, model을 -2.5 만큼 이동시켜 frustum 안쪽에 있게 한다.
+		Matrix.translateM(modelMatrix, 0, 0f, 0f, -2.8f);
+		
+		// x축을 기준으로 60도 회전
+		Matrix.rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f);
+		
+		// projection matrix * model matrix 를 최종 projection matrix로 지정
+		final float[] temp = new float[16];
+		Matrix.multiplyMM(temp, 0, projectionMatrix, 0, modelMatrix, 0);
+		System.arraycopy(temp, 0, projectionMatrix, 0, temp.length);
 	}
 
 	@Override
