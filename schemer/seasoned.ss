@@ -347,8 +347,8 @@
                   (cons (car l) (R (cdr l))))
                  (else (cons (R (car l)) (cdr l)))))))))
       (R l))))
-;; (rember1*2 'salad '((Swedish rye) (French (mustard salad turkey))
-;; salad))
+; (rember1*2 'salad '((Swedish rye) (French (mustard salad turkey))
+; salad))
 
 ;; (R (car l)) 반복 제거
 (define rember1*3
@@ -496,3 +496,30 @@
                           (lm (car l))
                           (lm (cdr l))))))))
          (lm l))))))
+
+(define rm
+  (lambda (a l oh)
+    (cond
+     ((null? l) (oh 'no))
+     ((atom? (car l))
+      (if (eq? (car l) a)
+          (cdr l)
+          (cons (car l)
+                (rm a (cdr l) oh))))
+     (else
+      (let ((new-car
+             (call-with-current-continuation
+              (lambda (oh)
+                (rm a (car l) oh))))))
+      (if (atom? new-car)
+          (cons (car l) (rm a (cdr l) oh))
+          (cons new-car (cdr l)))))))
+
+(define rember1*4
+  (lambda (a l)
+    (let ((new-l (call-with-current-continuation
+                  (lambda (oh)
+                    (rm a l oh)))))
+      (if (atom? new-l)
+          l
+          new-l))))
