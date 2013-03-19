@@ -510,10 +510,10 @@
       (let ((new-car
              (call-with-current-continuation
               (lambda (oh)
-                (rm a (car l) oh))))))
-      (if (atom? new-car)
-          (cons (car l) (rm a (cdr l) oh))
-          (cons new-car (cdr l)))))))
+                (rm a (car l) oh)))))
+        (if (atom? new-car)
+            (cons (car l) (rm a (cdr l) oh))
+            (cons new-car (cdr l))))))))
 
 (define rember1*4
   (lambda (a l)
@@ -523,3 +523,37 @@
       (if (atom? new-l)
           l
           new-l))))
+
+;; chapter 15.
+
+(define x
+  (cons 'chicago (cons 'pizza '())))
+
+(define gourmet
+  (lambda (food)
+    (cons food
+          (cons x '()))))
+
+(define gourmand
+  (lambda (food)
+    (set! x food)
+    (cons food
+          (cons x '()))))
+
+(define dinner
+  (lambda (food)
+    (cons 'milkshake
+          (cons food '()))))
+
+(define dinnerR
+  (lambda (food)
+    (set! x food)
+    (cons 'milkshake
+          (cons food '()))))
+
+(define omnivore
+  (let ((x 'minestrone))
+    (lambda (food)
+      (set! x food)
+      (cons food
+            (cons x '())))))
