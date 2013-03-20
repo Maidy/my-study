@@ -529,6 +529,8 @@
 (define x
   (cons 'chicago (cons 'pizza '())))
 
+(define food 'none)
+
 (define gourmet
   (lambda (food)
     (cons food
@@ -557,3 +559,24 @@
       (set! x food)
       (cons food
             (cons x '())))))
+
+(define gobbler
+  (let ((x 'minestrone))
+    (lambda (food)
+      (set! x food)
+      (cons food
+            (cons x '())))))
+
+(define glutton
+  (lambda (x)
+    (set! food x)
+    (cons 'more
+          (cons x
+                (cons 'more
+                      (cons x '()))))))
+
+(define chez-nous
+  (lambda ()
+    (let ((a food))
+      (set! food x)
+      (set! x a))))
