@@ -580,3 +580,22 @@
     (let ((a food))
       (set! food x)
       (set! x a))))
+
+(define sweet-tooth
+  (lambda (food)
+    (cons food
+          (cons (quote cake)
+                (quote ())))))
+
+(define last (quote angelfood))
+
+(define sweet-toothL
+  (lambda (food)
+    (set! last food)
+    (sweet-tooth food)))
+
+(define ingredient (quote ()))
+(define sweet-toothR
+  (lambda (food)
+    (set! ingredient (cons food ingredient))
+    (sweet-tooth food)))
