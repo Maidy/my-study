@@ -599,3 +599,82 @@
   (lambda (food)
     (set! ingredient (cons food ingredient))
     (sweet-tooth food)))
+
+;; (define deep
+;;   (lambda (m)
+;;     (if (zero? m) 'pizza
+;;         (cons (deep (- m 1))
+;;               '()))))
+
+;; (define Ns '())
+;; (define Rs '())
+;; (define deepR
+;;   (lambda (m)
+;;     (let ((result (deep m)))
+;;       (set! Rs (cons result Rs))
+;;       (set! Ns (cons m Ns))
+;;       result)))
+
+;; (define find
+;;   (lambda (n Ns Rs)
+;;     (if (= n (car Ns))
+;;         (car Rs)
+;;         (find n (cdr Ns) (cdr Rs)))))
+
+;; (define find
+;;   (lambda (n Ns Rs)
+;;     (letrec
+;;         ((A (lambda (ns rs)
+;;               (if (eq? (car ns) n)
+;;                   (car rs)
+;;                   (A (cdr ns) (cdr rs))))))
+;;       (A Ns Rs))))
+
+;; (define deepM
+;;   (lambda (m)
+;;     (if (member? m Ns)
+;;         (find m Ns Rs)
+;;         (let ((result (deep m)))
+;;           (set! Rs (cons result Rs))
+;;           (set! Ns (cons m Ns))
+;;           result))))
+
+(define deep
+  (lambda (m)
+    (if (zero? m) 'pizza
+        (cons (deepM (- m 1))
+              '()))))
+
+;; (define deepM
+;;   (let ((Ns '())
+;;         (Rs '()))
+;;     (lambda (m)
+;;       (if (member? m Ns)
+;;           (find m Ns Rs)
+;;           (let ((result (deep m)))
+;;             (set! Rs (cons result Rs))
+;;             (set! Ns (cons m Ns))
+;;             result)))))
+
+(define find
+  (lambda (n Ns Rs)
+    (letrec
+        ((A (lambda (ns rs)
+              (cond
+               ((null? ns) #f)
+               ((eq? (car ns) n))
+               (else
+                (A (cdr ns) (cdr rs)))))))
+      (A Ns Rs))))
+
+(define deepM
+  (let ((Ns '())
+        (Rs '()))
+    (lambda (m)
+      (let ((v (find m Ns Rs)))
+        (if (atom? v)
+            (let ((result (deep m)))
+              (set! Rs (cons result Rs))
+              (set! Ns (cons m Ns))
+              result)
+            v)))))
