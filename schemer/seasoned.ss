@@ -656,25 +656,268 @@
 ;;             (set! Ns (cons m Ns))
 ;;             result)))))
 
+;; (define find
+;;   (lambda (n Ns Rs)
+;;     (letrec
+;;         ((A (lambda (ns rs)
+;;               (cond
+;;                ((null? ns) #f)
+;;                ((eq? (car ns) n) #t)
+;;                (else
+;;                 (A (cdr ns) (cdr rs)))))))
+;;       (A Ns Rs))))
+
+;; (define deepM
+;;   (let ((Ns '())
+;;         (Rs '()))
+;;     (lambda (m)
+;;       (let ((v (find m Ns Rs)))
+;;         (if (atom? v)
+;;             (let ((result (deep m)))
+;;               (set! Rs (cons result Rs))
+;;               (set! Ns (cons m Ns))
+;;               result)
+;;             v)))))
+
+;; n이 Ns에 존재한다고 보장되는 경우
+(define find
+  (lambda (n Ns Rs)
+    (letrec
+        ((A (lambda (ns rs)
+              (cond
+               ((= (car ns) n) (car rs))
+               (else (A (cdr ns) (cdr rs)))))))
+      (A Ns Rs))))
+
+;; ns가 null인 경우 고려
 (define find
   (lambda (n Ns Rs)
     (letrec
         ((A (lambda (ns rs)
               (cond
                ((null? ns) #f)
-               ((eq? (car ns) n))
-               (else
-                (A (cdr ns) (cdr rs)))))))
+               ((= (car ns) n) (car rs))
+               (else (A (cdr ns) (cdr rs)))))))
       (A Ns Rs))))
 
 (define deepM
-  (let ((Ns '())
-        (Rs '()))
-    (lambda (m)
-      (let ((v (find m Ns Rs)))
-        (if (atom? v)
-            (let ((result (deep m)))
+  (let ((Rs '())
+        (Ns '()))
+    (lambda (n)
+      (let ((exists (find n Ns Rs)))
+        (if (atom? exists)
+            (let ((result 
+                   (if (zero? n)
+                       'pizza
+                       (cons (deepM (- n 1)) '()))))
               (set! Rs (cons result Rs))
-              (set! Ns (cons m Ns))
+              (set! Ns (cons n Ns))
               result)
-            v)))))
+            exists)))))
+
+(define add1 (lambda (x) (+ x 1)))
+(define sub1 (lambda (x) (- x 1)))
+
+(define consC
+  (let ((N 0))
+    (lambda (x y)
+      (set! N (add1 N))
+      (cons x y))))
+
+(define deep2
+  (lambda (m)
+    (if (zero? m) 'pizza
+        (consC (deep2 (sub1 m))
+               '()))))
+
+(define counter)
+(define set-counter)
+
+(define consC3
+  (let ((N 0))
+    (set! counter (lambda () N))
+    (set! set-counter (lambda (x) (set! N x)))
+    (lambda (x y)
+      (set! N (add1 N))
+      (cons x y))))
+
+(define deep3
+  (lambda (m)
+    (if (zero? m)
+        'pizza
+        (consC3 (deep3 (sub1 m))
+                '()))))
+
+(define supercounter
+  (lambda (f)
+    (letrec ((S (lambda (n)
+                  (if (zero? n)
+                      (f n)
+                      (let ()
+                        (f n)
+                        (S (sub1 n)))))))
+      (S 1000)
+      (counter))))
+
+(define deepM3
+  (let ((Rs '())
+        (Ns '()))
+    (lambda (n)
+      (let ((exists (find n Ns Rs)))
+        (if (atom? exists)
+            (let ((result 
+                   (if (zero? n)
+                       'pizza
+                       (consC3 (deepM3 (- n 1)) '()))))
+              (set! Rs (cons result Rs))
+              (set! Ns (cons n Ns))
+              result)
+            exists)))))
+
+(define rember*1
+  (lambda (a l)
+    (letrec
+        ((R (lambda (l oh)
+              (cond ((null? l)
+                     (oh 'no))
+                    ((atom? (car l))
+                     (if (eq? (car l) a)
+                         (cdr l)
+                         (cons (car l)
+                               (R (cdr l) oh))))
+                    (else
+                     (let ((new-car (call-with-current-continuation
+                                     (lambda (oh)
+                                       (R (car l) oh)))))
+                       (if (atom? new-car)
+                           (cons (car l)
+                                 (R (cdr l) oh))
+                           (cons new-car
+                                 (cdr l)))))))))
+      (let ((new-l (call-with-current-continuation
+                    (lambda (oh) (R l oh)))))
+        (if (atom? new-l)
+            l
+            new-l)))))
+
+(define rember*1C
+  (lambda (a l)
+    (letrec
+        ((R (lambda (l oh)
+              (cond ((null? l)
+                     (oh 'no))
+                    ((atom? (car l))
+                     (if (eq? (car l) a)
+                         (cdr l)
+                         (consC3 (car l)
+                                 (R (cdr l) oh))))
+                    (else
+                     (let ((new-car (call-with-current-continuation
+                                     (lambda (oh)
+                                       (R (car l) oh)))))
+                       (if (atom? new-car)
+                           (consC3 (car l)
+                                   (R (cdr l) oh))
+                           (consC3 new-car
+                                   (cdr l)))))))))
+      (let ((new-l (call-with-current-continuation
+                    (lambda (oh) (R l oh)))))
+        (if (atom? new-l)
+            l
+            new-l)))))
+
+(define lots
+  (lambda (m)
+    (cond
+     ((zero? m) '())
+     (else (kons 'egg (lots (- m 1)))))))
+
+(define lenkth
+  (lambda (l)
+    (cond
+     ((null? l) 0)
+     (else (add1 (lenkth (kdr l)))))))
+
+(define add-at-end
+  (lambda (l)
+    (cond
+     ((null? (kdr l)) (konsC (kar l)
+                             (kons 'egg '())))
+     (else (konsC (kar l)
+                  (add-at-end (kdr l)))))))
+
+;; (add-at-end (lots 3))
+;; (add-at-end (cons 'egg (cons 'egg (cons 'egg '()))))
+;; (consC3 'egg (add-at-end (cons 'egg (cons 'egg '()))))
+;; (consC3 'egg (consC3 'egg (add-at-end (cons 'egg '()))))
+;; (consC3 'egg (consC3 'egg (consC3 'egg (cons 'egg '()))))
+
+(define add-at-end-too
+  (lambda (l)
+    (letrec
+        ((A (lambda (ls)
+              (cond
+               ((null? (kdr ls)) (set-kdr ls (kons 'egg '())))
+               (else (A (kdr ls)))))))
+      (A l)
+      l)))
+
+;(A (A (A '(egg))))
+;(A (A '(egg egg)))
+;(A '(egg egg egg))
+;'(egg egg egg egg)
+
+;; (define kons
+;;   (lambda (kar kdr)
+;;     (lambda (selector)
+;;       (selector kar kdr))))
+
+;; (kons 'egg '(egg egg))
+;; (lambda (selector)
+;;   (selector 'egg '(egg egg)))
+
+;; (define kar
+;;   (lambda (c)
+;;     (c (lambda (a d) a))))
+
+;; (define kdr
+;;   (lambda (c)
+;;     (c (lambda (a d) d))))
+
+(define bons
+  (lambda (kar)
+    (let ((kdr '()))
+      (lambda (selector)
+        (selector
+         (lambda (x) (set! kdr x))
+         kar
+         kdr)))))
+
+(define kar
+  (lambda (c)
+    (c (lambda (s a d) a))))
+
+(define kdr
+  (lambda (c)
+    (c (lambda (s a d) d))))
+
+(define set-kdr
+  (lambda (c x)
+    ((c (lambda (s a d) s)) x)))
+
+(define kons
+  (lambda (a d)
+    (let ((c (bons a)))
+      (set-kdr c d)
+      c)))
+
+(define kounter)
+(define set-kounter)
+
+(define konsC
+  (let ((N 0))
+    (set! kounter (lambda () N))
+    (set! set-kounter (lambda (x) (set! N x)))
+    (lambda (x y)
+      (set! N (add1 N))
+      (kons x y))))
