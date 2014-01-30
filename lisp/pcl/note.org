@@ -1,0 +1,31 @@
+* 3. Practical: A Simple Database
+** property list
+keyword value 쌍으로 구성된 리스트
+(:A 1 :B 2) 같은 형식
+
+** push
+list에 값 추가
+
+** format
+명령어 ~로 시작
+~a aesthetic directive, human readable form으로 출력
+~10t 10번째 컬럼까지 공백 만들기
+~{ ... ~} 리스트일 경우 각 리스트 내용에 대해서 수행, loop 같은거
+~% : newline
+
+** IO
+*query-io* 전역 변수, terminal에 연결된 input stream
+(force-output *query-io*) 입력 대기
+(read-line *query-io*) *query-io*로 부터 한 줄 읽기
+
+(parse-integer ...) 정수형으로 형변환, 변환할 수 없으면 exception
+(parse-integer ... :junk-allowed t) 형 변환할 수 없는 값이 들어오면 NIL 반환
+(y-or-n-p "...") y,Y,n,N 중 입력 받고, 다른게 들어오면 다시 물어본다.
+y, Y는 T, n, N는 nil
+
+** File IO
+파일을 열과 뭔가 한 후에 파일을 닫는다.
+(with-open-file ( ... )
+  (with-standard-io-syntax ... ))
+(print ...) 읽을때 Lisp reader가 원래 객체로 변경할 수 있는 형태로 저장한다.
+파일 읽을때는 (read) 함수 이용. with-open-file의 :direction은 기본적으로 :input이므로 명시하지 않아도 된다.

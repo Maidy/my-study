@@ -1,0 +1,35 @@
+(defmacro let1 (var val &body body)
+  `(let ((,var ,val))
+     ,@body))
+
+(defmacro split (val yes no)
+  (let ((g (gensym)))
+    `(let ((,g ,val))
+       (if ,g
+           (let ((head (car ,g))
+                 (tail (cdr ,g)))
+             ,yes)
+           ,no))))
+
+(defun pairs (lst)
+  (labels ((f (lst acc)
+             (let ((head (car lst))
+                   (tail (cdr lst)))
+               (if (and head tail)
+                   (f (cdr tail) (cons (cons head (car tail)) acc))
+                   (reverse acc)))))
+    (f lst '())))
+
+(defmacro recurse (vars &body body)
+  (let ((p (pairs vars)))
+    `(labels ((self ,(mapcar #'car p)
+                ,@body))
+       (self ,@(mapcar #'cdr p)))))
+
+;; example
+;; (recurse (n 10)
+;;          (fresh-line)
+;;          (if (zerop n)
+;;              (princ "lift-off!")
+;;              (progn (princ n)
+;;                     (self (1- n)))))
