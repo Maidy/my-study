@@ -29,3 +29,22 @@ y, Y는 T, n, N는 nil
   (with-standard-io-syntax ... ))
 (print ...) 읽을때 Lisp reader가 원래 객체로 변경할 수 있는 형태로 저장한다.
 파일 읽을때는 (read) 함수 이용. with-open-file의 :direction은 기본적으로 :input이므로 명시하지 않아도 된다.
+
+** macro
+*** quote vs backquote
+`(and 1 2 ,(+ 1 2))
+;; => (and 1 2 3)
+
+'(and 1 2 (+ 1 2))
+;; => (and 1 2 (+ 1 2))
+
+*** , vs ,@
+`(and ,(list 1 2 3))
+;; => (and (1 2 3))
+
+`(and ,@(list 1 2 3))
+;; => (and 1 2 3)
+
+*** macroexpand-1
+매크로 결과 확인
+(macroexpand-1 '(where :title "Give Us a Break" :ripped t))

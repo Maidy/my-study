@@ -1,7 +1,7 @@
 (defvar *db* nil)
 
 (defun make-cd (title artist rating ripped)
-  (list :title title :artist artist :rating rating :rippled ripped))
+  (list :title title :artist artist :rating rating :ripped ripped))
 
 (defun add-record (cd)
   (push cd *db*))
@@ -36,3 +36,47 @@
   (with-open-file (in filename)
 	(with-standard-io-syntax
 	 (setf *db* (read in)))))
+
+;; query
+;; (select :artist "Dixie Chicks")
+
+(defun select (selector)
+  (remove-if-not selector *db*))
+
+;; (defun artist-selector (artist)
+;;   #'(lambda (cd) (equal (getf cd :artist) artist)))
+
+(defun where (&key title artist rating (ripped nil ripped-p))
+  #'(lambda (cd)
+	  (and
+	   (if title (equal (getf cd :title) title) t)
+	   (if artist (equal (getf cd :artist) artist) t)
+	   (if rating (equal (getf cd :rating) rating) t)
+	   (if ripped-p (equal (getf cd :ripped) ripped) t))))
+
+;; (setq *db* '((:TITLE "Lyle Lovett" :ARTIST "Lyle Lovett" :RATING 9 :RIPPED T) (:TITLE "Give Us a Break" :ARTIST "Limpopo" :RATING 10 :RIPPED T) (:TITLE "Rockin' the Suburbs" :ARTIST "Ben Folds" :RATING 6 :RIPPED T) (:TITLE "Roses" :ARTIST "Kathy Mattea" :RATING 7 :RIPPED T) (:TITLE "Fly" :ARTIST "Dixie Chicks" :RATING 8 :RIPPED T) (:TITLE "Home" :ARTIST "Dixie Chicks" :RATING 9 :RIPPED T)))
+
+(defun update (selector-fn &key title artist rating (ripped nil ripped-p))
+  (setf *db*
+		(mapcar
+		 #'(lambda (row)
+			 (when (funcall selector-fn row)
+			   (if title (setf (getf row :title) title))
+			   (if artist (setf (getf row :artist) artist))
+			   (if rating (setf (getf row :rating) rating))
+			   (if ripped-p (setf (getf row :ripped) ripped)))
+			 row)
+		 *db*)))
+
+(defun delete-rows (selector-fn)
+  (setf *db* (remove-if selector-fn *db*)))
+
+(defun make-comparison-expr (field value)
+  `(equal (getf cd ,field) ,value))
+
+(defun make-comparisons-list (fields)
+  (loop while fields
+	   collecting (make-comparison-expr (pop fields) (pop fields))))
+
+(defmacro where (&rest clauses)
+  `#'(lambda (cd) (and ,@(make-comparisons-list clauses))))
