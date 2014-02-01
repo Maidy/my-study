@@ -46,13 +46,13 @@
 ;; (defun artist-selector (artist)
 ;;   #'(lambda (cd) (equal (getf cd :artist) artist)))
 
-(defun where (&key title artist rating (ripped nil ripped-p))
-  #'(lambda (cd)
-	  (and
-	   (if title (equal (getf cd :title) title) t)
-	   (if artist (equal (getf cd :artist) artist) t)
-	   (if rating (equal (getf cd :rating) rating) t)
-	   (if ripped-p (equal (getf cd :ripped) ripped) t))))
+;; (defun where (&key title artist rating (ripped nil ripped-p))
+;;   #'(lambda (cd)
+;; 	  (and
+;; 	   (if title (equal (getf cd :title) title) t)
+;; 	   (if artist (equal (getf cd :artist) artist) t)
+;; 	   (if rating (equal (getf cd :rating) rating) t)
+;; 	   (if ripped-p (equal (getf cd :ripped) ripped) t))))
 
 ;; (setq *db* '((:TITLE "Lyle Lovett" :ARTIST "Lyle Lovett" :RATING 9 :RIPPED T) (:TITLE "Give Us a Break" :ARTIST "Limpopo" :RATING 10 :RIPPED T) (:TITLE "Rockin' the Suburbs" :ARTIST "Ben Folds" :RATING 6 :RIPPED T) (:TITLE "Roses" :ARTIST "Kathy Mattea" :RATING 7 :RIPPED T) (:TITLE "Fly" :ARTIST "Dixie Chicks" :RATING 8 :RIPPED T) (:TITLE "Home" :ARTIST "Dixie Chicks" :RATING 9 :RIPPED T)))
 
